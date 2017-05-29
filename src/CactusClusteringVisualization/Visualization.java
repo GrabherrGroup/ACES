@@ -161,35 +161,7 @@ public class Visualization {
  	
 
 	 public Visualization(double[][] Data, int size, String Label, String[] L) throws IOException {
-		/* super();
-		 
-		 double[] x = new double[size*size];
-		 double[] y = new double[size*size];
-		 double[] z = new double[size*size];
-		 
-		 //double[] z;
-		 
-		    
-	     Plot2DPanel plot = new Plot2DPanel();
-	     Plot3DPanel plot3 = new Plot3DPanel();
-	     
-	     for (int i = 0; i < size; i++){
-	    	 for (int j = 0; j < size; j++){
-	    		 x[i*size+j]=i;
-	    		 y[i*size+j]=j;
-	    		 z[i*size+j]=Data[i][j];
-	    	 } 
-	     }
-
-	   
-	     plot3.addScatterPlot(null, Color.BLACK, x, y, z);*/
-		 
-		 
-		 
-		/* for (int i = 0; i < size; i++){
-	    	L[i] = Integer.toString(i);    	 
-	     }*/
-
+		
 	     HeatChart map = new HeatChart(Data);
 
 	     map.setTitle(Label);

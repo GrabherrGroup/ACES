@@ -119,25 +119,6 @@ public class ACES extends JFrame{
 		bodyPanel.add(dmPanel, BorderLayout.WEST);
 		bodyPanel.add(drawingPanel, BorderLayout.CENTER);
 		
-		/*siPanel = new JPanel();
-		siPanel.setPreferredSize(new Dimension(150,500));
-		siPanel.setLayout(new BorderLayout());
-		
-		sampleInfoPanel =  new ButtonBar().makeSI();
-		sampleInfoPanel.setBackground(new Color(200,200,200));
-		
-		siScroll = new JScrollPane(sampleInfoLabel);
-		siScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		siScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		siScroll.setPreferredSize(new Dimension(150,500));
-		
-		siPanel.add(siScroll, BorderLayout.EAST);
-		siPanel.setBackground(new Color(185,185,185));
-		siScroll.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-		bodyPanel.add(siPanel, BorderLayout.EAST);*/
-		
-		
-		
 		mainMenu = new Menubar(DataM);
 		bodyFrame.setJMenuBar(mainMenu.getMenu());
 		menuPanel.add(mainMenu, BorderLayout.NORTH);
