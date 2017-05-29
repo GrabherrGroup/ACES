@@ -49,7 +49,6 @@ public class Cactus {
 		  lines.add(sc.nextLine());
 		  originalsize++;
 		}
-		//size = size-2;
 		size = originalsize;
 		
 		CactusData = lines.toArray(new String[0]);
