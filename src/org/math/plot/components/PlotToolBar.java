@@ -7,9 +7,12 @@ import java.security.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
-import org.freehep.util.export.ExportDialog;
+import org.jfree.graphics2d.svg.SVGGraphics2D;
+import org.jfree.graphics2d.svg.SVGUtils;
 import org.math.plot.*;
 import org.math.plot.canvas.*;
+
+import com.itextpdf.text.DocumentException;
 
 /**
  * BSD License
@@ -46,11 +49,11 @@ public class PlotToolBar extends JToolBar {
             pngFileChooser.setFileFilter(new FileFilter() {
 
                 public boolean accept(File f) {
-                    return f.isDirectory() || f.getName().endsWith(".png");
+                    return f.isDirectory() || f.getName().endsWith(".svg");
                 }
 
                 public String getDescription() {
-                    return "Portable Network Graphic file";
+                    return "Scalable Vector Graphics";
                 }
             });
         } catch (AccessControlException ace) {
@@ -80,7 +83,7 @@ public class PlotToolBar extends JToolBar {
         buttonDatas.setToolTipText("Get data");
 
         buttonSavePNGFile = new JButton(new ImageIcon(PlotPanel.class.getResource("icons/topngfile.png")));
-        buttonSavePNGFile.setToolTipText("Save graphics in a .PNG File");
+        buttonSavePNGFile.setToolTipText("Save graphics in a .svg File");
 
         buttonReset = new JButton(new ImageIcon(PlotPanel.class.getResource("icons/back.png")));
         buttonReset.setToolTipText("Reset zoom & axis");
@@ -212,7 +215,10 @@ public class PlotToolBar extends JToolBar {
     }
 
     void choosePNGFile() {
+    	pngFileChooser.setSelectedFile(new File("plot.svg"));
+
         pngFileChooser.showSaveDialog(this);
+        
     }
 
     void saveGraphicFile() {
@@ -223,7 +229,7 @@ public class PlotToolBar extends JToolBar {
         } catch (IOException e) {
             JOptionPane.showConfirmDialog(null, "Save failed : " + e.getMessage(), "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
         }*/
-    	java.io.File file = pngFileChooser.getSelectedFile();
+    	/*java.io.File file = pngFileChooser.getSelectedFile();
     	
     	
     	try
@@ -236,8 +242,38 @@ public class PlotToolBar extends JToolBar {
         catch(Exception e)
         {
             e.printStackTrace();
-        }
-        
+        }*/
+            try {
+	            	File ff = pngFileChooser.getSelectedFile();
+	 		        String filename = ff.getCanonicalPath();
+		        SVGGraphics2D g2 = new SVGGraphics2D(plotPanel.getWidth(), plotPanel.getHeight());
+		        plotPanel.paint(g2);
+		       
+		        try {
+		            SVGUtils.writeToSVG(ff, g2.getSVGElement());
+		        } catch (IOException ex) {
+		            System.err.println(ex);
+		        }
+	 			    JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
+
+	 	      } catch (IOException ioe) {
+	            	ioe.printStackTrace();
+	            }
+    	 
+    	
+    	/*java.io.File file = pngFileChooser.getSelectedFile();
+        try {
+            try {
+				plotPanel.toGraphicPDF(file);
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        } catch (IOException e) {
+            JOptionPane.showConfirmDialog(null, "Save failed : " + e.getMessage(), "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+        }*/
+    	
+	       
     }
     boolean adjustBoundsVisible = true;
 

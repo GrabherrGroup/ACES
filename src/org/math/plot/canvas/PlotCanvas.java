@@ -5,10 +5,7 @@ import java.awt.Stroke;
 import org.math.plot.render.AWTDrawer;
 import org.math.plot.utils.FastMath;
 
-import Frame.ACES;
-import Frame.CustomExport;
 import Frame.DataManagement;
-import Frame.Menubar;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -36,7 +33,6 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.math.plot.components.DataFrame;
@@ -68,7 +64,6 @@ public abstract class PlotCanvas extends JPanel implements MouseListener, MouseM
     public LegendPanel linkedLegendPanel;
     public LinkedList<Plot> plots;
     public LinkedList<Plotable> objects;
-    CustomExport export;
     ImageIcon icon = new ImageIcon(getClass().getResource("/resources/logo_mlv_small.png"));
     // ///////////////////////////////////////////
     // ////// Constructor & inits ////////////////

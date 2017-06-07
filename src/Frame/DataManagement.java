@@ -22,6 +22,7 @@ public class DataManagement {
 	
 	int NumCluster;
 	int[] labelsIndex;
+	int[] newlabelsIndex;
 	double[][] DataAxis;// the location of each point in 3D
 	double[][] DataMatrix;
 	double[][] newData;
@@ -35,6 +36,7 @@ public class DataManagement {
 	String[] AttributeOriginalMatrix; //all the original attributes info
 	String ChooseAttribute = "attribute"; // selected attribute
 	String[] AttributeLabel;//list all the labels belong to the selected attribute
+	String[] newAttributeLabel;
 	String[] refLabel;
 	int AttributeSize;
 	int AttributeOriginalSize;
@@ -65,6 +67,47 @@ public class DataManagement {
 			 }
     		  newDataLabel[i] = Label[index[i]];
 		 }
+	}
+	
+	public void CreateDataAfterClusteringandChooseAttri(){
+		 newData = new double[size][size];
+    	 newDataLabel = new String[size];
+		 newlabelsIndex = new int[size];
+	   	 newAttributeLabel = new String[size];
+	   	 int[] index = new int[size];
+	   	 
+	   	 int count = 1;
+	   	 int num = 0;
+	   	 
+	   	 do{
+	   		 for(int i = 0; i< size ; i++){
+	   			 if(getLabelsIndex()[i] == count){
+	   				 index[num] = i;
+	   				 num = num + 1;
+	   			 }
+	   		 }
+	   		 count = count +1;
+	
+	   	 }while(count <= getNumCluster());
+	   	 
+	   	int[] LI = new int[size];
+		   
+	    for (int i = 0; i < size; i++){
+	    	LI[i] = 0; 
+	    	for(int j = 0; j < refLabel.length; j++){
+	    		if (AttributeLabel[i].equals(refLabel[j]))
+	    			LI[i] = j+1;  		
+	    	}
+	    }
+	    for(int i = 0; i< size; i++){
+	    	for(int j = 0; j< size; j++){
+   				newData[i][j] = DataMatrix[index[i]][index[j]];
+			}
+   		    newDataLabel[i] = Label[index[i]];
+   		    newAttributeLabel[i] = AttributeLabel[index[i]];
+   		 	newlabelsIndex[i] = LI[index[i]];
+		}
+	   	
 	}
 	
 	

@@ -37,9 +37,12 @@ public class ButtonBar extends JPanel{
 	JPanel DMPanel, SIPanel, buttonsPanel;
 	JLabel DMLabel, SILabel;
 	static JButton DMLoad,DMShow,DMLabelID,DMCluster,DMChoose,DMPlot,DMHeatO,DMHeatC;
-	static JButton SILoad,SIShow,SIShowList,AddCluster,SIChoose,SIPlot,SISave;
+	static JButton SILoad,SIShow,SIShowList,AddCluster,SIChoose,SIPlot,SISave,SIHeat;
 	final ImageIcon icon = new ImageIcon(getClass().getResource("/resources/logo_mlv_small.png"));
-
+	final ImageIcon iconHMO = new ImageIcon(getClass().getResource("/resources/HeatMapO.png"));
+	final ImageIcon iconHMC = new ImageIcon(getClass().getResource("/resources/HeatMapC.png"));
+	final ImageIcon iconHMA = new ImageIcon(getClass().getResource("/resources/HeatMap3.png"));
+	
 	//DataManagement DataM = new DataManagement();;
 	DataManagement DataM;
 	public ButtonBar(DataManagement Data) {
@@ -70,6 +73,7 @@ public class ButtonBar extends JPanel{
 		DMLoad = new JButton();
 		DMLoad.setEnabled(true);
 		DMLoad.setText("Load");
+		DMLoad.setToolTipText("Load your Distance Matrix file");
 		DMLoad.setPreferredSize(new Dimension(60,30));
 		DMLoad.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMLoad, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
@@ -179,6 +183,13 @@ public class ButtonBar extends JPanel{
 		SISave.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, SISave, 0, 16, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
+		SIHeat = new JButton();
+		SIHeat.setEnabled(false);
+		SIHeat.setText("Heat Map");
+		SIHeat.setPreferredSize(new Dimension(100,30));
+		SIHeat.setHorizontalAlignment(SwingConstants.CENTER);
+		addComp(buttonsPanel, SIHeat, 0, 17, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
+
 		DMPanel.add(buttonsPanel, BorderLayout.NORTH);
 		
 		ListenForButton lForButton = new ListenForButton();
@@ -197,6 +208,7 @@ public class ButtonBar extends JPanel{
 		SIChoose.addActionListener(lForButton);
 		SIPlot.addActionListener(lForButton);
 		SISave.addActionListener(lForButton);
+		SIHeat.addActionListener(lForButton);
 
 		
 		return DMPanel;
@@ -303,6 +315,8 @@ public class ButtonBar extends JPanel{
 	                Menubar.numberOfCluster.setEnabled(true);
 	                Menubar.HierarchicalClustering.setEnabled(true);
 	                Menubar.loadAttributes.setEnabled(true);
+	                Menubar.plotHeatMapO.setEnabled(true);
+	                Menubar.plotHeatMapC.setEnabled(true);
 	              
 	            	DMShow.setEnabled(true);
 	            	DMLabelID.setEnabled(true);	        
@@ -414,7 +428,7 @@ public class ButtonBar extends JPanel{
 	        	 }
 	        	 
 	        	 try {
-					Visualization v1 = new Visualization(DataM.DataMatrix, DataM.size,"Original Distance Matrix",DataM.Label);
+					Visualization v1 = new Visualization(DataM.DataMatrix, DataM.size,"Original Distance Matrix",DataM.Label,DataM.Label);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -429,7 +443,7 @@ public class ButtonBar extends JPanel{
 	        	 DataM.CreateDataAfterClustering();
 
 	        	 try {
-					Visualization v1 = new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel);
+					Visualization v1 = new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel,DataM.newDataLabel);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -603,10 +617,12 @@ public class ButtonBar extends JPanel{
 	                for(int i = 0; i < DataM.refLabel.length; i++){
 	                	message[i+2] = DataM.refLabel[i] + "\n"; 
 	        		}
+	                SIHeat.setEnabled(true);
                 	JOptionPane.showMessageDialog(null, message,"Unique Labels", JOptionPane.CLOSED_OPTION, icon);
                 
 	                DataM.AttributeChooseStatus = 1;
 	        	}	
+	        	
 			}
 			else if (bc.getSource() == SIPlot){
 				if (DataM.FileOpenStatus == 0){
@@ -664,6 +680,21 @@ public class ButtonBar extends JPanel{
 		            JOptionPane.showMessageDialog(null, "File save has been canceled");
 		        }	
 			}
+			else if(bc.getSource()==SIHeat){
+	        	 if (DataM.FileOpenStatus == 0){
+	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		 return;
+	        	 }
+	        	 
+	        	 DataM.CreateDataAfterClusteringandChooseAttri();
+
+	        	 try {
+					Visualization v1 = new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	        }
 			
 		}
 	}
