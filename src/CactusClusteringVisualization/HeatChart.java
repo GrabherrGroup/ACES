@@ -7,145 +7,28 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Iterator;
 
-import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.imageio.*;
 import javax.imageio.stream.FileImageOutputStream;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 import org.jfree.graphics2d.svg.SVGUtils;
 
-/**
- * The <code>HeatChart</code> class describes a chart which can display 
- * 3-dimensions of values - x,y and z, where x and y are the usual 2-dimensional
- * axis and z is portrayed by colour intensity. Heat charts are sometimes known 
- * as heat maps. 
- * 
- * <p>
- * Use of this chart would typically involve 3 steps:
- * <ol>
- * <li>Construction of a new instance, providing the necessary z-values.</li>
- * <li>Configure the visual settings.</li>
- * <li>A call to either <code>getChartImage()</code> or <code>saveToFile(String)</code>.</li>
- * </ol>
- * 
- * <h3>Instantiation</h3>
- * <p>
- * Construction of a new <code>HeatChart</code> instance is through its one
- * constructor which takes a 2-dimensional array of <tt>doubles</tt> which 
- * should contain the z-values for the chart. Consider this array to be 
- * the grid of values which will instead be represented as colours in the chart.
- * 
- * <p>
- * Setting of the x-values and y-values which are displayed along the 
- * appropriate axis is optional, and by default will simply display the values 
- * 0 to n-1, where n is the number of rows or columns. Otherwise, the x/y axis 
- * values can be set with the <code>setXValues</code> and <code>setYValues
- * </code> methods. Both methods are overridden with two forms:
- * 
- * <h4>Object axis values</h4>
- * 
- * <p>
- * The simplist way to set the axis values is to use the methods which take an
- * array of Object[]. This array must have the same length as the number of 
- * columns for setXValues and same as the number of rows for setYValues. The 
- * string representation of the objects will then be used as the axis values.
- * 
- * <h4>Offset and Interval</h4>
- * 
- * <p>
- * This is convenient way of defining numerical values along the axis. One of 
- * the two methods takes an interval and an offset for either the 
- * x or y axis. These parameters supply the necessary information to describe 
- * the values based upon the z-value indexes. The quantity of x-values and 
- * y-values is already known from the lengths of the z-values array dimensions. 
- * Then the offset parameters indicate what the first value will be, with the
- * intervals providing the increment from one column or row to the next.
- * 
- * <p>
- * <strong>Consider an example:</strong>
- * <blockquote><pre>
- * double[][] zValues = new double[][]{
- * 		{1.2, 1.3, 1.5},
- * 		{1.0, 1.1, 1.6},
- * 		{0.7, 0.9, 1.3}
- * };
- * 
- * double xOffset = 1.0;
- * double yOffset = 0.0;
- * double xInterval = 1.0;
- * double yInterval = 2.0;
- * 
- * chart.setXValues(xOffset, xInterval);
- * chart.setYValues(yOffset, yInterval);
- * </pre></blockquote>
- * 
- * <p>In this example, the z-values range from 0.7 to 1.6. The x-values range 
- * from the xOffset value 1.0 to 4.0, which is calculated as the number of x-values 
- * multiplied by the xInterval, shifted by the xOffset of 1.0. The y-values are 
- * calculated in the same way to give a range of values from 0.0 to 6.0. 
- * 
- * <h3>Configuration</h3>
- * <p>
- * This step is optional. By default the heat chart will be generated without a 
- * title or labels on the axis, and the colouring of the heat map will be in 
- * grayscale. A large range of configuration options are available to customise
- * the chart. All customisations are available through simple accessor methods.
- * See the javadoc of each of the methods for more information.
- * 
- * <h3>Output</h3>
- * <p>
- * The generated heat chart can be obtained in two forms, using the following 
- * methods:
- * <ul>
- * <li><strong>getChartImage()</strong> - The chart will be returned as a 
- * <code>BufferedImage</code> object that can be used in any number of ways, 
- * most notably it can be inserted into a Swing component, for use in a GUI 
- * application.</li>
- * <li><strong>saveToFile(File)</strong> - The chart will be saved to the file 
- * system at the file location specified as a parameter. The image format that  
- * the image will be saved in is derived from the extension of the file name.</li>
- * </ul>
- * 
- * <strong>Note:</strong> The chart image will not actually be created until 
- * either saveToFile(File) or getChartImage() are called, and will be 
- * regenerated on each successive call.
- */
+
 public class HeatChart {
 	
-	/**
-	 * A basic logarithmic scale value of 0.3.
-	 */
+
 	public static final double SCALE_LOGARITHMIC = 0.3;
-	
-	/**
-	 * The linear scale value of 1.0.
-	 */
+
 	public static final double SCALE_LINEAR = 1.0;
 	
-	/**
-	 * A basic exponential scale value of 3.0.
-	 */
 	public static final double SCALE_EXPONENTIAL = 3;
 	
 	// x, y, z data values.
@@ -219,31 +102,13 @@ public class HeatChart {
 	// Control variable for mapping z-values to colours.
 	private double colourScale;
 	
-	/**
-	 * Constructs a heatmap for the given z-values against x/y-values that by 
-	 * default will be the values 0 to n-1, where n is the number of columns or 
-	 * rows.
-	 * 
-	 * @param zValues the z-values, where each element is a row of z-values
-	 * in the resultant heat chart.
-	 */
+	
 	public HeatChart(double[][] zValues,int[] labelIndex) {
 		this(zValues, min(zValues), max(zValues));
 		this.labelIndex = labelIndex;
 	}
 	
-	/**
-	 * Constructs a heatmap for the given z-values against x/y-values that by 
-	 * default will be the values 0 to n-1, where n is the number of columns or
-	 * rows.
-	 * 
-	 * @param zValues the z-values, where each element is a row of z-values
-	 * in the resultant heat chart.
-	 * @param low the minimum possible value, which may or may not appear in the
-	 * z-values.
-	 * @param high the maximum possible value, which may or may not appear in 
-	 * the z-values.
-	 */
+
 	public HeatChart(double[][] zValues, double low, double high) {
 		this.zValues = zValues;
 		this.lowValue = low;
@@ -289,129 +154,34 @@ public class HeatChart {
 		updateColourDistance();
 	}
 	
-	/**
-	 * Returns the low value. This is the value at which the low value colour
-	 * will be applied.
-	 * 
-	 * @return the low value.
-	 */
+
 	public double getLowValue() {
 		return lowValue;
 	}
 	
-	/**
-	 * Returns the high value. This is the value at which the high value colour
-	 * will be applied.
-	 * 
-	 * @return the high value.
-	 */
+
 	public double getHighValue() {
 		return highValue;
 	}
 	
-	/**
-	 * Returns the 2-dimensional array of z-values currently in use. Each 
-	 * element is a double array which represents one row of the heat map, or  
-	 * all the z-values for one y-value.
-	 * 
-	 * @return an array of the z-values in current use, that is, those values 
-	 * which will define the colour of each cell in the resultant heat map.
-	 */
+	
 	public double[][] getZValues() {
 		return zValues;
 	}
 	
-	/**
-	 * Replaces the z-values array. See the 
-	 * {@link #setZValues(double[][], double, double)} method for an example of 
-	 * z-values. The smallest and largest values in the array are used as the 
-	 * minimum and maximum values respectively.
-	 * @param zValues the array to replace the current array with. The number 
-	 * of elements in each inner array must be identical.
-	 */
+	
 	public void setZValues(double[][] zValues) {
 		setZValues(zValues, min(zValues), max(zValues));
 	}
 	
-	/**
-	 * Replaces the z-values array. The number of elements should match the 
-	 * number of y-values, with each element containing a double array with 
-	 * an equal number of elements that matches the number of x-values. Use this
-	 * method where the minimum and maximum values possible are not contained
-	 * within the dataset.
-	 * 
-	 * <h2>Example</h2>
-	 * 
-	 * <blockcode><pre>
-	 * new double[][]{
-	 *   {1.0,1.2,1.4},
-	 *   {1.2,1.3,1.5},
-	 *   {0.9,1.3,1.2},
-	 *   {0.8,1.6,1.1}
-	 * };
-	 * </pre></blockcode>
-	 * 
-	 * The above zValues array is equivalent to:
-	 * 
-	 * <table border="1">
-	 *   <tr>
-	 *     <td rowspan="4" width="20"><center><strong>y</strong></center></td>
-	 *     <td>1.0</td>
-	 *     <td>1.2</td>
-	 *     <td>1.4</td>
-	 *   </tr>
-	 *   <tr>
-	 *     <td>1.2</td>
-	 *     <td>1.3</td>
-	 *     <td>1.5</td>
-	 *   </tr>
-	 *   <tr>
-	 *     <td>0.9</td>
-	 *     <td>1.3</td>
-	 *     <td>1.2</td>
-	 *   </tr>
-	 *   <tr>
-	 *     <td>0.8</td>
-	 *     <td>1.6</td>
-	 *     <td>1.1</td>
-	 *   </tr>
-	 *   <tr>
-	 *     <td></td>
-	 *     <td colspan="3"><center><strong>x</strong></center></td>
-	 *   </tr>
-	 * </table>
-	 * 
-	 * @param zValues the array to replace the current array with. The number 
-	 * of elements in each inner array must be identical.
-	 * @param low the minimum possible value, which may or may not appear in the
-	 * z-values.
-	 * @param high the maximum possible value, which may or may not appear in 
-	 * the z-values.
-	 */
+	
 	public void setZValues(double[][] zValues, double low, double high) {
 		this.zValues = zValues;
 		this.lowValue = low;
 		this.highValue = high;
 	}
 	
-	/**
-	 * Sets the x-values which are plotted along the x-axis. The x-values are 
-	 * calculated based upon the indexes of the z-values array:
-	 * 
-	 * <blockcode><pre>
-	 * x-value = x-offset + (column-index * x-interval)
-	 * </pre></blockcode>
-	 * 
-	 * <p>The x-interval defines the gap between each x-value and the x-offset 
-	 * is applied to each value to offset them all from zero.
-	 * 
-	 * <p>Alternatively the x-values can be set more directly with the 
-	 * <code>setXValues(Object[])</code> method.
-	 * 
-	 * @param xOffset an offset value to be applied to the index of each z-value
-	 * element.
-	 * @param xInterval an interval that will separate each x-value item.
-	 */
+	
 	public void setXValues(double xOffset, double xInterval) {		
 		// Update the x-values according to the offset and interval.
 		xValues = new Object[zValues[0].length];
@@ -420,37 +190,12 @@ public class HeatChart {
 		}
 	}
 	
-	/**
-	 * Sets the x-values which are plotted along the x-axis. The given x-values
-	 * array must be the same length as the z-values array has columns. Each 
-	 * of the x-values elements will be displayed according to their toString 
-	 * representation.
-	 * 
-	 * @param xValues an array of elements to be displayed as values along the
-	 * x-axis.
-	 */
+	
 	public void setXValues(Object[] xValues) {
 		this.xValues = xValues;
 	}
 	
-	/**
-	 * Sets the y-values which are plotted along the y-axis. The y-values are 
-	 * calculated based upon the indexes of the z-values array:
-	 * 
-	 * <blockcode><pre>
-	 * y-value = y-offset + (column-index * y-interval)
-	 * </pre></blockcode>
-	 * 
-	 * <p>The y-interval defines the gap between each y-value and the y-offset 
-	 * is applied to each value to offset them all from zero.
-	 * 
-	 * <p>Alternatively the y-values can be set more directly with the 
-	 * <code>setYValues(Object[])</code> method.
-	 * 
-	 * @param yOffset an offset value to be applied to the index of each z-value
-	 * element.
-	 * @param yInterval an interval that will separate each y-value item.
-	 */
+	
 	public void setYValues(double yOffset, double yInterval) {
 		// Update the y-values according to the offset and interval.
 		yValues = new Object[zValues.length];
@@ -459,196 +204,51 @@ public class HeatChart {
 		}
 	}
 	
-	/**
-	 * Sets the y-values which are plotted along the y-axis. The given y-values
-	 * array must be the same length as the z-values array has columns. Each 
-	 * of the y-values elements will be displayed according to their toString 
-	 * representation.
-	 * 
-	 * @param yValues an array of elements to be displayed as values along the
-	 * y-axis.
-	 */
+	
 	public void setYValues(Object[] yValues) {
 		this.yValues = yValues;
 	}
 	
-	/**
-	 * Returns the x-values which are currently set to display along the x-axis.
-	 * The array that is returned is either that which was explicitly set with
-	 * <code>setXValues(Object[])</code> or that was generated from the offset
-	 * and interval that were given to <code>setXValues(double, double)</code>, 
-	 * in which case the object type of each element will be <code>Double</code>.
-	 * 
-	 * @return an array of the values that are to be displayed along the x-axis.
-	 */
 	public Object[] getXValues() {
 		return xValues;
 	}
 	
-	/**
-	 * Returns the y-values which are currently set to display along the y-axis.
-	 * The array that is returned is either that which was explicitly set with
-	 * <code>setYValues(Object[])</code> or that was generated from the offset
-	 * and interval that were given to <code>setYValues(double, double)</code>, 
-	 * in which case the object type of each element will be <code>Double</code>.
-	 * 
-	 * @return an array of the values that are to be displayed along the y-axis.
-	 */
 	public Object[] getYValues() {
 		return yValues;
 	}
 
-	/**
-	 * Sets whether the text of the values along the x-axis should be drawn 
-	 * horizontally left-to-right, or vertically top-to-bottom.
-	 * 
-	 * @param xValuesHorizontal true if x-values should be drawn horizontally, 
-	 * false if they should be drawn vertically.
-	 */
 	public void setXValuesHorizontal(boolean xValuesHorizontal) {
 		this.xValuesHorizontal = xValuesHorizontal;
 	}
 	
-	/**
-	 * Returns whether the text of the values along the x-axis are to be drawn
-	 * horizontally left-to-right, or vertically top-to-bottom.
-	 * 
-	 * @return true if the x-values will be drawn horizontally, false if they 
-	 * will be drawn vertically.
-	 */
 	public boolean isXValuesHorizontal() {
 		return xValuesHorizontal;
 	}
 	
-	/**
-	 * Sets whether the text of the values along the y-axis should be drawn 
-	 * horizontally left-to-right, or vertically top-to-bottom.
-	 * 
-	 * @param yValuesHorizontal true if y-values should be drawn horizontally, 
-	 * false if they should be drawn vertically.
-	 */
 	public void setYValuesHorizontal(boolean yValuesHorizontal) {
 		this.yValuesHorizontal = yValuesHorizontal;
 	}
 	
-	/**
-	 * Returns whether the text of the values along the y-axis are to be drawn
-	 * horizontally left-to-right, or vertically top-to-bottom.
-	 * 
-	 * @return true if the y-values will be drawn horizontally, false if they 
-	 * will be drawn vertically.
-	 */
 	public boolean isYValuesHorizontal() {
 		return yValuesHorizontal;
 	}
 	
-	/**
-	 * Sets the width of each individual cell that constitutes a value in x,y,z
-	 * data space. By setting the cell width, any previously set chart width 
-	 * will be overwritten with a value calculated based upon this value and the
-	 * number of cells in there are along the x-axis.
-	 * 
-	 * @param cellWidth the new width to use for each individual data cell.
-	 * @deprecated As of release 0.6, replaced by {@link #setCellSize(Dimension)}
-	 */
-	@Deprecated
 	public void setCellWidth(int cellWidth) {
 		setCellSize(new Dimension(cellWidth, cellSize.height));
 	}
 	
-	/**
-	 * Returns the width of each individual data cell that constitutes a value
-	 * in the x,y,z space.
-	 * 
-	 * @return the width of each cell.
-	 * @deprecated As of release 0.6, replaced by {@link #getCellSize}
-	 */
-	@Deprecated
 	public int getCellWidth() {
 		return cellSize.width;
 	}
-	
-	/**
-	 * Sets the height of each individual cell that constitutes a value in x,y,z
-	 * data space. By setting the cell height, any previously set chart height 
-	 * will be overwritten with a value calculated based upon this value and the
-	 * number of cells in there are along the y-axis.
-	 * 
-	 * @param cellHeight the new height to use for each individual data cell.
-	 * @deprecated As of release 0.6, replaced by {@link #setCellSize(Dimension)}
-	 */
-	@Deprecated
-	public void setCellHeight(int cellHeight) {
-		setCellSize(new Dimension(cellSize.width, cellHeight));
-	}
-	
-	/**
-	 * Returns the height of each individual data cell that constitutes a value
-	 * in the x,y,z space.
-	 * 
-	 * @return the height of each cell.
-	 * @deprecated As of release 0.6, replaced by {@link #getCellSize()}
-	 */
-	@Deprecated
-	public int getCellHeight() {
-		return cellSize.height;
-	}
-	
-	/**
-	 * Sets the size of each individual cell that constitutes a value in x,y,z
-	 * data space. By setting the cell size, any previously set chart size will
-	 * be overwritten with a value calculated based upon this value and the 
-	 * number of cells along each axis.
-	 * 
-	 * @param cellSize the new size to use for each individual data cell.
-	 * @since 0.6
-	 */
+		
 	public void setCellSize(Dimension cellSize) {
 		this.cellSize = cellSize;
 	}
-	
-	/**
-	 * Returns the size of each individual data cell that constitutes a value in
-	 * the x,y,z space.
-	 * 
-	 * @return the size of each individual data cell.
-	 * @since 0.6
-	 */
+
 	public Dimension getCellSize() {
 		return cellSize;
 	}
 	
-	/**
-	 * Returns the width of the chart in pixels as calculated according to the
-	 * cell dimensions, chart margin and other size settings.
-	 * 
-	 * @return the width in pixels of the chart image to be generated.
-	 * @deprecated As of release 0.6, replaced by {@link #getChartSize()}
-	 */
-	@Deprecated
-	public int getChartWidth() {
-		return chartSize.width;
-	}
-
-	/**
-	 * Returns the height of the chart in pixels as calculated according to the
-	 * cell dimensions, chart margin and other size settings.
-	 * 
-	 * @return the height in pixels of the chart image to be generated.
-	 * @deprecated As of release 0.6, replaced by {@link #getChartSize()}
-	 */
-	@Deprecated
-	public int getChartHeight() {
-		return chartSize.height;
-	}
-	
-	/**
-	 * Returns the size of the chart in pixels as calculated according to the 
-	 * cell dimensions, chart margin and other size settings.
-	 * 
-	 * @return the size in pixels of the chart image to be generated.
-	 * @since 0.6
-	 */
 	public Dimension getChartSize() {
 		return chartSize;
 	}
@@ -1282,16 +882,18 @@ public class HeatChart {
             doc.close();
             file.delete();
 		}
-		/*else if(ext.toLowerCase().equals("svg")){
-	    
-			BufferedImage bufferedImage = (BufferedImage) getChartImage(true);
-			 Graphics g = bufferedImage.createGraphics();
-			 g.drawImage(bufferedImage,0, 0, Color.WHITE, null);
-			
-			 g.dispose();
+		else if(ext.toLowerCase().equals("svg")){
+			Document doc = new Document();
+			File file = new File("heatmap_temp_output.png");
+		    BufferedImage chart = ImageIO.read(file);
+
+		    Graphics2D g2d = (Graphics2D)chart.getGraphics();
+		    g2d.drawImage(chart,0,0,null);
+		
+
 		        
 		        JPanel plot = new JPanel();
-		        plot.paint(g);
+		        plot.paint(g2d);
 		        SVGGraphics2D g2 = new SVGGraphics2D(plot.getWidth(), plot.getHeight());
 			      plot.paintComponents(g2);
 			       
@@ -1301,7 +903,7 @@ public class HeatChart {
 			            System.err.println(ex);
 			        }
 
-		}*/
+		}
 		else {
 			BufferedImage chart = (BufferedImage) getChartImage(true);
 			

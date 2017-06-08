@@ -34,6 +34,10 @@ import CactusClusteringVisualization.Visualization;
 
 public class ButtonBar extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel DMPanel, SIPanel, buttonsPanel;
 	JLabel DMLabel, SILabel;
 	static JButton DMLoad,DMShow,DMLabelID,DMCluster,DMChoose,DMPlot,DMHeatO,DMHeatC;

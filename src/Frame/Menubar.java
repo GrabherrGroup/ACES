@@ -702,7 +702,7 @@ public class Menubar extends JMenuBar{
 				}
 			}
 			else if (e.getSource() == aboutAction){
-				
+				new About();
 			}
 			
 				

@@ -11,6 +11,7 @@ import org.jfree.graphics2d.svg.SVGGraphics2D;
 import org.jfree.graphics2d.svg.SVGUtils;
 import org.math.plot.*;
 import org.math.plot.canvas.*;
+import org.math.plot.canvas.PlotCanvas;
 
 import com.itextpdf.text.DocumentException;
 

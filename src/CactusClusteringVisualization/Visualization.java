@@ -35,6 +35,10 @@ public class Visualization {
 	     
 	     Plot3DPanel plot = new Plot3DPanel();
 	     
+	     plot.getAxis(0).setGridVisible(false);
+	     plot.getAxis(1).setGridVisible(false);
+	     plot.getAxis(2).setGridVisible(false);
+	     
 	     for (int j = 0; j < size; j++){
 	    	 
 	    	x[0] = DataAxis[0][j];
@@ -94,22 +98,17 @@ public class Visualization {
 	 	 		        
 
 	 	 		        if(sf == JFileChooser.APPROVE_OPTION){
-	 	 		            try {
-	 	 		            	File ff = savefile.getSelectedFile();
-	 	 		 		        String filename = ff.getCanonicalPath();
-	 	 			        SVGGraphics2D g2 = new SVGGraphics2D(plot.getWidth(), plot.getHeight());
-	 	 			      plot.paint(g2);
-	 	 			       
-	 	 			        try {
-	 	 			            SVGUtils.writeToSVG(ff, g2.getSVGElement());
-	 	 			        } catch (IOException ex) {
-	 	 			            System.err.println(ex);
-	 	 			        }
-	 	 		 			    JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
-
-	 	 		 	      } catch (IOException ioe) {
-	 	 		            	ioe.printStackTrace();
-	 	 		            }
+	 	 		            File ff = savefile.getSelectedFile();
+							SVGGraphics2D g2 = new SVGGraphics2D(plot.getWidth(), plot.getHeight());
+							plot.paint(g2);
+	       
+							try {
+								SVGUtils.writeToSVG(ff, g2.getSVGElement());
+							} 
+							catch (IOException ex) {
+								System.err.println(ex);
+							}
+							JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
 	 	 		            
 	 	 		        }else if(sf == JFileChooser.CANCEL_OPTION){
 	 	 		            JOptionPane.showMessageDialog(null, "File save has been canceled");
@@ -128,6 +127,11 @@ public class Visualization {
 	    double[] z = {1};
 	    
 	    Plot3DPanel plot = new Plot3DPanel();
+	    
+	    plot.getAxis(0).setGridVisible(false);
+	    plot.getAxis(1).setGridVisible(false);
+	    plot.getAxis(2).setGridVisible(false);
+	     
 	    
 	    labelsIndex = new int[size];
 	   
@@ -185,6 +189,7 @@ public class Visualization {
 	    frame.setVisible(true);
 	    frame.setSize(900, 900);
 	    
+	    
 	    frame.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override
  		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -196,22 +201,16 @@ public class Visualization {
  	 		        
 
  	 		        if(sf == JFileChooser.APPROVE_OPTION){
- 	 		            try {
- 	 		            	File ff = savefile.getSelectedFile();
- 	 		 		        String filename = ff.getCanonicalPath();
- 	 			        SVGGraphics2D g2 = new SVGGraphics2D(plot.getWidth(), plot.getHeight());
- 	 			      plot.paint(g2);
- 	 			       
- 	 			        try {
- 	 			            SVGUtils.writeToSVG(ff, g2.getSVGElement());
- 	 			        } catch (IOException ex) {
- 	 			            System.err.println(ex);
- 	 			        }
- 	 		 			    JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
-
- 	 		 	      } catch (IOException ioe) {
- 	 		            	ioe.printStackTrace();
- 	 		            }
+ 	 		            File ff = savefile.getSelectedFile();
+						SVGGraphics2D g2 = new SVGGraphics2D(plot.getWidth(), plot.getHeight());
+						plot.paint(g2);
+	       
+						try {
+							SVGUtils.writeToSVG(ff, g2.getSVGElement());
+						} catch (IOException ex) {
+							System.err.println(ex);
+							}
+						JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
  	 		            
  	 		        }else if(sf == JFileChooser.CANCEL_OPTION){
  	 		            JOptionPane.showMessageDialog(null, "File save has been canceled");
@@ -232,8 +231,8 @@ public class Visualization {
 	     map.setXValues(Lx);
 	     map.setYValues(Ly);
 	     map.setYAxisLabel("Samples ID");
-	     map.setLowValueColour(Color.WHITE);
-	     map.setHighValueColour(Color.BLACK);
+	     map.setLowValueColour(Color.YELLOW);
+	     map.setHighValueColour(Color.BLUE);
 	     
 	     File file = new File("heatmap_temp_output.png");
 	     
@@ -244,7 +243,7 @@ public class Visualization {
 			e.printStackTrace();
 		}
 	     
-	     ImageIcon imageIcon = new ImageIcon(new ImageIcon("heatmap_temp_output.png").getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
+	     ImageIcon imageIcon = new ImageIcon(new ImageIcon("heatmap_temp_output.png").getImage().getScaledInstance(800, 800, Image.SCALE_DEFAULT));
 	     ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("heatmap_temp_output.png").getImage());
 
          JLabel label = new JLabel(imageIcon);
@@ -347,8 +346,8 @@ public class Visualization {
 	     map.setXValues(Lx);
 	     map.setYValues(Ly);
 	     map.setYAxisLabel("Samples ID");
-	     map.setLowValueColour(Color.WHITE);
-	     map.setHighValueColour(Color.BLACK);
+	     map.setLowValueColour(Color.YELLOW);
+	     map.setHighValueColour(Color.BLUE);
 	     
 	     File file = new File("heatmap_temp_output.png");
 	     
