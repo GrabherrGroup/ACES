@@ -233,8 +233,7 @@ public class ButtonBar extends JPanel{
                 if (DataM.fd.getFile()==null)
 	            	  return;
                 
-                try {   
-                
+                try {             
                 	DataM.file1 = new File(DataM.fd.getDirectory(),DataM.fd.getFile());
                     FileReader fr = new FileReader(DataM.file1);
                     BufferedReader br = new BufferedReader(fr);
@@ -325,7 +324,6 @@ public class ButtonBar extends JPanel{
 	            	DMShow.setEnabled(true);
 	            	DMLabelID.setEnabled(true);	        
 	            	DMCluster.setEnabled(true);	
-	            	DMChoose.setEnabled(true);
 	            	DMPlot.setEnabled(true);
 	            	DMHeatO.setEnabled(true);
 	            	DMHeatC.setEnabled(true);
