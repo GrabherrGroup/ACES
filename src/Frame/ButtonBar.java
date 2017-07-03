@@ -25,6 +25,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 
 import CactusClusteringVisualization.Cactus;
@@ -40,12 +41,24 @@ public class ButtonBar extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JPanel DMPanel, SIPanel, buttonsPanel;
 	JLabel DMLabel, SILabel;
+	
 	static JButton DMLoad,DMShow,DMLabelID,DMCluster,DMChoose,DMPlot,DMHeatO,DMHeatC;
 	static JButton SILoad,SIShow,SIShowList,AddCluster,SIChoose,SIPlot,SISave,SIHeat;
 	final ImageIcon icon = new ImageIcon(getClass().getResource("/resources/logo_mlv_small.png"));
+	final ImageIcon iconOpen = new ImageIcon(getClass().getResource("/resources/openFile.png"));
+
 	final ImageIcon iconHMO = new ImageIcon(getClass().getResource("/resources/HeatMapO.png"));
 	final ImageIcon iconHMC = new ImageIcon(getClass().getResource("/resources/HeatMapC.png"));
-	final ImageIcon iconHMA = new ImageIcon(getClass().getResource("/resources/HeatMap3.png"));
+	final ImageIcon iconDataDM = new ImageIcon(getClass().getResource("/resources/data.png"));
+	final ImageIcon iconSave = new ImageIcon(getClass().getResource("/resources/save.png"));
+	final ImageIcon iconHC = new ImageIcon(getClass().getResource("/resources/HC.png"));
+	final ImageIcon iconAdd = new ImageIcon(getClass().getResource("/resources/add.png"));
+	final ImageIcon iconCO = new ImageIcon(getClass().getResource("/resources/chooseA.png"));
+	final ImageIcon iconCA = new ImageIcon(getClass().getResource("/resources/chooseO.png"));
+	final ImageIcon iconID = new ImageIcon(getClass().getResource("/resources/ID.png"));
+	final ImageIcon iconlist = new ImageIcon(getClass().getResource("/resources/list.png"));
+	final ImageIcon iconPlot = new ImageIcon(getClass().getResource("/resources/plot.png"));
+
 	
 	//DataManagement DataM = new DataManagement();;
 	DataManagement DataM;
@@ -58,139 +71,154 @@ public class ButtonBar extends JPanel{
 		DMPanel = new JPanel();
 		DMPanel.setLayout(new BorderLayout());
 		DMPanel.setVisible(true);
-		DMPanel.setPreferredSize(new Dimension(150,500));
+		DMPanel.setPreferredSize(new Dimension(50,500));
 		DMPanel.setBackground(Color.LIGHT_GRAY);
 		
 		DMLabel = new JLabel();
-		DMLabel.setText("Distance Matrix");
+		DMLabel.setText("");
 		DMLabel.setBackground(Color.RED);
-		DMLabel.setPreferredSize(new Dimension(100,30));
+		DMLabel.setPreferredSize(new Dimension(50,30));
 		
 
 		buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new GridBagLayout());
-		buttonsPanel.setBackground(new Color(200,200,200));
+		buttonsPanel.setBackground(Color.WHITE);
 
 		addComp(buttonsPanel, DMLabel, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
 		
-		DMLoad = new JButton();
+		DMLoad = new JButton(iconOpen);
+		DMLoad.setBorderPainted(false);
 		DMLoad.setEnabled(true);
-		DMLoad.setText("Load");
 		DMLoad.setToolTipText("Load your Distance Matrix file");
-		DMLoad.setPreferredSize(new Dimension(60,30));
+		DMLoad.setPreferredSize(new Dimension(30,30));
 		DMLoad.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMLoad, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
-		DMShow = new JButton();
+		DMShow = new JButton(iconDataDM);
+		DMShow.setBorderPainted(false);
 		DMShow.setEnabled(false);
-		DMShow.setText("Show");
-		DMShow.setPreferredSize(new Dimension(60,30));
+		DMShow.setToolTipText("Distance Matrix data");
+		DMShow.setPreferredSize(new Dimension(30,30));
 		DMShow.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMShow, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 		
-		DMLabelID = new JButton();
+		DMLabelID = new JButton(iconID);
 		DMLabelID.setEnabled(false);
-		DMLabelID.setText("Label ID");
-		DMLabelID.setPreferredSize(new Dimension(80,30));
+		DMLabelID.setBorderPainted(false);
+		DMLabelID.setToolTipText("Label ID");
+		DMLabelID.setPreferredSize(new Dimension(30,30));
 		DMLabelID.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMLabelID, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
-		DMCluster = new JButton();
+		DMCluster = new JButton(iconHC);
 		DMCluster.setEnabled(false);
-		DMCluster.setText("Clustering Results");
-		DMCluster.setPreferredSize(new Dimension(150,30));
+		DMCluster.setBorderPainted(false);
+		DMCluster.setToolTipText("Clustering Results");
+		DMCluster.setPreferredSize(new Dimension(30,30));
 		DMCluster.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMCluster, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 		
-		DMPlot = new JButton();
+		DMPlot = new JButton(iconPlot);
 		DMPlot.setEnabled(false);
-		DMPlot.setText("Plot Samples");
-		DMPlot.setPreferredSize(new Dimension(100,30));
+		DMPlot.setBorderPainted(false);
+		DMPlot.setToolTipText("Plot your Distance Matrix");
+		DMPlot.setPreferredSize(new Dimension(30,30));
 		DMPlot.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		addComp(buttonsPanel, DMPlot, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
-		DMChoose = new JButton();
+		
+		DMChoose = new JButton(iconCO);
 		DMChoose.setEnabled(false);
-		DMChoose.setText("Choose other Cacti");
-		DMChoose.setPreferredSize(new Dimension(150,30));
+		DMChoose.setBorderPainted(false);
+		DMChoose.setToolTipText("Choose other Cacti");
+		DMChoose.setPreferredSize(new Dimension(30,30));
 		DMChoose.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMChoose, 0, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
-		DMHeatO = new JButton();
+		DMHeatO = new JButton(iconHMO);
 		DMHeatO.setEnabled(false);
-		DMHeatO.setText("Original Heat Map");
-		DMHeatO.setPreferredSize(new Dimension(150,30));
+		DMHeatO.setBorderPainted(false);
+		DMHeatO.setToolTipText("Show the Original Heat Map of DM");
+		DMHeatO.setPreferredSize(new Dimension(30,30));
 		DMHeatO.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMHeatO, 0, 7, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 		
-		DMHeatC = new JButton();
+		DMHeatC = new JButton(iconHMC);
 		DMHeatC.setEnabled(false);
-		DMHeatC.setText("New Heat Map");
-		DMHeatC.setPreferredSize(new Dimension(150,30));
+		DMHeatC.setBorderPainted(false);
+		DMHeatC.setToolTipText("Show the sorted Heat Map of DM");
+		DMHeatC.setPreferredSize(new Dimension(30,30));
 		DMHeatC.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMHeatC, 0, 8, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
 		SILabel = new JLabel();
-		SILabel.setText("Sample Info");
+		SILabel.setText("-----");
 		SILabel.setBackground(Color.RED);
-		SILabel.setPreferredSize(new Dimension(100,30));
+		SILabel.setPreferredSize(new Dimension(50,30));
 		addComp(buttonsPanel, SILabel, 0, 9, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,20,2);
 
 		
-		SILoad = new JButton();
+		SILoad = new JButton(iconOpen);
 		SILoad.setEnabled(false);
-		SILoad.setText("Load");
-		SILoad.setPreferredSize(new Dimension(60,30));
+		SILoad.setBorderPainted(false);
+		SILoad.setToolTipText("Load the Sample Info file");
+		SILoad.setPreferredSize(new Dimension(30,30));
 		SILoad.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, SILoad, 0, 10, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
-		SIShow = new JButton();
+		SIShow = new JButton(iconDataDM);
 		SIShow.setEnabled(false);
-		SIShow.setText("Show");
-		SIShow.setPreferredSize(new Dimension(60,30));
+		SIShow.setBorderPainted(false);
+		SIShow.setToolTipText("Show the Sample Info content");
+		SIShow.setPreferredSize(new Dimension(30,30));
 		SIShow.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, SIShow, 0, 11, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 		
-		SIShowList = new JButton();
+		SIShowList = new JButton(iconlist);
 		SIShowList.setEnabled(false);
-		SIShowList.setText("Show all Attributes");
-		SIShowList.setPreferredSize(new Dimension(150,30));
+		SIShowList.setBorderPainted(false);
+		SIShowList.setToolTipText("Show all Attributes");
+		SIShowList.setPreferredSize(new Dimension(30,30));
 		SIShowList.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, SIShowList, 0, 12, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
-		SIChoose = new JButton();
+		SIChoose = new JButton(iconCA);
 		SIChoose.setEnabled(false);
-		SIChoose.setText("Select an Attribute");
-		SIChoose.setPreferredSize(new Dimension(150,30));
+		SIChoose.setBorderPainted(false);
+		SIChoose.setToolTipText("Select an Attribute to plot");
+		SIChoose.setPreferredSize(new Dimension(30,30));
 		SIChoose.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, SIChoose, 0, 13, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 		
-		AddCluster = new JButton();
+		AddCluster = new JButton(iconAdd);
 		AddCluster.setEnabled(false);
-		AddCluster.setText("Add Clusters Info");
-		AddCluster.setPreferredSize(new Dimension(150,30));
+		AddCluster.setBorderPainted(false);
+		AddCluster.setToolTipText("Add the Clusters Info to the Sample Info file");
+		AddCluster.setPreferredSize(new Dimension(30,30));
 		AddCluster.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, AddCluster, 0, 14, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
-		SIPlot = new JButton();
+		SIPlot = new JButton(iconPlot);
 		SIPlot.setEnabled(false);
-		SIPlot.setText("Plot Attributes");
-		SIPlot.setPreferredSize(new Dimension(80,30));
+		SIPlot.setBorderPainted(false);
+		SIPlot.setToolTipText("Plot Attributes");
+		SIPlot.setPreferredSize(new Dimension(30,30));
 		SIPlot.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, SIPlot, 0, 15, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 		
-		SISave = new JButton();
+		SISave = new JButton(iconSave);
 		SISave.setEnabled(false);
-		SISave.setText("Save ");
-		SISave.setPreferredSize(new Dimension(80,30));
+		SISave.setBorderPainted(false);
+		SISave.setToolTipText("Save the sorted Sample Info file");
+		SISave.setPreferredSize(new Dimension(30,30));
 		SISave.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, SISave, 0, 16, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 
-		SIHeat = new JButton();
+		SIHeat = new JButton(iconHMC);
 		SIHeat.setEnabled(false);
-		SIHeat.setText("Heat Map");
-		SIHeat.setPreferredSize(new Dimension(100,30));
+		SIHeat.setBorderPainted(false);
+		SIHeat.setToolTipText("Show the Heat Map with selected attribute info");
+		SIHeat.setPreferredSize(new Dimension(30,30));
 		SIHeat.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, SIHeat, 0, 17, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
 

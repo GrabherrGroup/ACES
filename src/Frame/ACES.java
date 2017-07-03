@@ -102,19 +102,19 @@ public class ACES extends JFrame{
 		
 		/* dmPanel holds the dmInfoPanel */
 		dmPanel = new JPanel();
-		dmPanel.setPreferredSize(new Dimension(150,500));
+		dmPanel.setPreferredSize(new Dimension(50,500));
 		dmPanel.setLayout(new BorderLayout());
 		
 		dmInfoPanel =  new ButtonBar(DataM).makeDM();
-		dmInfoPanel.setBackground(new Color(200,200,200));
+		dmInfoPanel.setBackground(Color.WHITE);
 		
 		dmScroll = new JScrollPane(dmInfoPanel);
 		dmScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		dmScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		dmScroll.setPreferredSize(new Dimension(150,500));
+		dmScroll.setPreferredSize(new Dimension(50,500));
 		
 		dmPanel.add(dmScroll, BorderLayout.WEST);
-		dmPanel.setBackground(new Color(185,185,185));
+		dmPanel.setBackground(Color.WHITE);
 		dmScroll.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 		bodyPanel.add(dmPanel, BorderLayout.WEST);
 		bodyPanel.add(drawingPanel, BorderLayout.CENTER);
