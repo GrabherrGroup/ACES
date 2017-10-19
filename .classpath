@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="ACES.jar"/>
+	<classpathentry kind="lib" path="lib/batik-dom-1.7.jar"/>
+	<classpathentry kind="lib" path="lib/batik-svggen.jar"/>
+	<classpathentry kind="lib" path="lib/freehep.jar"/>
+	<classpathentry kind="lib" path="lib/itext5-itextpdf-5.5.11.jar"/>
+	<classpathentry kind="lib" path="lib/jfreesvg-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/jheatchart-0.6.jar"/>
+	<classpathentry kind="lib" path="lib/jmathio.jar"/>
+	<classpathentry kind="lib" path="lib/jmathplot.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
