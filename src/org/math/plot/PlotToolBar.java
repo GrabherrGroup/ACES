@@ -1,4 +1,4 @@
-package org.math.plot.components;
+package org.math.plot;
 
 import java.awt.event.*;
 import java.io.*;

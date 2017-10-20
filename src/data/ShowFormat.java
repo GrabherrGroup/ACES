@@ -1,4 +1,4 @@
-package CactusClusteringVisualization;
+package data;
 
 import javax.swing.JTextArea;
 

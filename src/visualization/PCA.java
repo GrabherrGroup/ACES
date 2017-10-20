@@ -1,4 +1,4 @@
-package CactusClusteringVisualization;
+package visualization;
 
 public class PCA {
 	

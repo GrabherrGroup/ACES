@@ -1,4 +1,4 @@
-package CactusClusteringVisualization;
+package visualization;
 
 import java.awt.Color;
 import java.awt.Image;

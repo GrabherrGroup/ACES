@@ -1,4 +1,4 @@
-package Frame;
+package data;
 
 import java.awt.FileDialog;
 import java.io.File;
@@ -6,6 +6,8 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import Frame.ACES;
 
 public class DataManagement {
 	FileDialog fd; //read the files

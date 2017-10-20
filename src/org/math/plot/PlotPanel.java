@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import org.math.io.files.ASCIIFile;
 import org.math.plot.canvas.PlotCanvas;
 import org.math.plot.components.LegendPanel;
-import org.math.plot.components.PlotToolBar;
 import org.math.plot.plotObjects.Axis;
 import org.math.plot.plotObjects.Plotable;
 import org.math.plot.plots.Plot;

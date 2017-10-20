@@ -1,4 +1,4 @@
-package CactusClusteringVisualization;
+package clustering;
 
 public class Clustering {
 	
