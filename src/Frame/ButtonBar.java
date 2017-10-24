@@ -27,10 +27,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import CactusClusteringVisualization.Cactus;
-import CactusClusteringVisualization.Clustering;
-import CactusClusteringVisualization.PCA;
-import CactusClusteringVisualization.Visualization;
+import data.Cactus;
+import clustering.HClustering;
+import visualization.PCA;
+import visualization.Visualization;
 
 public class ButtonBar extends JPanel{
 	
@@ -279,7 +279,7 @@ public class ButtonBar extends JPanel{
 	                	DataM.setDataMatrix(oneCactus.getCactus());
 	                	DataM.setSize(oneCactus.getSize());
 	                	
-	                	Clustering CV = new Clustering(oneCactus.getLabel(),oneCactus.getSize(),oneCactus.getCactus());
+	                	HClustering CV = new HClustering(oneCactus.getLabel(),oneCactus.getSize(),oneCactus.getCactus());
 	                	DataM.setNumCluster(CV.getNumCluster());
 	                	DataM.setLabelsIndex(CV.getLabelsIndex());
 	                	
@@ -323,7 +323,7 @@ public class ButtonBar extends JPanel{
 							}
 						}
 	
-	                	Clustering CV = new Clustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+	                	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
 	                	DataM.NumCluster = CV.getNumCluster();
 	                	DataM.setLabelsIndex(CV.getLabelsIndex());
 	                	
@@ -434,7 +434,7 @@ public class ButtonBar extends JPanel{
 					}
 				}
 
-            	Clustering CV = new Clustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+            	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
             	DataM.NumCluster = CV.getNumCluster();
             	DataM.setLabelsIndex(CV.getLabelsIndex());
             	

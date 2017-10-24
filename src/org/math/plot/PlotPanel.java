@@ -25,6 +25,7 @@ import org.math.plot.plotObjects.Plotable;
 import org.math.plot.plots.Plot;
 import org.math.plot.utils.Array;
 
+
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.Document;
 
@@ -541,35 +542,7 @@ public abstract class PlotPanel extends JPanel {
     
     
     
-   /* public void toGraphicFileSVG() throws IOException {
-        // otherwise toolbar appears
-        plotToolBar.setVisible(false);
-
-        Image image = createImage(getWidth(), getHeight());
-        paint(image.getGraphics());
-        image = new ImageIcon(image).getImage();
-
-        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
-        Graphics g = bufferedImage.createGraphics();
-        
-        
-        DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
-
-        String svgNS = "http://www.w3.org/2000/svg";
-        Document document = domImpl.createDocument(svgNS, "svg", null);
-
-        SVGGraphics2D graphics = new SVGGraphics2D(document);
-     //   graphics.drawImage(bufferedImage, null, 0, 0); 
-    //    graphics.drawImage(image, 0, 0, null);
-        graphics.dispose();
-        
-        boolean useCSS = true;
-        Writer out = new OutputStreamWriter(new FileOutputStream("test.svg"), "UTF-8");
-        graphics.stream(out, useCSS);
-        
-        
-        
-    }*/
+  
 
     public static void main(String[] args) {
         String man = "Usage: jplot.<sh|bat> <-2D|-3D> [-l <INVISIBLE|NORTH|SOUTH|EAST|WEST>] [options] <ASCII file (n rows, m columns)> [[options] other ASCII file]\n" + "[-l <INVISIBLE|NORTH|SOUTH|EAST|WEST>] giving the legend position\n" + "[options] are:\n" + "  -t <SCATTER|LINE|BAR|HISTOGRAM2D(<integer h>)|HISTOGRAM3D(<integer h>,<integer k>)|GRID3D|CLOUD2D(<integer h>,<integer k>)|CLOUD3D(<integer h>,<integer k>,<integer l>)>    type of the plot\n" + "      SCATTER|LINE|BAR: each line of the ASCII file contains coordinates of one point.\n" + "      HISTOGRAM2D(<integer h>): ASCII file contains the 1D sample (i.e. m=1) to split in h slices.\n" + "      HISTOGRAM3D(<integer h>,<integer k>): ASCII file contains the 2D sample (i.e. m=2) to split in h*k slices (h slices on X axis and k slices on Y axis).\n" + "      GRID3D: ASCII file is a matrix, first row gives n X grid values, first column gives m Y grid values, other values are Z values.\n" + "      CLOUD2D(<integer h>,<integer k>): ASCII file contains the 2D sample (i.e. m=2) to split in h*k slices (h slices on X axis and k slices on Y axis), density of cloud corresponds to frequency of X-Y slice in given 2D sample.\n" + "      CLOUD3D(<integer h>,<integer k>,<integer l>): ASCII file contains the 3D sample (i.e. m=3) to split in h*k*l slices (h slices on X axis, k slices on Y axis, l slices on Y axis), density of cloud corresponds to frequency of X-Y-Z slice in given 3D sample.\n" + "  -n name    name of the plot\n" + "  -v <ASCII file (n,3|2)>    vector data to add to the plot\n" + "  -q<X|Y|Z>(<float Q>) <ASCII file (n,1)>    Q-quantile to add to the plot on <X|Y|Z> axis. Each line of the given ASCII file contains the value of quantile for probvability Q.\n" + "  -qP<X|Y|Z> <ASCII file (n,p)>    p-quantiles density to add to the plot on <X|Y|Z> axis. Each line of the given ASCII file contains p values.\n" + "  -qN<X|Y|Z> <ASCII file (n,1)>    Gaussian density to add to the plot on <X|Y|Z> axis. Each line of the given ASCII file contains a standard deviation.";

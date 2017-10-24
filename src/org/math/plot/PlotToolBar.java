@@ -223,27 +223,6 @@ public class PlotToolBar extends JToolBar {
     }
 
     void saveGraphicFile() {
-    /*    java.io.File file = pngFileChooser.getSelectedFile();
-        try {
-            plotPanel.toGraphicFile(file);
-        	//plotPanel.toGraphicFileSVG();
-        } catch (IOException e) {
-            JOptionPane.showConfirmDialog(null, "Save failed : " + e.getMessage(), "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-        }*/
-    	/*java.io.File file = pngFileChooser.getSelectedFile();
-    	
-    	
-    	try
-        {
-            ExportDialog export = new ExportDialog();
-            export.showExportDialog( null, "Export view as ...", plotPanel, "export" );
-            System.err.println("Image save complete");
-
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }*/
             try {
 	            	File ff = pngFileChooser.getSelectedFile();
 	 		        String filename = ff.getCanonicalPath();
@@ -260,21 +239,7 @@ public class PlotToolBar extends JToolBar {
 	 	      } catch (IOException ioe) {
 	            	ioe.printStackTrace();
 	            }
-    	 
-    	
-    	/*java.io.File file = pngFileChooser.getSelectedFile();
-        try {
-            try {
-				plotPanel.toGraphicPDF(file);
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        } catch (IOException e) {
-            JOptionPane.showConfirmDialog(null, "Save failed : " + e.getMessage(), "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-        }*/
-    	
-	       
+ 
     }
     boolean adjustBoundsVisible = true;
 

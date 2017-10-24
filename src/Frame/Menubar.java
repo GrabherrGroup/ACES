@@ -24,7 +24,9 @@ import javax.swing.JOptionPane;
 
 import org.freehep.util.export.ExportDialog;
 
-import CactusClusteringVisualization.*;
+import data.*;
+import visualization.*;
+import clustering.*;
 
 
 public class Menubar extends JMenuBar{
@@ -229,7 +231,7 @@ public class Menubar extends JMenuBar{
 	                	DataM.setDataMatrix(oneCactus.getCactus());
 	                	DataM.setSize(oneCactus.getSize());
 	                	
-	                	Clustering CV = new Clustering(oneCactus.getLabel(),oneCactus.getSize(),oneCactus.getCactus());
+	                	HClustering CV = new HClustering(oneCactus.getLabel(),oneCactus.getSize(),oneCactus.getCactus());
 	                	DataM.setNumCluster(CV.getNumCluster());
 	                	DataM.setLabelsIndex(CV.getLabelsIndex());
 	                	
@@ -273,7 +275,7 @@ public class Menubar extends JMenuBar{
 							}
 						}
 	
-	                	Clustering CV = new Clustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+	                	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
 	                	DataM.NumCluster = CV.getNumCluster();
 	                	DataM.setLabelsIndex(CV.getLabelsIndex());
 	                	
@@ -363,7 +365,7 @@ public class Menubar extends JMenuBar{
 					}
 				}
 
-            	Clustering CV = new Clustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+            	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
             	DataM.NumCluster = CV.getNumCluster();
             	DataM.setLabelsIndex(CV.getLabelsIndex());
 

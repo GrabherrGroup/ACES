@@ -1,6 +1,6 @@
 package clustering;
 
-public class Clustering {
+public class HClustering {
 	
 	public int countIndex;
 	public int[] selected_index= {0,0,0,0,0,0,0,0,0,0};;
@@ -23,7 +23,7 @@ public class Clustering {
 		return NumCluster;
 	}
 
-	public Clustering(String[] label, int size, double[][] cactusData) {
+	public HClustering(String[] label, int size, double[][] cactusData) {
 		//super();
 		this.cactusSize = size;
 		step = cactusSize/6;
