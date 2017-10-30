@@ -9,12 +9,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -22,7 +22,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import org.freehep.util.export.ExportDialog;
 
 import data.*;
 import visualization.*;
@@ -39,7 +38,7 @@ public class Menubar extends JMenuBar{
 	
 	JMenuItem openFromLocation,ShortenLabels,DistanceMatrixFormat,exitAction,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
 	
-	static JMenuItem plotHeatMapSI,plotHeatMapO,plotHeatMapC,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
+	static JMenuItem KMeansClustering,DBSCAN,plotHeatMapSI,plotHeatMapO,plotHeatMapC,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
 	
 	
 	JMenuBar menu;
@@ -75,6 +74,8 @@ public class Menubar extends JMenuBar{
 		menuCluster = new JMenu("Clustering");
 		numberOfCluster = new JMenuItem("Number of clusters");
 		HierarchicalClustering = new JMenuItem("Hierarchical Clustering Results");
+		KMeansClustering = new JMenuItem("KMeans Clustering Results");
+		DBSCAN = new JMenuItem("DBSCAN Clustering Results");
 				
 		// Attributes menu items
 		menuAttributes = new JMenu("Attributes");
@@ -113,6 +114,8 @@ public class Menubar extends JMenuBar{
 		
 		menuCluster.add(numberOfCluster);
 		menuCluster.add(HierarchicalClustering);
+		menuCluster.add(KMeansClustering);
+		menuCluster.add(DBSCAN);
 		
 		menuAttributes.add(loadAttributes);
 		menuAttributes.add(ShowAttributesMatrix);
@@ -173,6 +176,12 @@ public class Menubar extends JMenuBar{
 		HierarchicalClustering.addActionListener(lForMenu);
 		HierarchicalClustering.setEnabled(false);
 		HierarchicalClustering.setBackground(new Color(230,230,230));
+		KMeansClustering.addActionListener(lForMenu);
+		KMeansClustering.setEnabled(false);
+		KMeansClustering.setBackground(new Color(230,230,230));
+		DBSCAN.addActionListener(lForMenu);
+		DBSCAN.setEnabled(false);
+		DBSCAN.setBackground(new Color(230,230,230));
 		
 		loadAttributes.addActionListener(lForMenu);
 		loadAttributes.setEnabled(false);
@@ -196,12 +205,10 @@ public class Menubar extends JMenuBar{
 	
 	private class ListenForMenu implements ActionListener{
 		
-		boolean validFormat=true;
 
 		/* item clicked events (ice) */
 		public void actionPerformed(ActionEvent e) {
-			
-			validFormat = true;			
+					
 			if (e.getSource() == openFromLocation){
 				DataM.fd = new FileDialog(ACES.bodyFrame,"Open",FileDialog.LOAD);
 				DataM.fd.setVisible(true);  
@@ -299,6 +306,9 @@ public class Menubar extends JMenuBar{
 	        		plotHeatMapC.setEnabled(true);
 	        		numberOfCluster.setEnabled(true);
 	        		HierarchicalClustering.setEnabled(true);
+	        		KMeansClustering.setEnabled(true);
+	        		DBSCAN.setEnabled(true);
+
 	        		loadAttributes.setEnabled(true);
 	        		
 	        		ButtonBar.DMShow.setEnabled(true);
@@ -312,7 +322,68 @@ public class Menubar extends JMenuBar{
                 catch (IOException ioe){
                 	System.out.println(ioe);
                 }
-			} 			
+			} 	
+			else if (e.getSource() == DBSCAN){
+				if (DataM.FileOpenStatus == 0){
+	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		 return;
+	        	 }
+				
+				ArrayList<Point> points = new ArrayList<Point>();
+
+				for (int i = 0; i < DataM.size; i++) {
+					double[] temp = new double[DataM.size];
+
+					for(int j = 0; j < DataM.size; j++){
+						temp[j] = DataM.getDataMatrix()[i][j];
+					}
+					points.add(new Point(temp));
+
+	        	}
+				
+			
+		      
+				DBSCAN DBSCAN = new DBSCAN(1,10);
+				DBSCAN.process(points);
+				DataM.setLabelsIndex(DBSCAN.getLabelsIndex()); 
+		       
+            	
+	        	 ACES.ta.setText("DBSCAN Clustering results:\n" );  
+
+	        	 for (int i = 0; i < DataM.size; i++) {
+	        		 ACES.ta.append(DataM.Label[i] + " ---- " + Integer.toString(DataM.labelsIndex[i]) + "\n");
+	        	 }
+			}
+			else if (e.getSource() == KMeansClustering){
+				if (DataM.FileOpenStatus == 0){
+	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		 return;
+	        	 }
+            	KMClustering KMC = new KMClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+            	DataM.NumCluster = KMC.getNumCluster();
+            	DataM.setLabelsIndex(KMC.getLabelsIndex()); 
+	        	 ACES.ta.setText("KMeans Clustering results:\n" );  
+
+	        	 for (int i = 0; i < DataM.size; i++) {
+	        		 ACES.ta.append(DataM.Label[i] + " ---- " + Integer.toString(DataM.labelsIndex[i]) + "\n");
+	        	 }
+			}
+			else if(e.getSource()==HierarchicalClustering) {
+	        	 if (DataM.FileOpenStatus == 0){
+	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		 return;
+	        	 }
+	        	 
+	        	 HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+	            	DataM.NumCluster = CV.getNumCluster();
+	            	DataM.setLabelsIndex(CV.getLabelsIndex()); 
+	            	
+	        	 ACES.ta.setText("Hierarchical Clustering results:\n" );  
+
+	        	 for (int i = 0; i < DataM.size; i++) {
+	        		 ACES.ta.append(DataM.Label[i] + " ---- " + Integer.toString(DataM.labelsIndex[i]) + "\n");
+	        	 }
+	         }
 			else if (e.getSource() == ShowDistanceMatrix){
 				
 				if (DataM.FileOpenStatus == 0){
@@ -611,17 +682,6 @@ public class Menubar extends JMenuBar{
 	        	 }
 	        	 ACES.ta.setText("There are " + Integer.toString(DataM.size) + " samples and " + Integer.toString(DataM.NumCluster) + " clusters in total.\n" );  
 	         }
-	         else if(e.getSource()==HierarchicalClustering) {
-	        	 if (DataM.FileOpenStatus == 0){
-	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
-	        		 return;
-	        	 }
-	        	 ACES.ta.setText("Clustering results:\n" );  
-
-	        	 for (int i = 0; i < DataM.size; i++) {
-	        		 ACES.ta.append(DataM.Label[i] + " ---- " + Integer.toString(DataM.labelsIndex[i]) + "\n");
-	        	 }
-	         }
 	         else if(e.getSource()==plotHeatMapO){
 	        	 if (DataM.FileOpenStatus == 0){
 	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
@@ -629,7 +689,7 @@ public class Menubar extends JMenuBar{
 	        	 }
 	        	 
 	        	 try {
-					Visualization v1 = new Visualization(DataM.DataMatrix, DataM.size,"Original Distance Matrix",DataM.Label,DataM.Label);
+					new Visualization(DataM.DataMatrix, DataM.size,"Original Distance Matrix",DataM.Label,DataM.Label);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -644,7 +704,7 @@ public class Menubar extends JMenuBar{
 	        	 DataM.CreateDataAfterClustering();
 
 	        	 try {
-					Visualization v1 = new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel, DataM.newDataLabel);
+					new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel, DataM.newDataLabel);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -659,7 +719,7 @@ public class Menubar extends JMenuBar{
 	        	 DataM.CreateDataAfterClusteringandChooseAttri();
 
 	        	 try {
-					Visualization v1 = new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+					new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -671,7 +731,7 @@ public class Menubar extends JMenuBar{
 	        		 return;
 	        	 }
 	        	 
-	        	 Visualization v1 = new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM);
+	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM);
 	         }
 	         else if(e.getSource()==plotAttributes){
 	        	 if (DataM.FileOpenStatus == 0){
@@ -693,7 +753,7 @@ public class Menubar extends JMenuBar{
 		        	 DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
 		        	 DataM.changeSampleInfo();
 	        	 }
-	        	 Visualization v2 = new Visualization(DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute);
+	        	 new Visualization(DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute);
    
 	        }
 			else if (e.getSource() == exitAction){

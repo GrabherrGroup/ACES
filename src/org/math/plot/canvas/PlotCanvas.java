@@ -57,7 +57,11 @@ import static org.math.plot.plotObjects.Base.*;
  */
 public abstract class PlotCanvas extends JPanel implements MouseListener, MouseMotionListener, ComponentListener, BaseDependant, MouseWheelListener {
 
-    //public int[] panelSize = new int[] { 400, 400 };
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//public int[] panelSize = new int[] { 400, 400 };
     public Base base;
     protected AbstractDrawer draw;
     protected BasePlot grid;

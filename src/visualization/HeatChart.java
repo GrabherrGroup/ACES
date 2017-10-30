@@ -483,7 +483,6 @@ public class HeatChart {
             file.delete();
 		}
 		else if(ext.toLowerCase().equals("svg")){
-			Document doc = new Document();
 			File file = new File("heatmap_temp_output.png");
 		    BufferedImage chart = ImageIO.read(file);
 

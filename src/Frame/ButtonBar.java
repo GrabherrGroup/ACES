@@ -27,10 +27,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import data.Cactus;
-import clustering.HClustering;
-import visualization.PCA;
-import visualization.Visualization;
+import data.*;
+import clustering.*;
+import visualization.*;
+
 
 public class ButtonBar extends JPanel{
 	
@@ -117,6 +117,9 @@ public class ButtonBar extends JPanel{
 		DMCluster.setPreferredSize(new Dimension(30,30));
 		DMCluster.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMCluster, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
+		
+	
+		
 		
 		DMPlot = new JButton(iconPlot);
 		DMPlot.setEnabled(false);
@@ -448,7 +451,7 @@ public class ButtonBar extends JPanel{
 	        		 return;
 	        	 }
 	        	 
-	        	 Visualization v1 = new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM);
+	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM);
 			}
 			else if(bc.getSource()==DMHeatO){
 	        	 if (DataM.FileOpenStatus == 0){
@@ -457,7 +460,7 @@ public class ButtonBar extends JPanel{
 	        	 }
 	        	 
 	        	 try {
-					Visualization v1 = new Visualization(DataM.DataMatrix, DataM.size,"Original Distance Matrix",DataM.Label,DataM.Label);
+	        		 new Visualization(DataM.DataMatrix, DataM.size,"Original Distance Matrix",DataM.Label,DataM.Label);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -472,7 +475,7 @@ public class ButtonBar extends JPanel{
 	        	 DataM.CreateDataAfterClustering();
 
 	        	 try {
-					Visualization v1 = new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel,DataM.newDataLabel);
+					 new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel,DataM.newDataLabel);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -673,7 +676,7 @@ public class ButtonBar extends JPanel{
 		        	 DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
 		        	 DataM.changeSampleInfo();
 	        	 }
-	        	 Visualization v2 = new Visualization(DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute);
+	        	 new Visualization(DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute);
   
 			}
 			else if (bc.getSource() == SISave){
@@ -718,7 +721,7 @@ public class ButtonBar extends JPanel{
 	        	 DataM.CreateDataAfterClusteringandChooseAttri();
 
 	        	 try {
-					Visualization v1 = new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+					new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

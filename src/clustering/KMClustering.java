@@ -1,6 +1,5 @@
 package clustering;
 
-import java.util.ArrayList;
 
 public class KMClustering {
 	public int countIndex;
@@ -14,18 +13,12 @@ public class KMClustering {
 	private int[] labelsIndex;
 	
 	private double [][] _centroids; // centroids: the center of clusters
-
-	private int [] _withLabel; // if original labels exist, load them to _withLabel
-	                              // by comparing labelsIndex and _withLabel, we can compute accuracy. 
-	                              // However, the accuracy function is not defined yet.
     private int _nrows, _ndims; // the number of rows and dimensions
 	
 	
 	public int[] getLabelsIndex() {
 		return labelsIndex;
 	}
-
-
 
 	public int getNumCluster() {
 		return NumCluster;
@@ -54,9 +47,6 @@ public class KMClustering {
 
 	}
 
-
-	
-	
 	public void GetCluster(){
 		
 	    int i, j;
@@ -87,24 +77,27 @@ public class KMClustering {
         double threshold = 0.001;
 		int round = 0;
 
-		      while (true){
-		        // update _centroids with the last round results
-		        _centroids = c1;
+		while (true){
+			// update _centroids with the last round results
+			_centroids = c1;
 
-		        //assign record to the closest centroid
-		        labelsIndex = new int[cactusSize];
-		        for (i=0; i<_nrows; i++){
-		          labelsIndex[i] = closest(CactusData[i]);
-		        }
+		    //assign record to the closest centroid
+		    labelsIndex = new int[cactusSize];
+		    for (i=0; i<_nrows; i++){
+		    	labelsIndex[i] = closest(CactusData[i]);
+		    }
 		        
-		        // recompute centroids based on the assignments  
-		        c1 = updateCentroids();
-		        round ++;
-		        if ((niter >0 && round >=niter) || converge(_centroids, c1, threshold))
-		          break;
-		      
-		      }
+		 	// recompute centroids based on the assignments  
+		    c1 = updateCentroids();
+		    round ++;
+		    if ((niter >0 && round >=niter) || converge(_centroids, c1, threshold))
+		    	break;
+		}
 
+		for (i=0; i<cactusSize; i++){
+	    	labelsIndex[i] = labelsIndex[i] + 1;
+	    }
+		      
 	}
 
 		  // find the closest centroid for the record v 
@@ -168,7 +161,7 @@ public class KMClustering {
 		  }
 
 		  // check convergence condition
-		  // max{dist(c1[i], c2[i]), i=1..numClusters < threshold
+		  // max{dist(c1[i], c2[i]), i=1..NumCluster < threshold
 		  private boolean converge(double [][] c1, double [][] c2, double threshold){
 		    // c1 and c2 are two sets of centroids 
 		    double maxv = 0;
@@ -198,19 +191,6 @@ public class KMClustering {
 		    return _nrows;
 		  }
 
-		  public void printResults(){
-		      System.out.println("Label:");
-		     for (int i=0; i<_nrows; i++)
-		        System.out.println(labelsIndex[i]);
-		      System.out.println("Centroids:");
-		     for (int i=0; i<NumCluster; i++){
-		        for(int j=0; j<_ndims; j++)
-		           System.out.print(_centroids[i][j] + " ");
-		         System.out.println();
-		     }
-
-		  }
-		  
 
 			public void GetNumOfCluster() {
 				

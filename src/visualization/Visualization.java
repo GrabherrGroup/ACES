@@ -244,10 +244,8 @@ public class Visualization {
 		}
 	     
 	     ImageIcon imageIcon = new ImageIcon(new ImageIcon("heatmap_temp_output.png").getImage().getScaledInstance(800, 800, Image.SCALE_DEFAULT));
-	     ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("heatmap_temp_output.png").getImage());
 
          JLabel label = new JLabel(imageIcon);
-         JLabel label1 = new JLabel(imageIcon1);
          
          JFrame f = new JFrame(Label);
          f.getContentPane().add(label);

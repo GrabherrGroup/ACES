@@ -9,11 +9,10 @@ import javax.swing.filechooser.FileFilter;
 
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 import org.jfree.graphics2d.svg.SVGUtils;
-import org.math.plot.*;
+
 import org.math.plot.canvas.*;
 import org.math.plot.canvas.PlotCanvas;
 
-import com.itextpdf.text.DocumentException;
 
 /**
  * BSD License
@@ -175,7 +174,12 @@ public class PlotToolBar extends JToolBar {
             pngFileChooser.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
-                    saveGraphicFile();
+                    try {
+						saveGraphicFile();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                 }
             });
         } else {
@@ -222,23 +226,17 @@ public class PlotToolBar extends JToolBar {
         
     }
 
-    void saveGraphicFile() {
-            try {
-	            	File ff = pngFileChooser.getSelectedFile();
-	 		        String filename = ff.getCanonicalPath();
-		        SVGGraphics2D g2 = new SVGGraphics2D(plotPanel.getWidth(), plotPanel.getHeight());
-		        plotPanel.paint(g2);
-		       
-		        try {
-		            SVGUtils.writeToSVG(ff, g2.getSVGElement());
-		        } catch (IOException ex) {
-		            System.err.println(ex);
-		        }
-	 			    JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
-
-	 	      } catch (IOException ioe) {
-	            	ioe.printStackTrace();
-	            }
+    void saveGraphicFile() throws IOException {
+            File ff = pngFileChooser.getSelectedFile();
+			SVGGraphics2D g2 = new SVGGraphics2D(plotPanel.getWidth(), plotPanel.getHeight());
+			plotPanel.paint(g2);
+      
+			try {
+			    SVGUtils.writeToSVG(ff, g2.getSVGElement());
+			} catch (IOException ex) {
+			    System.err.println(ex);
+			}
+			    JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
  
     }
     boolean adjustBoundsVisible = true;

@@ -12,6 +12,10 @@ import javax.swing.JLabel;
 
 public class About extends JDialog{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JFrame aboutFrame;
 	ImageIcon aboutImage = new ImageIcon(getClass().getResource("/resources/about.png"));
 	
