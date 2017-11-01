@@ -18,6 +18,9 @@ public class DataManagement {
 	int AttributeOpenStatus = 0; 
 	int AttributeChooseStatus = 0;
 	
+	double DBr = 1;
+	double DBm = 10;
+	
 	String[] Label;
 	String[] newDataLabel;
  	int size;
@@ -414,14 +417,32 @@ public class DataManagement {
        	  	 }	      	  	            	  
          }
 	}
+	
+	public void DBp() {
+	
+		 JTextField field1 = new JTextField();
+         JTextField field2 = new JTextField();
+         field1.setText(Double.toString(DBr));
+         field2.setText(Double.toString(DBm));
+        
+         Object[] message = {
+        		 "Please set the parameters of DBSCAN",
+        		 "\n",
+        		 "Scan Radius (eps):", field1,
+        		 "Minimum number of samples (minPts):", field2,
+        		 "\n",
+        		 "\n",
+        		 "(The recommended value are shown above.)",
+        		 "\n",		 
+         };
+         field1.getActionListeners();
+         field2.getActionListeners();
+         int option = JOptionPane.showConfirmDialog(null, message, "Please set the parameters of DBSCAN ", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
+         if (option == JOptionPane.OK_OPTION){
+             DBr = Double.parseDouble(field1.getText());
+             DBm = Double.parseDouble(field2.getText());
+         }
+     }
 
 }
 	
-	    
-	 	
-		
-		
-			
-
-		
-		           

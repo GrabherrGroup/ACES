@@ -199,7 +199,7 @@ public class Menubar extends JMenuBar{
 		saveAttributes.addActionListener(lForMenu);
 		saveAttributes.setEnabled(false);
 		saveAttributes.setBackground(new Color(230,230,230));
-
+	
 		return menubar;
 	}
 	
@@ -341,7 +341,8 @@ public class Menubar extends JMenuBar{
 
 	        	}
 				
-			
+		
+				
 		      
 				DBSCAN DBSCAN = new DBSCAN(1,10);
 				DBSCAN.process(points);
