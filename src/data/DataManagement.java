@@ -7,45 +7,45 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import Frame.ACES;
+import frame.ACES;
 
 public class DataManagement {
-	FileDialog fd; //read the files
-	File file1 = null;
+	public FileDialog fd; //read the files
+	public File file1 = null;
 	final ImageIcon icon = new ImageIcon(getClass().getResource("/resources/logo_mlv_small.png"));
 
-	int FileOpenStatus = 0; //check whether the cactus files have been loaded first
-	int AttributeOpenStatus = 0; 
-	int AttributeChooseStatus = 0;
+	public int FileOpenStatus = 0; //check whether the cactus files have been loaded first
+	public int AttributeOpenStatus = 0; 
+	public int AttributeChooseStatus = 0;
 	
 	double DBr = 1;
 	double DBm = 10;
 	
-	String[] Label;
-	String[] newDataLabel;
- 	int size;
+	public String[] Label;
+	public String[] newDataLabel;
+	public int size;
 	
-	int NumCluster;
-	int[] labelsIndex;
-	int[] newlabelsIndex;
-	double[][] DataAxis;// the location of each point in 3D
-	double[][] DataMatrix;
-	double[][] newData;
-	double[][] AllDataMatrix;
-    String[] AllCaci;
-	String ChooseDM = "current Distance Matrix";
-	String CurrentDM = "current Distance Matrix";
+ 	public int NumCluster;
+ 	public int[] labelsIndex;
+ 	public int[] newlabelsIndex;
+	public double[][] DataAxis;// the location of each point in 3D
+	public double[][] DataMatrix;
+	public double[][] newData;
+	public double[][] AllDataMatrix;
+	public String[] AllCaci;
+	public String ChooseDM = "current Distance Matrix";
+	public String CurrentDM = "current Distance Matrix";
 
-	String[] AttributeLine; //the list of all the attributes
+	public String[] AttributeLine; //the list of all the attributes
 	public static String[] AttributeMatrix; //all the attributes info
-	String[] AttributeOriginalMatrix; //all the original attributes info
-	String ChooseAttribute = "attribute"; // selected attribute
-	String[] AttributeLabel;//list all the labels belong to the selected attribute
-	String[] newAttributeLabel;
-	String[] refLabel;
-	int AttributeSize;
-	int AttributeOriginalSize;
-	String[] SampleInfoLabel;
+	public String[] AttributeOriginalMatrix; //all the original attributes info
+	public String ChooseAttribute = "attribute"; // selected attribute
+	public String[] AttributeLabel;//list all the labels belong to the selected attribute
+	public String[] newAttributeLabel;
+	public String[] refLabel;
+	public int AttributeSize;
+	public int AttributeOriginalSize;
+	public String[] SampleInfoLabel;
 	
 	public void CreateDataAfterClustering(){
 		 newData = new double[size][size];

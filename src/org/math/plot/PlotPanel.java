@@ -18,6 +18,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.math.io.files.ASCIIFile;
+import org.math.plot.FrameView;
+import org.math.plot.Plot2DPanel;
+import org.math.plot.Plot3DPanel;
+import org.math.plot.PlotPanel;
 import org.math.plot.canvas.PlotCanvas;
 import org.math.plot.components.LegendPanel;
 import org.math.plot.plotObjects.Axis;

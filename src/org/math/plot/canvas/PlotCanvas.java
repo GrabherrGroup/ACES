@@ -5,7 +5,7 @@ import java.awt.Stroke;
 import org.math.plot.render.AWTDrawer;
 import org.math.plot.utils.FastMath;
 
-import Frame.DataManagement;
+import data.DataManagement;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

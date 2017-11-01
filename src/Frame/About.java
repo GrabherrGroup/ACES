@@ -1,4 +1,4 @@
-package Frame;
+package frame;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;

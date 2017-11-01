@@ -1,5 +1,5 @@
 
-package Frame;
+package frame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-
+import data.*;
 
 public class ACES extends JFrame{
 	
@@ -34,7 +34,7 @@ public class ACES extends JFrame{
 	public static JScrollPane sp; 
 		
 	static Menubar mainMenu;
-	DataManagement DataM = new DataManagement();;
+	DataManagement DataM = new DataManagement();
 	
 	final ImageIcon icon = new ImageIcon(getClass().getResource("/resources/logo_mlv_small.png"));
 	static JScrollPane dmScroll, siScroll;

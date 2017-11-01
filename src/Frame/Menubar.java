@@ -1,4 +1,4 @@
-package Frame;
+package frame;
 
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -341,7 +341,7 @@ public class Menubar extends JMenuBar{
 
 	        	}
 				
-		
+		        DataM.DBp();
 				
 		      
 				DBSCAN DBSCAN = new DBSCAN(1,10);

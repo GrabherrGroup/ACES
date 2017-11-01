@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="ACES.jar"/>
 	<classpathentry kind="lib" path="lib/batik-dom-1.7.jar"/>
 	<classpathentry kind="lib" path="lib/batik-svggen.jar"/>
 	<classpathentry kind="lib" path="lib/freehep.jar"/>
