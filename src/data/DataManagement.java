@@ -277,7 +277,6 @@ public class DataManagement {
 				
 		}
 		Arrays.sort(temp);
-		System.out.println(count);
 		count = (int) (count/3.5);
 		DBr = temp[count];
 
