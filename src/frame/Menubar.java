@@ -341,10 +341,10 @@ public class Menubar extends JMenuBar{
 
 	        	}
 				
-		        DataM.DBp();
-				
-		      
-				DBSCAN DBSCAN = new DBSCAN(1,10);
+				DataM.calDBSCANparameter();
+		        DataM.setDBSCANparameter();
+		        
+				DBSCAN DBSCAN = new DBSCAN(DataM.DBr,DataM.DBm);
 				DBSCAN.process(points);
 				DataM.setLabelsIndex(DBSCAN.getLabelsIndex()); 
 		       

@@ -1,8 +1,9 @@
 package data;
 
+
+import java.util.*;
 import java.awt.FileDialog;
 import java.io.File;
-
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -18,8 +19,8 @@ public class DataManagement {
 	public int AttributeOpenStatus = 0; 
 	public int AttributeChooseStatus = 0;
 	
-	double DBr = 1;
-	double DBm = 10;
+	public double DBr = 1;
+	public int DBm = 10;
 	
 	public String[] Label;
 	public String[] newDataLabel;
@@ -30,7 +31,9 @@ public class DataManagement {
  	public int[] newlabelsIndex;
 	public double[][] DataAxis;// the location of each point in 3D
 	public double[][] DataMatrix;
-	public double[][] newData;
+
+	public double[][] newData;  //for heatmap after clustering
+
 	public double[][] AllDataMatrix;
 	public String[] AllCaci;
 	public String ChooseDM = "current Distance Matrix";
@@ -46,6 +49,11 @@ public class DataManagement {
 	public int AttributeSize;
 	public int AttributeOriginalSize;
 	public String[] SampleInfoLabel;
+	
+	
+	public DataManagement(){	 
+	}
+	
 	
 	public void CreateDataAfterClustering(){
 		 newData = new double[size][size];
@@ -115,173 +123,9 @@ public class DataManagement {
 	   	
 	}
 	
+
 	
 	
-	public DataManagement(){
-		 
-		 
-	}
-	
-	public void setLabel(String[] label) {
-		Label = label;
-	}
-
-
-	public void setSize(int size) {
-		this.size = size;
-	}
-
-
-	public void setNumCluster(int numCluster) {
-		NumCluster = numCluster;
-	}
-
-
-	public void setLabelsIndex(int[] labelsIndex) {
-		this.labelsIndex = labelsIndex;
-	}
-
-
-	public void setDataAxis(double[][] dataAxis) {
-		DataAxis = dataAxis;
-	}
-
-
-	public void setDataMatrix(double[][] dataMatrix) {
-		DataMatrix = dataMatrix;
-	}
-
-
-	public void setAllDataMatrix(double[][] allDataMatrix) {
-		AllDataMatrix = allDataMatrix;
-	}
-
-
-	public void setAllCaci(String[] allCaci) {
-		AllCaci = allCaci;
-	}
-
-
-	public void setChooseDM(String chooseDM) {
-		ChooseDM = chooseDM;
-	}
-
-
-	public void setAttributeLine(String[] attributeLine) {
-		AttributeLine = attributeLine;
-	}
-
-
-	public static void setAttributeMatrix(String[] attributeMatrix) {
-		AttributeMatrix = attributeMatrix;
-	}
-
-
-	public void setAttributeOriginalMatrix(String[] attributeOriginalMatrix) {
-		AttributeOriginalMatrix = attributeOriginalMatrix;
-	}
-
-
-	public void setChooseAttribute(String chooseAttribute) {
-		ChooseAttribute = chooseAttribute;
-	}
-
-
-	public void setAttributeLabel(String[] attributeLabel) {
-		AttributeLabel = attributeLabel;
-	}
-
-
-	public void setRefLabel(String[] refLabel) {
-		this.refLabel = refLabel;
-	}
-
-
-	public void setAttributeSize(int attributeSize) {
-		AttributeSize = attributeSize;
-	}
-
-
-	public void setAttributeOriginalSize(int attributeOriginalSize) {
-		AttributeOriginalSize = attributeOriginalSize;
-	}
-
-
-	public void setSampleInfoLabel(String[] sampleInfoLabel) {
-		SampleInfoLabel = sampleInfoLabel;
-	}
-
-	public String[] getLabel() {
-		return Label;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public int getNumCluster() {
-		return NumCluster;
-	}
-
-	public int[] getLabelsIndex() {
-		return labelsIndex;
-	}
-
-	public double[][] getDataAxis() {
-		return DataAxis;
-	}
-
-	public double[][] getDataMatrix() {
-		return DataMatrix;
-	}
-
-	public double[][] getAllDataMatrix() {
-		return AllDataMatrix;
-	}
-
-	public String[] getAllCaci() {
-		return AllCaci;
-	}
-
-	public String getChooseDM() {
-		return ChooseDM;
-	}
-
-	public String[] getAttributeLine() {
-		return AttributeLine;
-	}
-
-	public static String[] getAttributeMatrix() {
-		return AttributeMatrix;
-	}
-
-	public String[] getAttributeOriginalMatrix() {
-		return AttributeOriginalMatrix;
-	}
-
-	public String getChooseAttribute() {
-		return ChooseAttribute;
-	}
-
-	public String[] getAttributeLabel() {
-		return AttributeLabel;
-	}
-
-	public String[] getRefLabel() {
-		return refLabel;
-	}
-
-	public int getAttributeSize() {
-		return AttributeSize;
-	}
-
-	public int getAttributeOriginalSize() {
-		return AttributeOriginalSize;
-	}
-
-	public String[] getSampleInfoLabel() {
-		return SampleInfoLabel;
-	}
 	
 	public void changeSampleInfo() {
 		String ChooseLabel = (String)JOptionPane.showInputDialog(null,"Please choose the Label info column", "Labels", JOptionPane.QUESTION_MESSAGE, icon, AttributeLine, AttributeLine[0]);
@@ -418,12 +262,33 @@ public class DataManagement {
          }
 	}
 	
-	public void DBp() {
+	public void calDBSCANparameter() {
+		double[] temp = new double[size*(size-1)/2];
+		int count = 0;
+		double dist = 0;
+		for (int i = 0; i < size-1; i++) 
+			for(int j = i+1; j < size; j++){
+				dist = 0;
+				for(int h = 0; h < size; h++){
+					dist = dist + (DataMatrix[i][h]-DataMatrix[j][h])*(DataMatrix[i][h]-DataMatrix[j][h]);
+				}
+				temp[count] = Math.sqrt(dist);
+				count = count + 1;
+				
+		}
+		Arrays.sort(temp);
+		System.out.println(count);
+		count = (int) (count/3.5);
+		DBr = temp[count];
+
+    }
+	
+	public void setDBSCANparameter() {
 	
 		 JTextField field1 = new JTextField();
          JTextField field2 = new JTextField();
          field1.setText(Double.toString(DBr));
-         field2.setText(Double.toString(DBm));
+         field2.setText(Integer.toString(DBm));
         
          Object[] message = {
         		 "Please set the parameters of DBSCAN",
@@ -440,9 +305,171 @@ public class DataManagement {
          int option = JOptionPane.showConfirmDialog(null, message, "Please set the parameters of DBSCAN ", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
          if (option == JOptionPane.OK_OPTION){
              DBr = Double.parseDouble(field1.getText());
-             DBm = Double.parseDouble(field2.getText());
+             DBm = Integer.parseInt(field2.getText());
          }
      }
+	
+	public void setLabel(String[] label) {
+		Label = label;
+	}
+
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+
+	public void setNumCluster(int numCluster) {
+		NumCluster = numCluster;
+	}
+
+
+	public void setLabelsIndex(int[] labelsIndex) {
+		this.labelsIndex = labelsIndex;
+	}
+
+
+	public void setDataAxis(double[][] dataAxis) {
+		DataAxis = dataAxis;
+	}
+
+
+	public void setDataMatrix(double[][] dataMatrix) {
+		DataMatrix = dataMatrix;
+	}
+	
+
+	public void setAllDataMatrix(double[][] allDataMatrix) {
+		AllDataMatrix = allDataMatrix;
+	}
+
+
+	public void setAllCaci(String[] allCaci) {
+		AllCaci = allCaci;
+	}
+
+
+	public void setChooseDM(String chooseDM) {
+		ChooseDM = chooseDM;
+	}
+
+
+	public void setAttributeLine(String[] attributeLine) {
+		AttributeLine = attributeLine;
+	}
+
+
+	public static void setAttributeMatrix(String[] attributeMatrix) {
+		AttributeMatrix = attributeMatrix;
+	}
+
+
+	public void setAttributeOriginalMatrix(String[] attributeOriginalMatrix) {
+		AttributeOriginalMatrix = attributeOriginalMatrix;
+	}
+
+
+	public void setChooseAttribute(String chooseAttribute) {
+		ChooseAttribute = chooseAttribute;
+	}
+
+
+	public void setAttributeLabel(String[] attributeLabel) {
+		AttributeLabel = attributeLabel;
+	}
+
+
+	public void setRefLabel(String[] refLabel) {
+		this.refLabel = refLabel;
+	}
+
+
+	public void setAttributeSize(int attributeSize) {
+		AttributeSize = attributeSize;
+	}
+
+
+	public void setAttributeOriginalSize(int attributeOriginalSize) {
+		AttributeOriginalSize = attributeOriginalSize;
+	}
+
+
+	public void setSampleInfoLabel(String[] sampleInfoLabel) {
+		SampleInfoLabel = sampleInfoLabel;
+	}
+
+	public String[] getLabel() {
+		return Label;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public int getNumCluster() {
+		return NumCluster;
+	}
+
+	public int[] getLabelsIndex() {
+		return labelsIndex;
+	}
+
+	public double[][] getDataAxis() {
+		return DataAxis;
+	}
+
+	public double[][] getDataMatrix() {
+		return DataMatrix;
+	}
+
+
+	public double[][] getAllDataMatrix() {
+		return AllDataMatrix;
+	}
+
+	public String[] getAllCaci() {
+		return AllCaci;
+	}
+
+	public String getChooseDM() {
+		return ChooseDM;
+	}
+
+	public String[] getAttributeLine() {
+		return AttributeLine;
+	}
+
+	public static String[] getAttributeMatrix() {
+		return AttributeMatrix;
+	}
+
+	public String[] getAttributeOriginalMatrix() {
+		return AttributeOriginalMatrix;
+	}
+
+	public String getChooseAttribute() {
+		return ChooseAttribute;
+	}
+
+	public String[] getAttributeLabel() {
+		return AttributeLabel;
+	}
+
+	public String[] getRefLabel() {
+		return refLabel;
+	}
+
+	public int getAttributeSize() {
+		return AttributeSize;
+	}
+
+	public int getAttributeOriginalSize() {
+		return AttributeOriginalSize;
+	}
+
+	public String[] getSampleInfoLabel() {
+		return SampleInfoLabel;
+	}
 
 }
 	

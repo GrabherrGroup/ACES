@@ -12,7 +12,7 @@ import org.jfree.graphics2d.svg.SVGUtils;
 import org.math.plot.PlotPanel;
 import org.math.plot.canvas.*;
 import org.math.plot.canvas.PlotCanvas;
-
+import icons.*;
 
 /**
  * BSD License
@@ -62,11 +62,11 @@ public class PlotToolBar extends JToolBar {
 
         buttonGroup = new ButtonGroup();
 
-        buttonCenter = new JToggleButton(new ImageIcon(PlotPanel.class.getResource("icons/center.png")));
+        buttonCenter = new JToggleButton(new ImageIcon(PlotPanel.class.getResource("/icons/center.png")));
         buttonCenter.setToolTipText("Center axis");
         buttonCenter.setSelected(plotCanvas.ActionMode == PlotCanvas.TRANSLATION);
 
-        buttonZoom = new JToggleButton(new ImageIcon(PlotPanel.class.getResource("icons/zoom.png")));
+        buttonZoom = new JToggleButton(new ImageIcon(PlotPanel.class.getResource("/icons/zoom.png")));
         buttonZoom.setToolTipText("Zoom");
         buttonZoom.setSelected(plotCanvas.ActionMode == PlotCanvas.ZOOM);
 
@@ -76,19 +76,19 @@ public class PlotToolBar extends JToolBar {
         //buttonViewCoords = new JToggleButton(new ImageIcon(PlotPanel.class.getResource("icons/position.png")));
         //buttonViewCoords.setToolTipText("Highlight coordinates / Highlight plot");
 
-        buttonSetScales = new JButton(new ImageIcon(PlotPanel.class.getResource("icons/scale.png")));
+        buttonSetScales = new JButton(new ImageIcon(PlotPanel.class.getResource("/icons/scale.png")));
         buttonSetScales.setToolTipText("Edit axis scales");
 
-        buttonDatas = new JButton(new ImageIcon(PlotPanel.class.getResource("icons/data.png")));
+        buttonDatas = new JButton(new ImageIcon(PlotPanel.class.getResource("/icons/data.png")));
         buttonDatas.setToolTipText("Get data");
 
-        buttonSavePNGFile = new JButton(new ImageIcon(PlotPanel.class.getResource("icons/topngfile.png")));
+        buttonSavePNGFile = new JButton(new ImageIcon(PlotPanel.class.getResource("/icons/topngfile.png")));
         buttonSavePNGFile.setToolTipText("Save graphics in a .svg File");
 
-        buttonReset = new JButton(new ImageIcon(PlotPanel.class.getResource("icons/back.png")));
+        buttonReset = new JButton(new ImageIcon(PlotPanel.class.getResource("/icons/back.png")));
         buttonReset.setToolTipText("Reset zoom & axis");
 
-        buttonAdjustBounds = new JButton(new ImageIcon(PlotPanel.class.getResource(plotCanvas.getAdjustBounds() ? "icons/adjustbounds.png" : "icons/noadjustbounds.png")));
+        buttonAdjustBounds = new JButton(new ImageIcon(PlotPanel.class.getResource(plotCanvas.getAdjustBounds() ? "/icons/adjustbounds.png" : "/icons/noadjustbounds.png")));
         buttonAdjustBounds.setToolTipText("Auto-update/fix bounds");
 
         /*buttonEdit.addActionListener(new ActionListener() {
@@ -193,7 +193,7 @@ public class PlotToolBar extends JToolBar {
         // allow mixed (2D/3D) plots managed by one toolbar
         if (plotCanvas instanceof Plot3DCanvas) {
             if (buttonRotate == null) {
-                buttonRotate = new JToggleButton(new ImageIcon(PlotPanel.class.getResource("icons/rotation.png")));
+                buttonRotate = new JToggleButton(new ImageIcon(PlotPanel.class.getResource("/icons/rotation.png")));
                 buttonRotate.setToolTipText("Rotate axes");
 
                 buttonRotate.addActionListener(new ActionListener() {
@@ -254,6 +254,6 @@ public class PlotToolBar extends JToolBar {
     }
 
     public void ajustBoundsChanged() {
-        buttonAdjustBounds.setIcon(new ImageIcon(PlotPanel.class.getResource(plotCanvas.getAdjustBounds() ? "icons/adjustbounds.png" : "icons/noadjustbounds.png")));
+        buttonAdjustBounds.setIcon(new ImageIcon(PlotPanel.class.getResource(plotCanvas.getAdjustBounds() ? "/icons/adjustbounds.png" : "/icons/noadjustbounds.png")));
     }
 }
