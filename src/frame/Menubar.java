@@ -34,9 +34,9 @@ public class Menubar extends JMenuBar{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	JMenu plotHeatMap, menuFile, openDistanceMatrix, menuCluster, menuAttributes, menuExport, menuVisualization, menuHelp;
+	JMenu plotHeatMap, menuFile, menuDataFile, openDistanceMatrix, menuCluster, menuAttributes, menuExport, menuVisualization, menuHelp;
 	
-	JMenuItem openFromLocation,ShortenLabels,DistanceMatrixFormat,exitAction,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
+	JMenuItem LoadData, ShowDataMatrix, ShowLabelID, DataMatrixFormat, exitActionD, openFromLocation,ShortenLabels,DistanceMatrixFormat,exitAction,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
 	
 	static JMenuItem KMeansClustering,DBSCAN,plotHeatMapSI,plotHeatMapO,plotHeatMapC,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
 	
@@ -59,6 +59,13 @@ public class Menubar extends JMenuBar{
 	private JMenuBar makeMenubar(DataManagement DataM) {
 
 		JMenuBar menubar = new JMenuBar();
+		// Data Matrix menu items
+		menuDataFile = new JMenu("Data Matrix");
+		LoadData = new JMenuItem("Load");
+		ShowDataMatrix = new JMenuItem("Show Data Matrix");
+		ShowLabelID = new JMenuItem("Show Label ID");
+		DataMatrixFormat = new JMenuItem("Data Matrix Format");	
+		exitActionD = new JMenuItem("Exit");
 
 		// Distance Matrix menu items
 		menuFile = new JMenu("Distance Matrix");
@@ -69,7 +76,8 @@ public class Menubar extends JMenuBar{
 		DistanceMatrixFormat = new JMenuItem("Distance Matrix Format");	
 		exitAction = new JMenuItem("Exit");
 		ChooseOtherDM = new JMenuItem("Choose other Cacti");
-	
+		
+		
 		// Cluster menu items
 		menuCluster = new JMenu("Clustering");
 		numberOfCluster = new JMenuItem("Number of clusters");
@@ -104,6 +112,12 @@ public class Menubar extends JMenuBar{
 		menuHelp = new JMenu("Help");
 		aboutAction = new JMenuItem("About");
 		manualAction = new JMenuItem("User Manual");
+		
+		menuDataFile.add(LoadData);
+		menuDataFile.add(ShowDataMatrix);
+		menuDataFile.add(ShowLabelID);
+		menuDataFile.add(DataMatrixFormat);
+		menuDataFile.add(exitActionD);
 	
 		menuFile.add(openFromLocation);
 		menuFile.add(ShowDistanceMatrix);
@@ -135,6 +149,8 @@ public class Menubar extends JMenuBar{
 		plotHeatMap.add(plotHeatMapO);
 		plotHeatMap.add(plotHeatMapC);
 		plotHeatMap.add(plotHeatMapSI);
+		
+		menubar.add(menuDataFile);
 		menubar.add(menuFile);
 		menubar.add(menuCluster);
 		menubar.add(menuAttributes);
@@ -142,6 +158,17 @@ public class Menubar extends JMenuBar{
 		menubar.add(menuHelp);
 		
 		ListenForMenu lForMenu = new ListenForMenu();
+		
+		LoadData.addActionListener(lForMenu);
+		ShowDataMatrix.addActionListener(lForMenu);
+		ShowDataMatrix.setEnabled(false);
+		ShowDataMatrix.setBackground(new Color(230,230,230));
+		ShowLabelID.addActionListener(lForMenu);
+		ShowLabelID.setEnabled(false);
+		DataMatrixFormat.addActionListener(lForMenu);
+		DataMatrixFormat.setBackground(new Color(230,230,230));
+		exitActionD.addActionListener(lForMenu);
+		
 		
 		openFromLocation.addActionListener(lForMenu);
 		ShowDistanceMatrix.addActionListener(lForMenu);
