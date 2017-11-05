@@ -31,9 +31,6 @@ public class DBSCAN {
             if (!p.getVisit()) {
                 p.setVisit(true);//set visited
                 ArrayList<Point> adjacentPoints = getAdjacentPoints(p, points);
-                int a =0;
-                a = adjacentPoints.size();
-                System.out.println(a);
                 //set the point which adjacent points less than minPts noised
                 if (adjacentPoints != null && adjacentPoints.size() < minPts) {
                     p.setNoised(true);
