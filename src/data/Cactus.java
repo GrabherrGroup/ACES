@@ -12,7 +12,10 @@ import javax.swing.JOptionPane;
 public class Cactus {
 	public String[] Label;
 	private int size;
+	public int sampleSize;
+	
 	private double[][] cactus;
+	private double[][] OriginalData; //data matrix
 	
 	private String[] CactusData;
 	private String[][] CactusDataMatrix;
@@ -38,6 +41,124 @@ public class Cactus {
 		this.cactus = cactus;
 		
 	}
+	
+	public Cactus(String path,int row, int column, int direction, int labelnum) throws FileNotFoundException {
+	
+		int originalsize = 0;
+		sc = new Scanner(new File(path));
+		List<String> lines = new ArrayList<String>();
+	
+		while (sc.hasNextLine()) {
+		  lines.add(sc.nextLine());
+		  originalsize++;
+		}
+		int sizeR = originalsize;
+		
+		CactusData = lines.toArray(new String[0]);
+		
+		String[] FourthLine = CactusData[4].split("\t");
+		int sizeC = FourthLine.length;
+		
+		if (direction == 1)
+			this.size = sizeR-row;
+		else
+			this.size = sizeC-column;
+		
+		if(row == 0 && column == 0){
+			if(direction == 1){
+				this.OriginalData = new double[sizeR][sizeC];
+				this.Label = new String[this.size];
+				
+				for(int i = 0; i < sizeR; i++){
+					CactusLine = CactusData[i].split("\t");
+					
+					for(int j = 0; j < sizeC; j++){
+						OriginalData[i][j] = Double.parseDouble(CactusLine[j]);
+					}
+				}
+				JOptionPane.showMessageDialog(null, "The labels are formated as 1, 2, 3, 4 ....");
+				for(int i = 0; i < this.size; i++){
+					this.Label[i] = Integer.toString(i+1);
+				}
+				this.sampleSize = sizeC;
+			}
+			else{
+				this.OriginalData = new double[sizeC][sizeR];
+				this.Label = new String[this.size];
+				
+				for(int i = 0; i < sizeR; i++){
+					CactusLine = CactusData[i].split("\t");
+					
+					for(int j = 0; j < sizeC; j++){
+						OriginalData[j][i] = Double.parseDouble(CactusLine[j]);
+					}
+				}
+				JOptionPane.showMessageDialog(null, "The labels are formated as 1, 2, 3, 4 ....");
+				for(int i = 0; i < this.size; i++){
+					this.Label[i] = Integer.toString(i+1);
+				}
+				this.sampleSize = sizeR;
+			}
+		}
+		else{
+			
+			if (direction == 1){// vertical
+				this.OriginalData = new double[sizeR-row][sizeC-column];
+				this.Label = new String[this.size];
+				
+				for(int i = row; i < sizeR; i++){
+					CactusLine = CactusData[i].split("\t");
+					
+					for(int j = column; j < sizeC; j++){
+						OriginalData[i-row][j-column] = Double.parseDouble(CactusLine[j]);
+					}
+					this.Label[i-row] = CactusLine[labelnum];
+				}
+				this.sampleSize = sizeC-column;
+			}  
+			else{// horizontal
+				this.OriginalData = new double[sizeC-column][sizeR-row];
+				this.Label = new String[this.size];
+				CactusLine = CactusData[labelnum].split("\t");
+			
+				for(int j = column; j < sizeC; j++){
+					this.Label[j-column] = CactusLine[j];
+				}
+				for(int i = row; i < sizeR; i++){
+					CactusLine = CactusData[i].split("\t");
+					
+					for(int j = column; j < sizeC; j++){
+						OriginalData[j-column][i-row] = Double.parseDouble(CactusLine[j]);
+					}
+				}
+				this.sampleSize = sizeR-row;
+			}                 
+		
+		
+			this.cactus = new double[this.size][this.size];	
+			double dist,d,m; 
+			m = 0;
+		    for (int i=0; i<this.size; i++) {
+		        for (int j=0; j<this.size; j++) {
+		            dist = 0;
+		            d = 0;
+		            for (int k=0; k< this.sampleSize; k++) {
+		                d = Math.abs(OriginalData[i][k] - OriginalData[j][k]);
+		                dist = dist + d;
+		            }
+		            this.cactus[i][j] = dist;
+		            if (dist>m)
+		            	m = dist;
+		        }
+		    }
+			for (int i=0; i<this.size; i++) {
+		        for (int j=0; j<this.size; j++) {
+		            this.cactus[i][j] = this.cactus[i][j]/m;   
+		        }
+		    }
+		}
+	}
+
 	
 	public Cactus(String path) throws FileNotFoundException {
 		
@@ -172,8 +293,10 @@ public class Cactus {
 	
 		
 	}
-	
-	
+	public double[][] getOriginalData() {
+		return OriginalData;
+	}
+
 	
 	public String[] getCactusData() {
 		return CactusData;

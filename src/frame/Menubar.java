@@ -236,7 +236,72 @@ public class Menubar extends JMenuBar{
 		/* item clicked events (ice) */
 		public void actionPerformed(ActionEvent e) {
 					
-			if (e.getSource() == openFromLocation){
+			if (e.getSource() == LoadData){
+				DataM.fd = new FileDialog(ACES.bodyFrame,"Open",FileDialog.LOAD);
+				DataM.fd.setVisible(true);  
+                ACES.ta.setText("Orignial DataInfo: \n");
+                ACES.ta.setText("\n");
+                
+                if (DataM.fd.getFile()==null)
+	            	  return;
+                
+                try {   
+                	DataM.file1 = new File(DataM.fd.getDirectory(),DataM.fd.getFile());
+                    FileReader fr = new FileReader(DataM.file1);
+                    BufferedReader br = new BufferedReader(fr);
+                    String aline;
+                    while ((aline=br.readLine()) != null)
+                    ACES.ta.append(aline+"\r\n");
+                    fr.close();
+                    br.close();
+                    DataM.FileOpenStatus = 1;
+                    
+                    DataM.setDataInfo();
+                    
+                	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile(),DataM.Row,DataM.Column,DataM.dimension,DataM.LineNo);
+                	DataM.setLabel(oneCactus.getLabel()); 
+                	DataM.setOriginalDataMatrix(oneCactus.getOriginalData());
+                	DataM.setDataMatrix(oneCactus.getCactus());
+                	DataM.sampleSize = oneCactus.sampleSize;
+                	DataM.size = oneCactus.getSize();
+                	
+                	
+                	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+                	DataM.NumCluster = CV.getNumCluster();
+                	DataM.setLabelsIndex(CV.getLabelsIndex());
+                	
+                	
+                	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
+                	DataM.setDataAxis(PCA3Axis.getDataAxis());
+	        		ButtonBar.DMChoose.setEnabled(true);
+                	
+                	
+	               
+	        		ShowDistanceMatrix.setEnabled(true);
+	        		ShowLabels.setEnabled(true);	        
+	        		plotSamples.setEnabled(true);	
+	        		plotHeatMapO.setEnabled(true);
+	        		plotHeatMapC.setEnabled(true);
+	        		numberOfCluster.setEnabled(true);
+	        		HierarchicalClustering.setEnabled(true);
+	        		KMeansClustering.setEnabled(true);
+	        		DBSCAN.setEnabled(true);
+
+	        		loadAttributes.setEnabled(true);
+	        		
+	        		ButtonBar.DMShow.setEnabled(true);
+	        		ButtonBar.DMLabelID.setEnabled(true);	        
+	        		ButtonBar.DMCluster.setEnabled(true);	
+	        		ButtonBar.DMPlot.setEnabled(true);
+	        		ButtonBar.SILoad.setEnabled(true);
+	        		ButtonBar.DMHeatO.setEnabled(true);
+	        		ButtonBar.DMHeatC.setEnabled(true);
+                }
+                catch (IOException ioe){
+                	System.out.println(ioe);
+                }
+			} 	
+			else if (e.getSource() == openFromLocation){
 				DataM.fd = new FileDialog(ACES.bodyFrame,"Open",FileDialog.LOAD);
 				DataM.fd.setVisible(true);  
                 ACES.ta.setText("Orignial Cactus: \n");
@@ -368,7 +433,6 @@ public class Menubar extends JMenuBar{
 
 	        	}
 				
-				DataM.calDBSCANparameter();
 		        DataM.setDBSCANparameter();
 		        
 				DBSCAN DBSCAN = new DBSCAN(DataM.DBr,DataM.DBm);

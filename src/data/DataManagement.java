@@ -5,6 +5,7 @@ import java.util.*;
 import java.awt.FileDialog;
 import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -19,14 +20,22 @@ public class DataManagement {
 	public int AttributeOpenStatus = 0; 
 	public int AttributeChooseStatus = 0;
 	
-	public double DBr = 1;
-	public int DBm = 10;
+	public double DBr = 1; //DBSCAN eps
+	public int DBm = 10;  //DBSCAN minPts
 	
 	public String[] Label;
 	public String[] newDataLabel;
 	public int size;
 	
- 	public int NumCluster;
+	public double[][] OriginalDataMatrix;
+	public int sampleSize;
+	public int Row;
+	public int Column;
+	public int dimension=0;
+	public int LineNo;
+
+
+	public int NumCluster;
  	public int[] labelsIndex;
  	public int[] newlabelsIndex;
 	public double[][] DataAxis;// the location of each point in 3D
@@ -262,7 +271,9 @@ public class DataManagement {
          }
 	}
 	
-	public void calDBSCANparameter() {
+	
+	public void setDBSCANparameter() {
+		
 		double[] temp = new double[size*(size-1)/2];
 		int count = 0;
 		double dist = 0;
@@ -279,10 +290,6 @@ public class DataManagement {
 		Arrays.sort(temp);
 		count = (int) (count/3.5);
 		DBr = temp[count];
-
-    }
-	
-	public void setDBSCANparameter() {
 	
 		 JTextField field1 = new JTextField();
          JTextField field2 = new JTextField();
@@ -307,6 +314,54 @@ public class DataManagement {
              DBm = Integer.parseInt(field2.getText());
          }
      }
+	
+	public void setDataInfo() {
+	
+		 JTextField field1 = new JTextField();
+         JTextField field2 = new JTextField();
+         JTextField field3 = new JTextField();
+         field1.setText(Integer.toString(0));
+         field2.setText(Integer.toString(0));
+         field3.setText(Integer.toString(0));
+         String[] direction={"Row","Column"};
+         JComboBox jcd = new JComboBox(direction);
+        
+         Object[] message = {
+        		 "Data Info Extraction",
+        		 "\n",
+        		 "Start Row:", field1,
+        		 "Start Column:", field2,
+        		 "\n",
+        		 "Please set which Row or Column is the Label ID.",
+        		 "Direction (Row/Column):", jcd,
+        		 "No.:", field3,
+        		 "\n",
+        		 "\n",
+        		 "Format:",
+        		 "Row and Column numbers start from '0'.",
+        		 "\n",
+         };
+         field1.getActionListeners();
+         field2.getActionListeners();
+         int option = JOptionPane.showConfirmDialog(null, message, "Please set the parameters to extract data ", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
+         if (option == JOptionPane.OK_OPTION){
+             Row = Integer.parseInt(field1.getText());
+             Column = Integer.parseInt(field2.getText());
+             LineNo = Integer.parseInt(field3.getText());
+             if (jcd.getActionCommand() == "Column")
+            	 dimension = 1;
+         }
+     }
+	
+
+ 	public double[][] getOriginalDataMatrix() {
+		return OriginalDataMatrix;
+	}
+
+
+	public void setOriginalDataMatrix(double[][] originalDataMatrix) {
+		OriginalDataMatrix = originalDataMatrix;
+	}
 	
 	public void setLabel(String[] label) {
 		Label = label;
