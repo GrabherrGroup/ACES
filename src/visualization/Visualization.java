@@ -290,7 +290,7 @@ public class Visualization {
   		    }
   		}); 
          */
-       
+         
         
          f.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override

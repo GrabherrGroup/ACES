@@ -67,6 +67,7 @@ public class DataManagement {
 	public void CreateDataAfterClustering(){
 		 newData = new double[size][size];
     	 newDataLabel = new String[size];
+    	 newlabelsIndex = new int[size];
     	 int[] index = new int[size];
     	 
     	 int count = 1;
@@ -82,12 +83,14 @@ public class DataManagement {
     		 count = count +1;
 
     	 }while(count <= getNumCluster());
-    	 
+    		
+  	
     	 for(int i = 0; i< size; i++){
     		 for(int j = 0; j< size; j++){
     			 newData[i][j] = DataMatrix[index[i]][index[j]];
 			 }
     		  newDataLabel[i] = Label[index[i]];
+    		  newlabelsIndex[i] = getLabelsIndex()[index[i]];
 		 }
 	}
 	

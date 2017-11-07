@@ -273,6 +273,23 @@ public class ButtonBar extends JPanel{
                     fr.close();
                     br.close();
                     DataM.FileOpenStatus = 1;
+                    
+                    DataM.ChooseAttribute = "attribute";	                		              
+                	Menubar.ChooseAttributes.setEnabled(false);
+                	Menubar.ShowAttributes.setEnabled(false);
+                	Menubar.ShowAttributesMatrix.setEnabled(false);
+                	Menubar.addClusteringResults.setEnabled(false);
+                	Menubar.saveAttributes.setEnabled(false);
+    	    		
+                	Menubar.plotAttributes.setEnabled(false); 
+    	    		
+    	    		ButtonBar.SIChoose.setEnabled(false);
+    	    		ButtonBar.SIShowList.setEnabled(false);
+    	    		ButtonBar.SIShow.setEnabled(false);
+    	    		ButtonBar.AddCluster.setEnabled(false);
+    	    		ButtonBar.SISave.setEnabled(false);		
+    	    		ButtonBar.SIPlot.setEnabled(false);
+                    
                 	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile());
 
 	                if (oneCactus.getAllCacti() == null){
@@ -288,6 +305,7 @@ public class ButtonBar extends JPanel{
 	                	
 	                	PCA PCA3Axis = new PCA(3,oneCactus.getSize(),oneCactus.getSize(),oneCactus.getCactus());
 	                	DataM.setDataAxis(PCA3Axis.getDataAxis());
+	                	
 	                	}
 	                else{
 	                	Menubar.ChooseOtherDM.setEnabled(true);
@@ -400,7 +418,7 @@ public class ButtonBar extends JPanel{
 	        	 ACES.ta.setText("Clustering results:\n" );  
 
 	        	 for (int i = 0; i < DataM.size; i++) {
-	        		 ACES.ta.append(DataM.Label[i] + " ---- " + Integer.toString(DataM.labelsIndex[i]) + "\n");
+	        		 ACES.ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
 			} 
 			else if (bc.getSource() == DMChoose){
@@ -472,14 +490,25 @@ public class ButtonBar extends JPanel{
 	        		 return;
 	        	 }
 	        	 
-	        	 DataM.CreateDataAfterClustering();
+	        	 if (DataM.ChooseAttribute == "attribute"){
+	        		 DataM.CreateDataAfterClustering();
 
-	        	 try {
-					 new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel,DataM.newDataLabel);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+		        	 try {
+						new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel, DataM.newDataLabel);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} 
+	        	 }else{
+	        		 DataM.CreateDataAfterClusteringandChooseAttri();
+
+		        	 try {
+						new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	        	 }
 	         }
 			else if (bc.getSource() == SILoad){
 				if (DataM.FileOpenStatus == 0){
@@ -520,7 +549,6 @@ public class ButtonBar extends JPanel{
 		        }
 	            
 	            if(DataM.AttributeMatrix.length>DataM.size+1){
-		        	JOptionPane.showMessageDialog(null, "Please rearrange your SampleInfo file.", null, JOptionPane.INFORMATION_MESSAGE, icon);
 		        	DataM.AttributeSize = DataM.size+1;
 		        	DataM.AttributeMatrix = new String[DataM.size+1];
 		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
