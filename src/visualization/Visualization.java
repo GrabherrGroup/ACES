@@ -1,16 +1,20 @@
 package visualization;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 import org.math.plot.Plot3DPanel;
 
@@ -25,7 +29,8 @@ public class Visualization {
 		
 	 final ImageIcon icon = new ImageIcon(getClass().getResource("/resources/logo_mlv_small.png"));
 
-	
+	 final ImageIcon iconSave = new ImageIcon(getClass().getResource("/resources/save.png"));
+
  	 public Visualization(int [] labelsIndex, String [] Label, double [][] DataAxis, int size, String ChooseDM) {
  		 super();
  		 
@@ -190,6 +195,8 @@ public class Visualization {
 	    frame.setSize(900, 900);
 	    
 	    
+	    
+	    
 	    frame.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override
  		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -249,6 +256,15 @@ public class Visualization {
          
          JFrame f = new JFrame(Label);
          f.getContentPane().add(label);
+         
+         JButton SISave = new JButton(iconSave);
+         SISave.setEnabled(false);
+   		SISave.setBorderPainted(false);
+   		SISave.setToolTipText("Save the sorted Sample Info file");
+   		SISave.setPreferredSize(new Dimension(30,30));
+   		SISave.setHorizontalAlignment(SwingConstants.CENTER);
+   		f.getContentPane().add(SISave);
+   		
          f.pack();
          f.setVisible(true);
          
@@ -292,7 +308,8 @@ public class Visualization {
          */
          
         
-         f.addWindowListener(new java.awt.event.WindowAdapter() {
+ 		
+         /*f.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override
  		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
  		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save the Heat map?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
@@ -329,7 +346,8 @@ public class Visualization {
  		        	 file.delete();
  		         }     	
  		    }
- 		});  
+ 		});*/
+         file.delete();
 	 }
 	 public Visualization(double[][] Data, int size, String Label, String[] Lx, String[] Ly) throws IOException {
 		 int[] labelIndex = new int[size];
@@ -359,14 +377,22 @@ public class Visualization {
 	     ImageIcon imageIcon = new ImageIcon(new ImageIcon("heatmap_temp_output.png").getImage().getScaledInstance(800, 800, Image.SCALE_DEFAULT));
 	     
          JLabel label = new JLabel(imageIcon);
-         
+         JButton SISave = new JButton(iconSave);
+    	 SISave.setEnabled(true);
+    	 SISave.setToolTipText("Save the heat map");
+    	 SISave.setPreferredSize(new Dimension(30,30));
+    	
          JFrame f = new JFrame(Label);
+         label.add(SISave, BorderLayout.NORTH);
          f.getContentPane().add(label);
+         
+         
+         
          f.pack();
          f.setVisible(true);
          
         
-         f.addWindowListener(new java.awt.event.WindowAdapter() {
+       /*  f.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override
  		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
  		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save the Heat map?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
@@ -404,19 +430,8 @@ public class Visualization {
  		        	 file.delete();
  		         }     	
  		    }
- 		});  
-        /* try
-         {
-             ExportDialog export = new ExportDialog();
-             export.showExportDialog( null, "Export view as ...", f, "export" );
-             System.err.println("Image save complete");
-
-         }
-         catch(Exception e)
-         {
-             e.printStackTrace();
-         }
-*/
+ 		});  */
+         file.delete();
 	 }
 	 
 
