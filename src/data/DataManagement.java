@@ -311,6 +311,7 @@ public class DataManagement {
          };
          field1.getActionListeners();
          field2.getActionListeners();
+        
          int option = JOptionPane.showConfirmDialog(null, message, "Please set the parameters of DBSCAN ", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
          if (option == JOptionPane.OK_OPTION){
              DBr = Double.parseDouble(field1.getText());
@@ -326,7 +327,9 @@ public class DataManagement {
          field1.setText(Integer.toString(0));
          field2.setText(Integer.toString(0));
          field3.setText(Integer.toString(0));
+         
          String[] direction={"Row","Column"};
+        
          JComboBox jcd = new JComboBox(direction);
         
          Object[] message = {
@@ -346,13 +349,15 @@ public class DataManagement {
          };
          field1.getActionListeners();
          field2.getActionListeners();
+         field3.getActionListeners();
+         jcd.getActionListeners();
          int option = JOptionPane.showConfirmDialog(null, message, "Please set the parameters to extract data ", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
          if (option == JOptionPane.OK_OPTION){
              Row = Integer.parseInt(field1.getText());
              Column = Integer.parseInt(field2.getText());
              LineNo = Integer.parseInt(field3.getText());
-             if (jcd.getActionCommand() == "Column")
-            	 dimension = 1;
+             if (jcd.getSelectedItem() == "Column")
+            	 dimension = 1;            
          }
      }
 	

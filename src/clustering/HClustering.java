@@ -3,7 +3,7 @@ package clustering;
 public class HClustering {
 	
 	public int countIndex;
-	public int[] selected_index= {0,0,0,0,0,0,0,0,0,0};;
+	public int[] selected_index= {0,0,0,0,0,0,0,0,0,0};
 	public int step;
 	public int cactusSize;
 	public double[][] newCactusData; 

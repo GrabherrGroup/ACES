@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane; 
 
 public class Cactus {
@@ -23,6 +24,8 @@ public class Cactus {
 	private String[] CactusLine;
 	private Scanner sc;
 	private String[] AllCacti;
+	final ImageIcon icon = new ImageIcon(getClass().getResource("/resources/logo_mlv_small.png"));
+
 	
 	public String[] getAllCacti() {
 		return AllCacti;
@@ -58,6 +61,10 @@ public class Cactus {
 		
 		String[] FourthLine = CactusData[4].split("\t");
 		int sizeC = FourthLine.length;
+		String Split = "\t";
+		
+		if (FourthLine.length == 1)
+			Split = " ";
 		
 		if (direction == 1)
 			this.size = sizeR-row;
@@ -70,7 +77,7 @@ public class Cactus {
 				this.Label = new String[this.size];
 				
 				for(int i = 0; i < sizeR; i++){
-					CactusLine = CactusData[i].split("\t");
+					CactusLine = CactusData[i].split(Split);
 					
 					for(int j = 0; j < sizeC; j++){
 						OriginalData[i][j] = Double.parseDouble(CactusLine[j]);
@@ -87,7 +94,7 @@ public class Cactus {
 				this.Label = new String[this.size];
 				
 				for(int i = 0; i < sizeR; i++){
-					CactusLine = CactusData[i].split("\t");
+					CactusLine = CactusData[i].split(Split);
 					
 					for(int j = 0; j < sizeC; j++){
 						OriginalData[j][i] = Double.parseDouble(CactusLine[j]);
@@ -107,7 +114,7 @@ public class Cactus {
 				this.Label = new String[this.size];
 				
 				for(int i = row; i < sizeR; i++){
-					CactusLine = CactusData[i].split("\t");
+					CactusLine = CactusData[i].split(Split);
 					
 					for(int j = column; j < sizeC; j++){
 						OriginalData[i-row][j-column] = Double.parseDouble(CactusLine[j]);
@@ -119,13 +126,21 @@ public class Cactus {
 			else{// horizontal
 				this.OriginalData = new double[sizeC-column][sizeR-row];
 				this.Label = new String[this.size];
-				CactusLine = CactusData[labelnum].split("\t");
+				CactusLine = CactusData[labelnum].split(Split);
+				System.out.println(CactusLine.length);
 			
 				for(int j = column; j < sizeC; j++){
-					this.Label[j-column] = CactusLine[j];
+					try {
+						this.Label[j-column] = CactusLine[j];
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+		        		JOptionPane.showMessageDialog(null, "Please reformat your data file!",null,JOptionPane.INFORMATION_MESSAGE,icon);	
+		        		break;
+					}
 				}
 				for(int i = row; i < sizeR; i++){
-					CactusLine = CactusData[i].split("\t");
+					CactusLine = CactusData[i].split(Split);
 					
 					for(int j = column; j < sizeC; j++){
 						OriginalData[j-column][i-row] = Double.parseDouble(CactusLine[j]);
