@@ -1,6 +1,5 @@
 package visualization;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -19,6 +18,8 @@ import javax.swing.SwingConstants;
 import org.math.plot.Plot3DPanel;
 
 import com.itextpdf.text.DocumentException;
+
+
 
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 import org.jfree.graphics2d.svg.SVGUtils;
@@ -251,20 +252,13 @@ public class Visualization {
 		}
 	     
 	     ImageIcon imageIcon = new ImageIcon(new ImageIcon("heatmap_temp_output.png").getImage().getScaledInstance(800, 800, Image.SCALE_DEFAULT));
+	     ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("heatmap_temp_output.png").getImage());
 
          JLabel label = new JLabel(imageIcon);
+         JLabel label1 = new JLabel(imageIcon1);
          
          JFrame f = new JFrame(Label);
          f.getContentPane().add(label);
-         
-         JButton SISave = new JButton(iconSave);
-         SISave.setEnabled(false);
-   		SISave.setBorderPainted(false);
-   		SISave.setToolTipText("Save the sorted Sample Info file");
-   		SISave.setPreferredSize(new Dimension(30,30));
-   		SISave.setHorizontalAlignment(SwingConstants.CENTER);
-   		f.getContentPane().add(SISave);
-   		
          f.pack();
          f.setVisible(true);
          
@@ -306,10 +300,9 @@ public class Visualization {
   		    }
   		}); 
          */
-         
+       
         
- 		
-         /*f.addWindowListener(new java.awt.event.WindowAdapter() {
+        /* f.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override
  		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
  		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save the Heat map?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
@@ -346,7 +339,7 @@ public class Visualization {
  		        	 file.delete();
  		         }     	
  		    }
- 		});*/
+ 		});  */
          file.delete();
 	 }
 	 public Visualization(double[][] Data, int size, String Label, String[] Lx, String[] Ly) throws IOException {
@@ -377,22 +370,14 @@ public class Visualization {
 	     ImageIcon imageIcon = new ImageIcon(new ImageIcon("heatmap_temp_output.png").getImage().getScaledInstance(800, 800, Image.SCALE_DEFAULT));
 	     
          JLabel label = new JLabel(imageIcon);
-         JButton SISave = new JButton(iconSave);
-    	 SISave.setEnabled(true);
-    	 SISave.setToolTipText("Save the heat map");
-    	 SISave.setPreferredSize(new Dimension(30,30));
-    	
+         
          JFrame f = new JFrame(Label);
-         label.add(SISave, BorderLayout.NORTH);
          f.getContentPane().add(label);
-         
-         
-         
          f.pack();
          f.setVisible(true);
          
         
-       /*  f.addWindowListener(new java.awt.event.WindowAdapter() {
+        /* f.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override
  		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
  		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save the Heat map?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
@@ -436,4 +421,3 @@ public class Visualization {
 	 
 
 }
-
