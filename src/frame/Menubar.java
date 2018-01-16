@@ -466,7 +466,7 @@ public class Menubar extends JMenuBar{
 				DBSCAN.process(points);
 				DataM.setLabelsIndex(DBSCAN.getLabelsIndex()); 
 		       
-            	
+				DataM.CreateDataAfterClustering();
 	        	 ACES.ta.setText("DBSCAN Clustering results:\n" );  
 
 	        	 for (int i = 0; i < DataM.size; i++) {
@@ -481,6 +481,8 @@ public class Menubar extends JMenuBar{
             	KMClustering KMC = new KMClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
             	DataM.NumCluster = KMC.getNumCluster();
             	DataM.setLabelsIndex(KMC.getLabelsIndex()); 
+            	
+            	DataM.CreateDataAfterClustering();
 	        	 ACES.ta.setText("KMeans Clustering results:\n" );  
 
 	        	 for (int i = 0; i < DataM.size; i++) {
