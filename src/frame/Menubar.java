@@ -60,11 +60,10 @@ public class Menubar extends JMenuBar{
 
 		JMenuBar menubar = new JMenuBar();
 		// Data Matrix menu items
-		menuDataFile = new JMenu("Data Matrix");
+		menuDataFile = new JMenu("Sample Data");
 		LoadData = new JMenuItem("Load");
-		ShowDataMatrix = new JMenuItem("Show Data Matrix");
 		ShowLabelID = new JMenuItem("Show Label ID");
-		DataMatrixFormat = new JMenuItem("Data Matrix Format");	
+		DataMatrixFormat = new JMenuItem("Format");	
 		exitActionD = new JMenuItem("Exit");
 
 		// Distance Matrix menu items
@@ -113,7 +112,6 @@ public class Menubar extends JMenuBar{
 		manualAction = new JMenuItem("User Manual");
 		
 		menuDataFile.add(LoadData);
-		menuDataFile.add(ShowDataMatrix);
 		menuDataFile.add(ShowLabelID);
 		menuDataFile.add(DataMatrixFormat);
 		menuDataFile.add(exitActionD);
@@ -159,9 +157,6 @@ public class Menubar extends JMenuBar{
 		ListenForMenu lForMenu = new ListenForMenu();
 		
 		LoadData.addActionListener(lForMenu);
-		ShowDataMatrix.addActionListener(lForMenu);
-		ShowDataMatrix.setEnabled(false);
-		ShowDataMatrix.setBackground(new Color(230,230,230));
 		ShowLabelID.addActionListener(lForMenu);
 		ShowLabelID.setEnabled(false);
 		DataMatrixFormat.addActionListener(lForMenu);
@@ -202,7 +197,6 @@ public class Menubar extends JMenuBar{
 		HierarchicalClustering.setBackground(new Color(230,230,230));
 		KMeansClustering.addActionListener(lForMenu);
 		KMeansClustering.setEnabled(false);
-		KMeansClustering.setBackground(new Color(230,230,230));
 		DBSCAN.addActionListener(lForMenu);
 		DBSCAN.setEnabled(false);
 		DBSCAN.setBackground(new Color(230,230,230));
@@ -285,7 +279,8 @@ public class Menubar extends JMenuBar{
                 	
 	               
 	        		ShowDistanceMatrix.setEnabled(true);
-	        		ShowLabels.setEnabled(true);	        
+	        		ShowLabels.setEnabled(true);	 
+	        		ShowLabelID.setEnabled(true);
 	        		plotSamples.setEnabled(true);	
 	        		plotHeatMapO.setEnabled(true);
 	        		plotHeatMapC.setEnabled(true);
@@ -791,7 +786,11 @@ public class Menubar extends JMenuBar{
 	                DataM.AttributeChooseStatus = 1;
 	        	}
                 
-             }    
+             }  
+			 else if (e.getSource() == DataMatrixFormat){
+	        	 ShowFormat AF = new ShowFormat();
+	        	 AF.show_O_Format(ACES.ta);	  
+	         }
 			 else if (e.getSource() == AttributesFormat){
 	        	 ShowFormat AF = new ShowFormat();
 	        	 AF.show_A_Format(ACES.ta);	  

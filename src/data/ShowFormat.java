@@ -15,7 +15,6 @@ public void show_DM_Format(JTextArea Ta){
 		Ta.append("\n");
 		Ta.append("\n");
 		Ta.append("-------------------------   Format 1   -------------------------\n");
-		Ta.append("Name\n");
 		Ta.append("Sample 1       Sample 2     Sample 3     Sample 4         ......\n");
         Ta.append("Sample 1       0               d(1,2)       d(1,3)       d(1,4)       ......\n");
         Ta.append("Sample 2       d(2,1)        0              d(2,3)       d(2,4)       ......\n");
@@ -73,6 +72,41 @@ public void show_DM_Format(JTextArea Ta){
         Ta.append("           .                                   .                                   .                        ......\n");
         Ta.append("           .                                   .                                   .                        ......\n");
         
+	}
+	
+public void show_O_Format(JTextArea Ta){
+	
+	Ta.setText("The recommended formats of Sample Data:\n");
+	Ta.append("\n");
+	Ta.append("\n");
+	Ta.append("-------------------------   Format 1   -------------------------\n");
+
+	Ta.append("                   Label IDs     Data1     Data2     Data3    ......\n");
+    Ta.append("Sample 1       Label1                                                 ......\n");
+    Ta.append("Sample 2       Label2                                                 ......\n");
+    Ta.append("Sample 3       Label3                                                 ......\n");
+    Ta.append("Sample 4       Label4                                                 ......\n");
+    Ta.append("      .                  .              .             .             .           ......\n");
+    Ta.append("      .                  .              .             .             .           ......\n");
+    Ta.append("      .                  .              .             .             .           ......\n");
+    Ta.append("      .                  .              .             .             .           ......\n");
+    Ta.append("      .                  .              .             .             .           ......\n");
+    Ta.append("      .                  .              .             .             .           ......\n");
+    Ta.append("\n");
+	Ta.append("\n");
+	Ta.append("-------------------------   Format 2   -------------------------\n");
+	Ta.append("                 Sample 1       Sample 2     Sample 3     Sample 4        ......\n");
+    Ta.append("Label IDs    Label1           Label2         Label3          Label4          ......\n");
+    Ta.append("Data1                                                                                         ......\n");
+    Ta.append("Data2                                                                                         ......\n");
+    Ta.append("Data3                                                                                         ......\n");
+    Ta.append("      .                  .                  .                  .                  .               ......\n");
+    Ta.append("      .                  .                  .                  .                  .               ......\n");
+    Ta.append("      .                  .                  .                  .                  .               ......\n");
+    Ta.append("      .                  .                  .                  .                  .               ......\n");
+    Ta.append("      .                  .                  .                  .                  .               ......\n");
+    Ta.append("      .                  .                  .                  .                  .               ......\n");
+    
 	}
 
 }
