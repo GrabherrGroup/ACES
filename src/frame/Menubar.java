@@ -74,12 +74,12 @@ public class Menubar extends JMenuBar{
 		//ShortenLabels = new JMenuItem("Shorten Labels");
 		DistanceMatrixFormat = new JMenuItem("Distance Matrix Format");	
 		exitAction = new JMenuItem("Exit");
-		ChooseOtherDM = new JMenuItem("Choose other Cacti");
+		ChooseOtherDM = new JMenuItem("Choose Other Cacti");
 		
 		
 		// Cluster menu items
 		menuCluster = new JMenu("Clustering");
-		numberOfCluster = new JMenuItem("Number of clusters");
+		numberOfCluster = new JMenuItem("Number of Clusters");
 		HierarchicalClustering = new JMenuItem("Hierarchical Clustering Results");
 		KMeansClustering = new JMenuItem("KMeans Clustering Results");
 		DBSCAN = new JMenuItem("DBSCAN Clustering Results");
@@ -88,11 +88,11 @@ public class Menubar extends JMenuBar{
 		menuAttributes = new JMenu("Attributes");
 		loadAttributes = new JMenuItem("Load");
 		loadFormatedAttributes = new JMenuItem("Load");
-		ShowAttributesMatrix = new JMenuItem("Show sorted SampleInfo");
+		ShowAttributesMatrix = new JMenuItem("Show Sorted SampleInfo");
 		ShowAttributes = new JMenuItem("Show all Attributes");		
 		AttributesFormat = new JMenuItem("Attributes Format");
-		ChooseAttributes = new JMenuItem("Select an Attribute to plot");
-		addClusteringResults = new JMenuItem("Add Clusters Info to the SampleInfo file");
+		ChooseAttributes = new JMenuItem("Select an Attribute to Plot");
+		addClusteringResults = new JMenuItem("Add Clusters Info to the SampleInfo File");
 		saveAttributes = new JMenuItem("Save the SampleInfo");
 		        
 		// Export menu items  
@@ -100,12 +100,12 @@ public class Menubar extends JMenuBar{
 		
 		// Visualization menu items  
 		menuVisualization = new JMenu("Visualization");	
-		plotSamples = new JMenuItem("Plot Samples");
-		plotAttributes = new JMenuItem("Plot Attributes");
+		plotSamples = new JMenuItem("Plot Samples with Clustering Results");
+		plotAttributes = new JMenuItem("Plot Samples with the Selected Attribute");
 		plotHeatMap = new JMenu("Heat Map");
 		plotHeatMapO = new JMenuItem("Original Distance Matrix");
 		plotHeatMapC = new JMenuItem("After Clustering");
-		plotHeatMapA = new JMenuItem("Clustering results with Attributes");		        
+		plotHeatMapA = new JMenuItem("Clustering Results with the Selected Attribute");		        
 		// Help menu items
 		menuHelp = new JMenu("Help");
 		aboutAction = new JMenuItem("About");
