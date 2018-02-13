@@ -38,7 +38,7 @@ public class Menubar extends JMenuBar{
 	
 	JMenuItem LoadData, ShowDataMatrix, ShowLabelID, DataMatrixFormat, exitActionD, openFromLocation,ShortenLabels,DistanceMatrixFormat,exitAction,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
 	
-	static JMenuItem KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
+	static JMenuItem KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
 	
 	
 	JMenuBar menu;
@@ -105,7 +105,7 @@ public class Menubar extends JMenuBar{
 		plotHeatMap = new JMenu("Heat Map");
 		plotHeatMapO = new JMenuItem("Original Distance Matrix");
 		plotHeatMapC = new JMenuItem("After Clustering");
-				        
+		plotHeatMapA = new JMenuItem("Clustering results with Attributes");		        
 		// Help menu items
 		menuHelp = new JMenu("Help");
 		aboutAction = new JMenuItem("About");
@@ -145,7 +145,7 @@ public class Menubar extends JMenuBar{
 		
 		plotHeatMap.add(plotHeatMapO);
 		plotHeatMap.add(plotHeatMapC);
-
+		plotHeatMap.add(plotHeatMapA);
 		
 		menubar.add(menuDataFile);
 		menubar.add(menuFile);
@@ -181,8 +181,10 @@ public class Menubar extends JMenuBar{
 		plotSamples.setEnabled(false);
 		plotHeatMapO.addActionListener(lForMenu);
 		plotHeatMapC.addActionListener(lForMenu);
+		plotHeatMapA.addActionListener(lForMenu);
 		plotHeatMapO.setEnabled(false);
 		plotHeatMapC.setEnabled(false);
+		plotHeatMapA.setEnabled(false);
 		plotAttributes.addActionListener(lForMenu);
 		plotAttributes.setEnabled(false);
 		plotAttributes.setBackground(new Color(230,230,230));
@@ -780,6 +782,7 @@ public class Menubar extends JMenuBar{
 	                	message[i+2] = DataM.refLabel[i] + "\n"; 
 	        		}
 	        		ButtonBar.SIHeat.setEnabled(true);
+	        		plotHeatMapA.setEnabled(true);
 
                 	JOptionPane.showMessageDialog(null, message,"Unique Labels", JOptionPane.CLOSED_OPTION, icon);
                 
@@ -787,6 +790,21 @@ public class Menubar extends JMenuBar{
 	        	}
                 
              }  
+			 else if (e.getSource() == plotHeatMapA){
+				 if (DataM.FileOpenStatus == 0){
+	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		 return;
+	        	 }
+	        	 
+	        	 DataM.CreateDataAfterClusteringandChooseAttri();
+
+	        	 try {
+					new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}  
+	         }
 			 else if (e.getSource() == DataMatrixFormat){
 	        	 ShowFormat AF = new ShowFormat();
 	        	 AF.show_O_Format(ACES.ta);	  

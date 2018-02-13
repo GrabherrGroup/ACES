@@ -678,6 +678,7 @@ public class ButtonBar extends JPanel{
 	                	message[i+2] = DataM.refLabel[i] + "\n"; 
 	        		}
 	                SIHeat.setEnabled(true);
+	                Menubar.plotHeatMapA.setEnabled(true);
                 	JOptionPane.showMessageDialog(null, message,"Unique Labels", JOptionPane.CLOSED_OPTION, icon);
                 
 	                DataM.AttributeChooseStatus = 1;
