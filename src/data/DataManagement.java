@@ -222,7 +222,7 @@ public class DataManagement {
 	
                 } 
              }
-             else if((value2.length()>0) && (value2.length()<SampleInfoLabel[0].length())){
+             if((value2.length()>0) && (value2.length()<SampleInfoLabel[0].length())){
             	 String[] shortLabel = value2.split("");
             	 String[] longLabel = SampleInfoLabel[0].split("");
 	             
@@ -236,7 +236,7 @@ public class DataManagement {
 	             ACES.ta.setText("new SampleInfo Labels \n");
 	 			 ACES.ta.append("\n");
 	 				 
-	             for(int i = 0; i < AttributeOriginalSize; i++){
+	             for(int i = 0; i < AttributeOriginalSize-1; i++){
 	            	 String[] t = SampleInfoLabel[i].split("");
 	                 StringBuffer result = new StringBuffer();
 	                 for(int j = startrow; j <endrow+1;j++){
@@ -247,7 +247,7 @@ public class DataManagement {
 	 	
 	             }  
              }
-             else if((value1.length()==0)&&(value2.length()==0)&&(Label[0].length()!=SampleInfoLabel[0].length())){
+             if((value1.length()==0)&&(value2.length()==0)&&(Label[0].length()!=SampleInfoLabel[0].length())){
             	 JOptionPane.showMessageDialog(null, "Please reset the labels.\nOtherwise, the attribute file cannot be applied.", null, JOptionPane.INFORMATION_MESSAGE, icon);  	  
             	 return; 
        		 }
