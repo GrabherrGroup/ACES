@@ -16,7 +16,7 @@ public class DataManagement {
 	public File file1 = null;
 	final ImageIcon icon = new ImageIcon(getClass().getResource("/resources/logo_mlv_small.png"));
 
-	public int FileOpenStatus = 0; //check whether the cactus files have been loaded first
+	public int FileOpenStatus = 0; //check whether the distance matrix files have been loaded first
 	public int AttributeOpenStatus = 0; 
 	public int AttributeChooseStatus = 0;
 	
@@ -324,9 +324,9 @@ public class DataManagement {
 		 JTextField field1 = new JTextField();
          JTextField field2 = new JTextField();
          JTextField field3 = new JTextField();
-         field1.setText(Integer.toString(0));
-         field2.setText(Integer.toString(0));
-         field3.setText(Integer.toString(0));
+       //  field1.setText(Integer.toString(0));
+       //  field2.setText(Integer.toString(0));
+       //  field3.setText(Integer.toString(0));
          
          String[] direction={"Row","Column"};
         
@@ -335,16 +335,18 @@ public class DataManagement {
          Object[] message = {
         		 "Data Info Extraction",
         		 "\n",
+        		 "Format:",
+        		 "Row and Column numbers start from '1'.",
+        		 "\n",
         		 "Start Row:", field1,
         		 "Start Column:", field2,
         		 "\n",
         		 "Please set which Row or Column is the Label ID.",
         		 "Direction (Row/Column):", jcd,
         		 "No.:", field3,
+        		 "Please leave it blank if there is no label info.",
+        		 "ACES will set the labels as Sample1, Sample2, Sample3 .....",
         		 "\n",
-        		 "\n",
-        		 "Format:",
-        		 "Row and Column numbers start from '0'.",
         		 "\n",
          };
          field1.getActionListeners();
@@ -353,9 +355,14 @@ public class DataManagement {
          jcd.getActionListeners();
          int option = JOptionPane.showConfirmDialog(null, message, "Please set the parameters to extract data ", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
          if (option == JOptionPane.OK_OPTION){
-             Row = Integer.parseInt(field1.getText());
-             Column = Integer.parseInt(field2.getText());
-             LineNo = Integer.parseInt(field3.getText());
+             Row = Integer.parseInt(field1.getText())-1;
+             Column = Integer.parseInt(field2.getText())-1;
+             try{
+                 LineNo = Integer.parseInt(field3.getText())-1;
+             } catch(Exception e){
+            	 LineNo = -5; 
+             }
+             
              if (jcd.getSelectedItem() == "Column")
             	 dimension = 1;            
          }

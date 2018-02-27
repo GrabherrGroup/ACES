@@ -132,7 +132,7 @@ public class ButtonBar extends JPanel{
 		DMChoose = new JButton(iconCO);
 		DMChoose.setEnabled(false);
 		DMChoose.setBorderPainted(false);
-		DMChoose.setToolTipText("Choose other Cacti");
+		DMChoose.setToolTipText("Choose the other distance matrix");
 		DMChoose.setPreferredSize(new Dimension(30,30));
 		DMChoose.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMChoose, 0, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
@@ -257,7 +257,7 @@ public class ButtonBar extends JPanel{
 			if (bc.getSource() == DMLoad){
 				DataM.fd = new FileDialog(ACES.bodyFrame,"Open",FileDialog.LOAD);
 				DataM.fd.setVisible(true);  
-                ACES.ta.setText("Orignial Cactus: \n");
+                ACES.ta.setText("Orignial distance matrix: \n");
                 ACES.ta.setText("\n");
                 
                 if (DataM.fd.getFile()==null)
@@ -315,7 +315,7 @@ public class ButtonBar extends JPanel{
 	                	DataM.setAllDataMatrix(oneCactus.getCactus());
 	                	DataM.setAllCaci(oneCactus.getAllCacti());
 	                	
-	                	DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the cactus you wish to plot", "Cactus", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
+	                	DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
 		        		
 	                	if(DataM.ChooseDM == null){
 	                		DataM.ChooseDM = DataM.CurrentDM;
@@ -326,7 +326,7 @@ public class ButtonBar extends JPanel{
 	                	
 	                		
 	                	Menubar.ChooseOtherDM.setEnabled(true);
-	                	Menubar.ChooseOtherDM.setText("Choose the Cacti (Current: " + DataM.CurrentDM + ")");
+	                	Menubar.ChooseOtherDM.setText("Choose the distance matrix (Current: " + DataM.CurrentDM + ")");
 	                	
 	                	JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
 	                	ACES.ta.setText(DataM.CurrentDM + "\r\n");
@@ -415,21 +415,27 @@ public class ButtonBar extends JPanel{
 	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
 	        		 return;
 	        	 }
-	        	 ACES.ta.setText("Clustering results:\n" );  
-
+				HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+            	DataM.NumCluster = CV.getNumCluster();
+            	DataM.setLabelsIndex(CV.getLabelsIndex()); 
+            	
+	             DataM.CreateDataAfterClustering();
+	            	
+	        	 ACES.ta.setText("Hierarchical Clustering results:\n" );  
+	
 	        	 for (int i = 0; i < DataM.size; i++) {
 	        		 ACES.ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
 			} 
 			else if (bc.getSource() == DMChoose){
-				DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the cactus you wish to plot", "Cactus", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
+				DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
 				if(DataM.ChooseDM == null){
             		DataM.ChooseDM = DataM.CurrentDM;
         			return;
             	}
             	else
             		DataM.CurrentDM = DataM.ChooseDM;
-        		Menubar.ChooseOtherDM.setText("Choose the Cacti (Current: " + DataM.CurrentDM + ")");
+        		Menubar.ChooseOtherDM.setText("Choose the distance matrix (Current: " + DataM.CurrentDM + ")");
 
         		
             	JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);

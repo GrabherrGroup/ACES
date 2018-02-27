@@ -74,7 +74,7 @@ public class Menubar extends JMenuBar{
 		//ShortenLabels = new JMenuItem("Shorten Labels");
 		DistanceMatrixFormat = new JMenuItem("Distance Matrix Format");	
 		exitAction = new JMenuItem("Exit");
-		ChooseOtherDM = new JMenuItem("Choose Other Cacti");
+		ChooseOtherDM = new JMenuItem("Choose the other distance matrix");
 		
 		
 		// Cluster menu items
@@ -232,7 +232,7 @@ public class Menubar extends JMenuBar{
 			if (e.getSource() == LoadData){
 				DataM.fd = new FileDialog(ACES.bodyFrame,"Open",FileDialog.LOAD);
 				DataM.fd.setVisible(true);  
-                ACES.ta.setText("Orignial DataInfo: \n");
+                ACES.ta.setText("Original DataInfo: \n");
                 ACES.ta.setText("\n");
                 
                 if (DataM.fd.getFile()==null)
@@ -308,7 +308,7 @@ public class Menubar extends JMenuBar{
 			else if (e.getSource() == openFromLocation){
 				DataM.fd = new FileDialog(ACES.bodyFrame,"Open",FileDialog.LOAD);
 				DataM.fd.setVisible(true);  
-                ACES.ta.setText("Orignial Cactus: \n");
+                ACES.ta.setText("Original distance matrix: \n");
                 ACES.ta.setText("\n");
                 
                 if (DataM.fd.getFile()==null)
@@ -370,7 +370,7 @@ public class Menubar extends JMenuBar{
 	                	DataM.setAllDataMatrix(oneCactus.getCactus());
 	                	DataM.setAllCaci(oneCactus.getAllCacti());
 	                	
-	                	DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the cactus you wish to plot", "Cactus", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
+	                	DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
 		        		
 	                	if(DataM.ChooseDM == null){
 	                		DataM.ChooseDM = DataM.CurrentDM;
@@ -380,7 +380,7 @@ public class Menubar extends JMenuBar{
 	                		DataM.CurrentDM = DataM.ChooseDM;
 	           	
 		        		ChooseOtherDM.setEnabled(true);
-		        		ChooseOtherDM.setText("Choose the Cacti (Current: " + DataM.CurrentDM + ")");
+		        		ChooseOtherDM.setText("Choose the the other distance matrix (Current: " + DataM.CurrentDM + ")");
 
 		        		JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
 		        		ACES.ta.setText(DataM.CurrentDM + "\r\n");
@@ -522,7 +522,7 @@ public class Menubar extends JMenuBar{
 			}
 			else if(e.getSource() == ChooseOtherDM){
 				
-				DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the cactus you wish to plot", "Cactus", JOptionPane.QUESTION_MESSAGE, icon, DataM.AllCaci, DataM.AllCaci[0]);
+				DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.AllCaci, DataM.AllCaci[0]);
 				
 				if(DataM.ChooseDM == null){
             		DataM.ChooseDM = DataM.CurrentDM;
@@ -531,7 +531,7 @@ public class Menubar extends JMenuBar{
             	else
             		DataM.CurrentDM = DataM.ChooseDM;
 				
-        		ChooseOtherDM.setText("Choose the Cacti (Current: " + DataM.CurrentDM + ")");
+        		ChooseOtherDM.setText("Choose the the other distance matrix (Current: " + DataM.CurrentDM + ")");
 
             	JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
         		ACES.ta.setText(DataM.CurrentDM + "\r\n");
@@ -565,6 +565,19 @@ public class Menubar extends JMenuBar{
             	
 			}
 			else if (e.getSource() == ShowLabels){
+				
+				if (DataM.FileOpenStatus == 0){
+	        		JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		return;
+	        	}
+        	
+				ACES.ta.setText("Labels \n");
+				ACES.ta.append("\n");
+                for(int i = 0; i < DataM.size; i++){
+                	ACES.ta.append(Integer.toString(i+1) + "     " + DataM.Label[i] +"\n");
+                }
+			}
+			else if (e.getSource() == ShowLabelID){
 				
 				if (DataM.FileOpenStatus == 0){
 	        		JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);

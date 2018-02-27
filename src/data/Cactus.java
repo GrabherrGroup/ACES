@@ -47,6 +47,7 @@ public class Cactus {
 	
 	public Cactus(String path,int row, int column, int direction, int labelnum) throws FileNotFoundException {
 	
+		
 		int originalsize = 0;
 		sc = new Scanner(new File(path));
 		List<String> lines = new ArrayList<String>();
@@ -83,9 +84,9 @@ public class Cactus {
 						OriginalData[i][j] = Double.parseDouble(CactusLine[j]);
 					}
 				}
-				JOptionPane.showMessageDialog(null, "The labels are formated as 1, 2, 3, 4 ....");
+				JOptionPane.showMessageDialog(null, "The labels are formated as Sample1, Sample2, Sample3, Sample4 ....");
 				for(int i = 0; i < this.size; i++){
-					this.Label[i] = Integer.toString(i+1);
+					this.Label[i] = "Sample"+Integer.toString(i+1);
 				}
 				this.sampleSize = sizeC;
 			}
@@ -100,9 +101,9 @@ public class Cactus {
 						OriginalData[j][i] = Double.parseDouble(CactusLine[j]);
 					}
 				}
-				JOptionPane.showMessageDialog(null, "The labels are formated as 1, 2, 3, 4 ....");
+				JOptionPane.showMessageDialog(null, "The labels are formated as Sample1, Sample2, Sample3, Sample4 ....");
 				for(int i = 0; i < this.size; i++){
-					this.Label[i] = Integer.toString(i+1);
+					this.Label[i] = "Sample"+Integer.toString(i+1);
 				}
 				this.sampleSize = sizeR;
 			}
@@ -112,33 +113,71 @@ public class Cactus {
 			if (direction == 1){// vertical
 				this.OriginalData = new double[sizeR-row][sizeC-column];
 				this.Label = new String[this.size];
-				
-				for(int i = row; i < sizeR; i++){
-					CactusLine = CactusData[i].split(Split);
-					
-					for(int j = column; j < sizeC; j++){
-						OriginalData[i-row][j-column] = Double.parseDouble(CactusLine[j]);
+				if (labelnum == -5){
+					JOptionPane.showMessageDialog(null, "The labels are formated as Sample1, Sample2, Sample3, Sample4 ....");
+					for(int i = 0; i < this.size; i++){
+						this.Label[i] = "Sample"+Integer.toString(i+1);
 					}
-					this.Label[i-row] = CactusLine[labelnum];
+					for(int i = row; i < sizeR; i++){
+						CactusLine = CactusData[i].split(Split);
+						
+						for(int j = column; j < sizeC; j++){
+							OriginalData[i-row][j-column] = Double.parseDouble(CactusLine[j]);
+						}
+					}
+					this.sampleSize = sizeC-column;
 				}
-				this.sampleSize = sizeC-column;
+				else{
+					if (labelnum == -5){
+						JOptionPane.showMessageDialog(null, "The labels are formated as Sample1, Sample2, Sample3, Sample4 ....");
+						for(int i = 0; i < this.size; i++){
+							this.Label[i] = "Sample"+Integer.toString(i+1);
+						}
+						
+						for(int i = row; i < sizeR; i++){
+							CactusLine = CactusData[i].split(Split);
+							
+							for(int j = column; j < sizeC; j++){
+								OriginalData[i-row][j-column] = Double.parseDouble(CactusLine[j]);
+							}
+						}
+						this.sampleSize = sizeC-column;
+					}else{
+						for(int i = row; i < sizeR; i++){
+							CactusLine = CactusData[i].split(Split);
+							
+							for(int j = column; j < sizeC; j++){
+								OriginalData[i-row][j-column] = Double.parseDouble(CactusLine[j]);
+							}
+							this.Label[i-row] = CactusLine[labelnum];
+						}
+						this.sampleSize = sizeC-column;
+					}
+				}	
 			}  
 			else{// horizontal
 				this.OriginalData = new double[sizeC-column][sizeR-row];
 				this.Label = new String[this.size];
-				CactusLine = CactusData[labelnum].split(Split);
-				System.out.println(CactusLine.length);
-			
-				for(int j = column; j < sizeC; j++){
-					try {
-						this.Label[j-column] = CactusLine[j];
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-		        		JOptionPane.showMessageDialog(null, "Please reformat your data file!",null,JOptionPane.INFORMATION_MESSAGE,icon);	
-		        		break;
+				if (labelnum == -5){
+					JOptionPane.showMessageDialog(null, "The labels are formated as Sample1, Sample2, Sample3, Sample4 ....");
+					for(int i = 0; i < this.size; i++){
+						this.Label[i] = "Sample"+Integer.toString(i+1);
+					}
+				}else{
+					CactusLine = CactusData[labelnum].split(Split);
+					
+					for(int j = column; j < sizeC; j++){
+						try {
+							this.Label[j-column] = CactusLine[j];
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+			        		JOptionPane.showMessageDialog(null, "Please reformat your data file!",null,JOptionPane.INFORMATION_MESSAGE,icon);	
+			        		break;
+						}
 					}
 				}
+				
 				for(int i = row; i < sizeR; i++){
 					CactusLine = CactusData[i].split(Split);
 					
@@ -172,6 +211,9 @@ public class Cactus {
 		        }
 		    }
 		}
+		
+		
+			
 	}
 
 	
@@ -213,9 +255,9 @@ public class Cactus {
 						cactus[i][j] = Double.parseDouble(CactusLine[j]);
 					}
 				}
-				JOptionPane.showMessageDialog(null, "The labels are formated as 1, 2, 3, 4 ....");
+				JOptionPane.showMessageDialog(null, "The labels are formated as Sample1, Sample2, Sample3, Sample4 ....");
 				for(int i = 0; i < size; i++){
-					this.Label[i] = Integer.toString(i+1);
+					this.Label[i] = "Sample"+Integer.toString(i+1);
 				}
 			}
 			else if(SecondLine[0]=="0.0"){	
@@ -230,9 +272,9 @@ public class Cactus {
 						cactus[i-1][j] = Double.parseDouble(CactusLine[j]);
 					}
 				}
-				JOptionPane.showMessageDialog(null, "The labels are formated as 1, 2, 3, 4 ....");
+				JOptionPane.showMessageDialog(null, "The labels are formated as Sample1, Sample2, Sample3, Sample4 ....");
 				for(int i = 0; i < size; i++){
-					this.Label[i] = Integer.toString(i+1);
+					this.Label[i] = "Sample"+Integer.toString(i+1);
 				}
 			}
 			else if((FirstLine.length==originalsize-1) && (FirstLine[0]!="0.0")){
