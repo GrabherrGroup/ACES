@@ -15,6 +15,7 @@ public void show_DM_Format(JTextArea Ta){
 		Ta.append("\n");
 		Ta.append("\n");
 		Ta.append("-------------------------   Format 1   -------------------------\n");
+        Ta.append("name\n");
 		Ta.append("Sample 1       Sample 2     Sample 3     Sample 4         ......\n");
         Ta.append("Sample 1       0               d(1,2)       d(1,3)       d(1,4)       ......\n");
         Ta.append("Sample 2       d(2,1)        0              d(2,3)       d(2,4)       ......\n");
@@ -53,7 +54,18 @@ public void show_DM_Format(JTextArea Ta){
         Ta.append("    .                .               .               .           ......\n");
         Ta.append("    .                .               .               .           ......\n");
         Ta.append("    .                .               .               .           ......\n");
-     
+        Ta.append("-------------------------   Format 4   -------------------------\n");
+        Ta.append("name\n");
+		Ta.append("0               d(1,2)       d(1,3)       d(1,4)       ......\n");
+        Ta.append("d(2,1)        0              d(2,3)       d(2,4)       ......\n");
+        Ta.append("d(3,1)        d(3,2)       0              d(3,4)       ......\n");
+        Ta.append("d(4,1)        d(4,2)       d(4,3)       0              ......\n");
+        Ta.append("    .                .               .               .           ......\n");
+        Ta.append("    .                .               .               .           ......\n");
+        Ta.append("    .                .               .               .           ......\n");
+        Ta.append("    .                .               .               .           ......\n");
+        Ta.append("    .                .               .               .           ......\n");
+        Ta.append("    .                .               .               .           ......\n");
 	}
 
 	public void show_A_Format(JTextArea Ta){

@@ -231,14 +231,36 @@ public class Cactus {
 		
 		CactusData = lines.toArray(new String[0]);
 		
+		
 		String[] FourthLine = CactusData[4].split("\t");
+		int sizeC = FourthLine.length;
+		String Split = "\t";
+		
+		if (FourthLine.length == 1)
+			Split = " ";
+		FourthLine = CactusData[4].split(Split);
+		if (FourthLine.length == 1)
+			Split = ",";
+		
+		FourthLine = CactusData[4].split(Split);
+		System.out.println(FourthLine[0]);
+		
 		
 		if(FourthLine.length*1.5 > size){
 			
-			String[] FirstLine, SecondLine;
-			FirstLine = CactusData[0].split("\t"); 
-			SecondLine = CactusData[1].split("\t");
+			String[] FirstLine, SecondLine, ThirdLine;
+			FirstLine = CactusData[0].split(Split); 
+			SecondLine = CactusData[1].split(Split);
 			
+			ThirdLine = CactusData[2].split(Split);
+			
+			System.out.println(CactusData[1]);
+			System.out.println(SecondLine[0]);
+			System.out.println(SecondLine[1]);
+			System.out.println(SecondLine[3]);
+			System.out.println(SecondLine[4]);
+			System.out.println(size);
+
 			if((FirstLine.length < (originalsize-1))&&(SecondLine.length < (originalsize-6))){
 	  		  	size = 0;
 	  		  	return;
@@ -249,7 +271,7 @@ public class Cactus {
 				this.Label = new String[size];
 				
 				for(int i = 0; i < size; i++){
-					CactusLine = CactusData[i].split("\t");
+					CactusLine = CactusData[i].split(Split);
 					
 					for(int j = 0; j < size; j++){
 						cactus[i][j] = Double.parseDouble(CactusLine[j]);
@@ -260,13 +282,13 @@ public class Cactus {
 					this.Label[i] = "Sample"+Integer.toString(i+1);
 				}
 			}
-			else if(SecondLine[0]=="0.0"){	
+			else if((FirstLine.length<10) &&SecondLine[0]=="0.0"){	//name + pure distance matrix without labels
 				size = size-1;
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
 				
 				for(int i = 1; i < originalsize; i++){
-					CactusLine = CactusData[i].split("\t");
+					CactusLine = CactusData[i].split(Split);
 					
 					for(int j = 0; j < size; j++){
 						cactus[i-1][j] = Double.parseDouble(CactusLine[j]);
@@ -277,28 +299,80 @@ public class Cactus {
 					this.Label[i] = "Sample"+Integer.toString(i+1);
 				}
 			}
-			else if((FirstLine.length==originalsize-1) && (FirstLine[0]!="0.0")){
+			else if((FirstLine.length==originalsize-1) &&SecondLine[0]=="0.0"){	//horizontal labels + pure distance matrix 
+				size = size-1;
+				this.cactus = new double[size][size];
+				this.Label = CactusData[0].split(Split);
+				
+				for(int i = 1; i < originalsize; i++){
+					CactusLine = CactusData[i].split(Split);
+					
+					for(int j = 0; j < size; j++){
+						cactus[i-1][j] = Double.parseDouble(CactusLine[j]);
+					}
+				}
+			}
+			else if((FirstLine.length==originalsize-1) && (SecondLine[1]=="0.0")){ //both labels without name
 				size = size-1;
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
-				this.Label = CactusData[0].split("\t");
+				this.Label = CactusData[0].split(Split);
 				for(int i = 1; i < originalsize; i++){
-					CactusLine = CactusData[i].split("\t");	
+					CactusLine = CactusData[i].split(Split);	
 					for(int j = 0; j < size; j++){
 						cactus[i-1][j] = Double.parseDouble(CactusLine[j+1]);
 					}
 				}
 			}
-			else if((FirstLine.length<originalsize) && (SecondLine[0]!="0.0")){
+			else if((FirstLine.length==originalsize-1)&& (SecondLine[0]!="0.0")  && (Double.parseDouble(SecondLine[1])==0)){ //vertical labels without name
+				
+				this.cactus = new double[size][size];
+				this.Label = new String[size];
+				for(int i = 0; i < originalsize; i++){
+					CactusLine = CactusData[i].split(Split);	
+					Label[i] = CactusLine[0];
+
+					for(int j = 0; j < size; j++){
+						cactus[i][j] = Double.parseDouble(CactusLine[j+1]);
+					}
+				}
+			}
+			else if((FirstLine.length<10)&& (SecondLine[0]!="0.0") && (Double.parseDouble(SecondLine[1])==0)&& (ThirdLine[0]!="0.0")){ //vertical labels with name
+				size = size-1;
+				this.cactus = new double[size][size];
+				this.Label = new String[size];
+				//this.AllCacti = CactusData[0].split(Split);
+				for(int i = 1; i < originalsize; i++){
+					CactusLine = CactusData[i].split(Split);	
+					Label[i-1] = CactusLine[0];
+					for(int j = 0; j < size; j++){
+						cactus[i-1][j] = Double.parseDouble(CactusLine[j+1]);
+					}
+				}
+			}
+			else if((FirstLine.length<10) && (SecondLine[0]!="0.0")&& (SecondLine[1]!="0.0")&&(ThirdLine[0]!="0.0")){ //both labels with name
 				size = size-2;
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
-				this.Label = CactusData[1].split("\t");
-				//this.AllCacti = CactusData[0].split("\t");
+				this.Label = CactusData[1].split(Split);
+				//this.AllCacti = CactusData[0].split(Split);
 				for(int i = 2; i < originalsize; i++){
-					CactusLine = CactusData[i].split("\t");	
+					CactusLine = CactusData[i].split(Split);	
 					for(int j = 0; j < size; j++){
 						cactus[i-2][j] = Double.parseDouble(CactusLine[j+1]);
+					}
+				}
+			}
+			else if((FirstLine.length<10) && (SecondLine[0]!="0.0")&& (ThirdLine[0]=="0.0")){// both labels with horizontal name
+				size = size-2;
+				this.cactus = new double[size][size];
+				this.Label = new String[size];
+				this.Label = CactusData[1].split(Split);
+				//this.AllCacti = CactusData[0].split(Split);
+				for(int i = 2; i < originalsize; i++){
+					CactusLine = CactusData[i].split(Split);	
+					for(int j = 0; j < size; j++){
+						cactus[i-2][j] = Double.parseDouble(CactusLine[j]);
 					}
 				}
 			}
@@ -306,9 +380,9 @@ public class Cactus {
 		else{
 			int count = 0;
 			
-			this.Label = CactusData[1].split("\t");
+			this.Label = CactusData[1].split(Split);
 			size = this.Label.length;
-			
+
 			
 			int deleteline = 1;
 			int size_AllCacti = originalsize/(size+2);
@@ -317,7 +391,7 @@ public class Cactus {
 			
 			for(int i = 0; i < originalsize; i++){
 				if(i != deleteline){
-					CactusLine = CactusData[i].split("\t");	
+					CactusLine = CactusData[i].split(Split);	
 					if (CactusLine.length<3){
 						AllCacti[count] = CactusLine[0];
 						count = count+1;	
