@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane; 
+import javax.swing.JOptionPane;
+
+
 
 public class Cactus {
 	public String[] Label;
@@ -34,7 +36,19 @@ public class Cactus {
 	public int[] getStartLine() {
 		return StartLine;
 	}
-
+	
+	public static boolean isNumeric(String str)  
+	{  
+	  try  
+	  {  
+	    double d = Double.parseDouble(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+	    return false;  
+	  }  
+	  return true;  
+	}
 
 	private int[] StartLine;
 	
@@ -243,30 +257,27 @@ public class Cactus {
 			Split = ",";
 		
 		FourthLine = CactusData[4].split(Split);
-		System.out.println(FourthLine[0]);
 		
 		
 		if(FourthLine.length*1.5 > size){
 			
 			String[] FirstLine, SecondLine, ThirdLine;
 			FirstLine = CactusData[0].split(Split); 
-			SecondLine = CactusData[1].split(Split);
-			
+			SecondLine = CactusData[1].split(Split);		
 			ThirdLine = CactusData[2].split(Split);
-			
-			System.out.println(CactusData[1]);
+			/*System.out.println(CactusData[1]);
 			System.out.println(SecondLine[0]);
 			System.out.println(SecondLine[1]);
 			System.out.println(SecondLine[3]);
 			System.out.println(SecondLine[4]);
-			System.out.println(size);
+			System.out.println(size);*/
 
 			if((FirstLine.length < (originalsize-1))&&(SecondLine.length < (originalsize-6))){
 	  		  	size = 0;
 	  		  	return;
 			}
 			
-			if(FirstLine[0]=="0.0"){	
+			if(isNumeric(FirstLine[0])){	
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
 				
@@ -274,6 +285,8 @@ public class Cactus {
 					CactusLine = CactusData[i].split(Split);
 					
 					for(int j = 0; j < size; j++){
+						//System.out.println(CactusLine[j]);
+
 						cactus[i][j] = Double.parseDouble(CactusLine[j]);
 					}
 				}
@@ -282,7 +295,7 @@ public class Cactus {
 					this.Label[i] = "Sample"+Integer.toString(i+1);
 				}
 			}
-			else if((FirstLine.length<10) &&SecondLine[0]=="0.0"){	//name + pure distance matrix without labels
+			else if((FirstLine.length<10) &&isNumeric(SecondLine[0])){	//name + pure distance matrix without labels
 				size = size-1;
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
@@ -299,11 +312,11 @@ public class Cactus {
 					this.Label[i] = "Sample"+Integer.toString(i+1);
 				}
 			}
-			else if((FirstLine.length==originalsize-1) &&SecondLine[0]=="0.0"){	//horizontal labels + pure distance matrix 
+			else if((FirstLine.length> 10) &&isNumeric(SecondLine[0])){	//horizontal labels + pure distance matrix 
 				size = size-1;
 				this.cactus = new double[size][size];
 				this.Label = CactusData[0].split(Split);
-				
+				System.out.println(SecondLine[0]);
 				for(int i = 1; i < originalsize; i++){
 					CactusLine = CactusData[i].split(Split);
 					
@@ -312,7 +325,7 @@ public class Cactus {
 					}
 				}
 			}
-			else if((FirstLine.length==originalsize-1) && (SecondLine[1]=="0.0")){ //both labels without name
+			else if((FirstLine.length==originalsize-1) && (!isNumeric(SecondLine[0]))&&(isNumeric(SecondLine[1]))){ //both labels without name
 				size = size-1;
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
@@ -324,7 +337,7 @@ public class Cactus {
 					}
 				}
 			}
-			else if((FirstLine.length==originalsize-1)&& (SecondLine[0]!="0.0")  && (Double.parseDouble(SecondLine[1])==0)){ //vertical labels without name
+			else if((!isNumeric(FirstLine[0])) && ((FirstLine.length == SecondLine.length))&&(!isNumeric(SecondLine[0]))){ //vertical labels without name
 				
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
@@ -337,7 +350,7 @@ public class Cactus {
 					}
 				}
 			}
-			else if((FirstLine.length<10)&& (SecondLine[0]!="0.0") && (Double.parseDouble(SecondLine[1])==0)&& (ThirdLine[0]!="0.0")){ //vertical labels with name
+			else if((FirstLine.length<10)&& (!isNumeric(SecondLine[0])) && (isNumeric(SecondLine[1]))&& (!isNumeric(ThirdLine[0]))){ //vertical labels with name
 				size = size-1;
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
@@ -350,7 +363,7 @@ public class Cactus {
 					}
 				}
 			}
-			else if((FirstLine.length<10) && (SecondLine[0]!="0.0")&& (SecondLine[1]!="0.0")&&(ThirdLine[0]!="0.0")){ //both labels with name
+			else if((FirstLine.length<10) && (!isNumeric(SecondLine[0])) && (!isNumeric(SecondLine[1]))&& (!isNumeric(ThirdLine[0]))){ //both labels with name
 				size = size-2;
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
@@ -363,7 +376,7 @@ public class Cactus {
 					}
 				}
 			}
-			else if((FirstLine.length<10) && (SecondLine[0]!="0.0")&& (ThirdLine[0]=="0.0")){// both labels with horizontal name
+			else if((FirstLine.length<10) && (!isNumeric(SecondLine[0])) && (!isNumeric(SecondLine[1]))&& (isNumeric(ThirdLine[0]))){// horizontal labels with name
 				size = size-2;
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
