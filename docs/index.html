@@ -95,26 +95,32 @@
     <h2><a name="Open_Data"></a>Open a Sample Data file</h2>
     <p><b>Sample Data -&gt; Load</b></p>
     <p>The file named "<b>Original_Data_file</b>" in the test samples folder can be used for testing.</p>
-    <img src="images/Open_Data.png" width="313" height="139"><br>
-    <img src="images/set_para_SD.png" width="515" height="438"><br>
+    <p>User is asked to set the required parameters to extract the sample data and the label IDs will be automatically set as "Sample1, Sample2, Sample3..." if there is no label information in the file or the user fails to set the label location.</p>
+    <p><b>Once the sample data file is loaded, ACES will automatically calculate its distance matrix and obtain the Hierachical clustering results.</b></p>
+    <img src="images/Open_Data.png" width="313" height="139"><br><br>
+    <img src="images/set_para_SD.png" width="576" height="477"><br>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
     </p>
      
     <h2><a name="Distance_Matrix_Format"></a>Distance Matrix</h2>
-    <p>There are three choices to format your distance matrix file:  <b>Distance Matrix -&gt; Distance Matrix Format</b> <br>
+    <p>There are four choices to format your distance matrix file:  <b>Distance Matrix -&gt; Distance Matrix Format</b> <br>
+     <br>
+    For each format, it is allowed to contain the name of distance matrix.
     <br>
-    Format 1: Name + Label_ID + Data <br>
-    Format 2: Label_ID + Data <br>
-    Format 3: Data <br> 
+     <br>
+    Format 1: Labels locate in both horizontal and vertical <br>
+    Format 2: Labels locate in horizontal <br>
+    Format 3: Labels locate in vertical <br>
+    Format 4: no labels, labels will be automatically set as "Sample1, Sample2, Sample3..." <br
     <br></p>
     <br>
-    <img src="images/check_distance_matrix_format.png" width="400" height="171">
+    <img src="images/check_distance_matrix_format.png" width="395" height="175">
       <br>
       <br>
-    <img alt="DM format" src="images/Distance_Matrix_format.png" width="527"
-    height="716">
+    <img alt="DM format" src="images/Distance_Matrix_format.png" width="476"
+    height="633">
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
@@ -124,18 +130,18 @@
     <p><b>Distance Matrix -&gt; Load</b></p>
     <p>For single distance matrix, the file named "<b>single_distance_matrix_AML</b>" in the test samples folder can be used for testing.</p>
     
-    <img src="images/open_DM.png" width="321" height="174"><br>
+    <img src="images/open_DM.png" width="392" height="179"><br>
     <br>
     
-    <img src="images/loaded_DM.png" width="570" height="417"><br>
+    <img src="images/loaded_DM.png" width="662" height="434"><br>
     <br>
     <p>If the file contains many distance matrices, please select one of the matrix to analyse.</p>
     <p>The file named "<b>multi_distance_matrix_brain</b>" in the test samples folder can be used for testing.</p>
-    <img src="images/load_multiDM.png" width="432" height="217"><br>
+    <img src="images/change_DM.png" width="493" height="217"><br>
     <br>
     <p>If you want to choose the other distance matrix to compare or analyse: <b>Distance Matrix -&gt; Choose the other distance matrix</b></p>
     <p>The current distance matrix is shown in the menu.</p>
-    <img src="images/change_DM.png" width="415" height="175"><br>
+    <img src="images/load_multiDM.png" width="604" height="172"><br>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
@@ -146,7 +152,7 @@
     </p>
     <h6> </h6>
     <img src="images/Num_Cluster.png" width="287" height="113"><br>
-    <img src="images/show_num_cluster.png" width="606" height=192"><br>
+    <img src="images/show_num_cluster.png" width="610" height=188"><br>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
     </p>
@@ -187,7 +193,7 @@
     <p>The samples can be visualized in the 3D space by the PCA plot. Each sample is coloured by its clustering result. <b>Visualization -&gt; Plot Samples with Clustering Results</b><br>
     </p>
     <img src="images/plot_DM.png" width="344" height="106"><br>
-    <p>As the figure shown below, all the samples are coloured by the clustering results. PCA clearly categorizes all the samples into two groups and the clustering results are also clearly shown on this plot. Blue samples and red samples are two groups. <br><br>The number of clusters/groups are automatically calculated by ACES, however, the cluster results might be varying by different clustering algorithm selected by user. Therefore, the colour info shown in the PCA plot might be varying. <br><br>The Label IDs are shown on the right. Both the points on the left plot and IDs on the right can be selected. As shown in the figure, the top point/sample is selected and its ID is immediately shown in the legend. </p>
+    <p>As the figure shown below, all the samples are coloured by the clustering results. PCA clearly categorizes all the samples into two groups and the clustering results are also clearly shown on this plot. Blue samples and red samples are two groups. <br><br>The number of clusters/groups are automatically calculated by ACES, however, the cluster results might be varying if the user selects different clustering algorithms.<br><br>The 3D plot can be rotated to have an appropriate view.<br><br>The Label IDs are shown on the right. Both the points on the left plot and IDs on the right can be selected. As shown in the figure, the top point/sample is selected (the colour change to black from blue) and its ID is immediately shown in the legend highlighted by black. </p>
     <img src="images/samples_figure.png" width="1188" height="676"><br>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
@@ -205,7 +211,7 @@
     </p>
     
     <h2><a name="heatmap_C"></a>Heat map of the samples with clustering results</h2>
-    <p>The samples can be visualized in the 3D space by the PCA plot. Each sample is coloured by its clustering result. <b>Visualization -&gt; Heat Map -&gt; After Clustering</b></b><br>
+    <p>The samples in the distance matrix are reordered according to the clustering results. <b>Visualization -&gt; Heat Map -&gt; After Clustering</b></b><br>
     </p>
     <img src="images/heat_m_c.png" width="686" height="138"><br>
     <p>The distance matrix has been reordered by the clustering results. </p>
@@ -231,7 +237,7 @@
     </p>
     <img src="images/load_AT.png" width="321" height="168"><br>
     
-    <p>According to your Distance Matrix, ACES will automatically check whether your input SampleInfo file is correct and then remind you to sort your SampleInfo file.</p>
+    <p>According to your Distance Matrix, ACES will automatically check whether your input SampleInfo file is correct and then remind you to sort your SampleInfo file. Please open the file <b>"samplesInfo_brain"</b> to better understand the following example.</p>
   
     <p> To sort the SampleInfo file, the SampleInfo Labels should be choosen first.</p><br>
     <img src="images/Choose_SI_Label.png" width="504" height="282"><br>
