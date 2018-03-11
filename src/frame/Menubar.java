@@ -38,7 +38,7 @@ public class Menubar extends JMenuBar{
 	
 	JMenuItem LoadData, ShowDataMatrix, ShowLabelID, DataMatrixFormat, exitActionD, openFromLocation,ShortenLabels,DistanceMatrixFormat,exitAction,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
 	
-	static JMenuItem KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
+	static JMenuItem ShowPower, KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
 	
 	
 	JMenuBar menu;
@@ -91,6 +91,7 @@ public class Menubar extends JMenuBar{
 		ShowAttributesMatrix = new JMenuItem("Show Sorted SampleInfo");
 		ShowAttributes = new JMenuItem("Show all Attributes");		
 		AttributesFormat = new JMenuItem("Attributes Format");
+		ShowPower = new JMenuItem("Show Discriminative Power of Each Attribute");
 		ChooseAttributes = new JMenuItem("Select an Attribute to Plot");
 		addClusteringResults = new JMenuItem("Add Clusters Info to the SampleInfo File");
 		saveAttributes = new JMenuItem("Save the SampleInfo");
@@ -131,6 +132,7 @@ public class Menubar extends JMenuBar{
 		menuAttributes.add(loadAttributes);
 		menuAttributes.add(ShowAttributesMatrix);
 		menuAttributes.add(ShowAttributes);
+		menuAttributes.add(ShowPower);
 		menuAttributes.add(ChooseAttributes);
 		menuAttributes.add(addClusteringResults);
 		menuAttributes.add(saveAttributes);
@@ -205,20 +207,23 @@ public class Menubar extends JMenuBar{
 		
 		loadAttributes.addActionListener(lForMenu);
 		loadAttributes.setEnabled(false);
+		ShowPower.addActionListener(lForMenu);
+		ShowPower.setEnabled(false);
+		ShowPower.setBackground(new Color(230,230,230));
 		ChooseAttributes.addActionListener(lForMenu);
 		ChooseAttributes.setEnabled(false);
-		ChooseAttributes.setBackground(new Color(230,230,230));
 		ShowAttributes.addActionListener(lForMenu);
 		ShowAttributes.setEnabled(false);
 		ShowAttributesMatrix.addActionListener(lForMenu);
 		ShowAttributesMatrix.setEnabled(false);
 		ShowAttributesMatrix.setBackground(new Color(230,230,230));
 		AttributesFormat.addActionListener(lForMenu);
+		AttributesFormat.setBackground(new Color(230,230,230));
 		addClusteringResults.addActionListener(lForMenu);
 		addClusteringResults.setEnabled(false);
+		addClusteringResults.setBackground(new Color(230,230,230));
 		saveAttributes.addActionListener(lForMenu);
 		saveAttributes.setEnabled(false);
-		saveAttributes.setBackground(new Color(230,230,230));
 	
 		return menubar;
 	}
@@ -469,6 +474,7 @@ public class Menubar extends JMenuBar{
 	        	 for (int i = 0; i < DataM.size; i++) {
 	        		 ACES.ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
+	        	 DataM.clusteringName = "DBSCAN Clustering";
 			}
 			else if (e.getSource() == KMeansClustering){
 				if (DataM.FileOpenStatus == 0){
@@ -485,6 +491,7 @@ public class Menubar extends JMenuBar{
 	        	 for (int i = 0; i < DataM.size; i++) {
 	        		 ACES.ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
+	        	 DataM.clusteringName = "KMeans Clustering";
 			}
 			else if(e.getSource()==HierarchicalClustering) {
 	        	 if (DataM.FileOpenStatus == 0){
@@ -638,6 +645,7 @@ public class Menubar extends JMenuBar{
 		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
 		        	DataM.changeSampleInfo();
 	        	}  
+	            ShowPower.setEnabled(true);
 	            ChooseAttributes.setEnabled(true);
 	    		ShowAttributes.setEnabled(true);
 	    		ShowAttributesMatrix.setEnabled(true);
@@ -742,6 +750,131 @@ public class Menubar extends JMenuBar{
 	        		ACES.ta.append(Integer.toString(i)+"   "+ DataM.AttributeLine[i]+"\r\n");
         		}
             }  
+			else if (e.getSource()==ShowPower) { 
+				if (DataM.FileOpenStatus == 0){
+	        		JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		return;
+	        	}
+	        	if (DataM.AttributeOpenStatus == 0){
+	        		JOptionPane.showMessageDialog(null, "Please load the attributes info first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		return;
+	        	}
+	        	if(DataM.AttributeOriginalSize>DataM.size+1){
+		        	JOptionPane.showMessageDialog(null, "Please rearrange your SampleInfo file.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+		        	DataM.AttributeSize = DataM.size+1;
+		        	DataM.AttributeMatrix = new String[DataM.size+1];
+		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
+		        	DataM.changeSampleInfo();
+	        	}
+	        	
+	        	if(DataM.AttributeOriginalSize>DataM.size+1)
+	        	  	return;
+	        	else{
+					ACES.ta.setText("The discriminative power of attribute" + "\r\n");
+					DataM.AttributeLabel = new String[DataM.size];
+		            DataM.AttributeIndex = new int[DataM.size];
+		            DataM.AttributeRank = new double[DataM.AttributeLine.length];
+		            DataM.newRankAttribute = new String[DataM.AttributeLine.length];
+		            
+					for(int count = 1; count < DataM.AttributeLine.length; count++){	
+	        			
+						String[] temp1; 
+	                    for(int i = 1; i <  DataM.size+1; i++){
+		        			temp1 =  DataM.AttributeMatrix[i].split(",");
+		        			DataM.AttributeLabel[i-1] = temp1[count];
+		        		}
+		                Set<String> TT = new LinkedHashSet<String>(Arrays.asList(DataM.AttributeLabel));
+		                TT.remove("0");
+		                TT.remove("");
+		                DataM.setRefLabel(TT.toArray( new String[TT.size()] ));
+	
+		                for(int i = 0; i < DataM.refLabel.length; i++){
+		                	for(int j = 0; j <  DataM.size; j++){
+		                		if (DataM.AttributeLabel[j] == DataM.refLabel[i]){
+		                			DataM.AttributeIndex[j] = i+1;   
+		                		}
+				        	}
+		        		}
+		                int sum = 0;
+		                int countSum = 0;
+		                double Smean = 0;
+		                double std_temp = 0;
+		                double std_cluster = 0;
+		                
+		                for (int j = 1; j < DataM.NumCluster+1; j++){
+		                    sum = 0;
+		                    countSum = 0;
+		                    Smean = 0;
+		                    std_temp = 0;
+		                	for(int i = 0; i <  DataM.size; i++){
+		                		if (DataM.labelsIndex[i] == j){
+				    				countSum = countSum + 1;
+				        			sum = sum + DataM.AttributeIndex[i];   					        	
+				    			}
+			        		}
+			                Smean = sum/countSum;
+			                for(int i = 0; i <  DataM.size; i++){
+		                		if (DataM.labelsIndex[i] == j){
+		                			std_temp = std_temp + (DataM.AttributeIndex[i]-Smean)*(DataM.AttributeIndex[i]-Smean);   					        	
+				    			}
+			        		}
+			                std_cluster = std_cluster + std_temp/countSum;
+		                }
+		               // std_cluster = std_cluster/DataM.NumCluster;
+		                DataM.AttributeRank[count] = std_cluster;
+		                if (DataM.refLabel.length>7)
+		                	DataM.AttributeRank[count] = std_cluster + 1000;
+	                }
+					
+					DataM.AttributeRank[0] = 1000000;     
+	        
+	                double[] Rank = new double[DataM.AttributeLine.length];
+	 
+		        	for(int count = 0; count < DataM.AttributeLine.length; count++){
+		        		Rank[count] = DataM.AttributeRank[count];
+
+					}
+		        	Arrays.sort(Rank);
+		        	
+		        	for(int i = 0; i < DataM.AttributeLine.length; i++){
+		        			if(Rank[0] == DataM.AttributeRank[i]){
+		        				DataM.newRankAttribute[0] = DataM.AttributeLine[i];
+			        			break;
+		        			}
+		        		}
+	        			ACES.ta.append(Integer.toString(1)+"   "+ DataM.newRankAttribute[0] +"\n");
+	        			
+	        	    int index1 = 0; int index2 = 0;
+	        	    
+		        	for(int count = 1; count < DataM.AttributeLine.length; count++){
+		        		
+		        		if (Rank[count] != Rank[count-1]){
+		        			for(int i = 0; i < DataM.AttributeLine.length; i++){
+			        			if(Rank[count] == DataM.AttributeRank[i]){
+			        				DataM.newRankAttribute[count] = DataM.AttributeLine[i];
+			        				index2 = i;
+			        				break; 			
+			        			}
+			        		}
+		        			ACES.ta.append(Integer.toString(count+1)+"   "+ DataM.newRankAttribute[count] +"\n");
+		        			index1 = 0;
+		        			
+		        		}
+		        		else{
+		        			index1 = index1+1;
+		        			for(int i = index2+1; i < DataM.AttributeLine.length; i++){
+			        			if(Rank[count] == DataM.AttributeRank[i]){
+			        				DataM.newRankAttribute[count] = DataM.AttributeLine[i];
+			        				index2 = i;
+				        			break;
+			        			}
+			        		}
+		        			ACES.ta.append(Integer.toString(count-index1+1)+"   "+ DataM.newRankAttribute[count] +"\n");
+		        		}
+		        		
+					}
+	        	}
+             }  
 			else if (e.getSource()==ChooseAttributes) { 
 				if (DataM.FileOpenStatus == 0){
 	        		JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
@@ -802,7 +935,7 @@ public class Menubar extends JMenuBar{
 	                DataM.AttributeChooseStatus = 1;
 	        	}
                 
-             }  
+             }
 			 else if (e.getSource() == plotHeatMapA){
 				 if (DataM.FileOpenStatus == 0){
 	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
@@ -876,7 +1009,7 @@ public class Menubar extends JMenuBar{
 	        		 return;
 	        	 }
 	        	 
-	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM);
+	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM, DataM.clusteringName);
 	         }
 	         else if(e.getSource()==plotAttributes){
 	        	 if (DataM.FileOpenStatus == 0){

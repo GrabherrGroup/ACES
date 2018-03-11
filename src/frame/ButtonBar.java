@@ -475,7 +475,7 @@ public class ButtonBar extends JPanel{
 	        		 return;
 	        	 }
 	        	 
-	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM);
+	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM,DataM.clusteringName);
 			}
 			else if(bc.getSource()==DMHeatO){
 	        	 if (DataM.FileOpenStatus == 0){
@@ -560,6 +560,7 @@ public class ButtonBar extends JPanel{
 		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
 		        	DataM.changeSampleInfo();
 	        	}  
+	            Menubar.ShowPower.setEnabled(true);
 	            Menubar.ChooseAttributes.setEnabled(true);
 	            Menubar.ShowAttributes.setEnabled(true);
 	            Menubar.ShowAttributesMatrix.setEnabled(true);

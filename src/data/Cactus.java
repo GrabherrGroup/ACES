@@ -58,7 +58,7 @@ public class Cactus {
 		this.cactus = cactus;
 		
 	}
-	
+	// read original files
 	public Cactus(String path,int row, int column, int direction, int labelnum) throws FileNotFoundException {
 	
 		
@@ -75,12 +75,18 @@ public class Cactus {
 		CactusData = lines.toArray(new String[0]);
 		
 		String[] FourthLine = CactusData[4].split("\t");
-		int sizeC = FourthLine.length;
 		String Split = "\t";
 		
-		if (FourthLine.length == 1)
-			Split = " ";
+		if (FourthLine.length == 1){
+			Split = "\\s+";
+			FourthLine = CactusData[4].split(Split);
+			}
+		if (FourthLine.length == 1){
+			Split = ",";
+			FourthLine = CactusData[4].split(Split);
+			}
 		
+		int sizeC = FourthLine.length;
 		if (direction == 1)
 			this.size = sizeR-row;
 		else
@@ -230,7 +236,7 @@ public class Cactus {
 			
 	}
 
-	
+	// read distance matrix
 	public Cactus(String path) throws FileNotFoundException {
 		
 		int originalsize = 0;
@@ -247,16 +253,16 @@ public class Cactus {
 		
 		
 		String[] FourthLine = CactusData[4].split("\t");
-		int sizeC = FourthLine.length;
 		String Split = "\t";
 		
-		if (FourthLine.length == 1)
-			Split = " ";
-		FourthLine = CactusData[4].split(Split);
-		if (FourthLine.length == 1)
+		if (FourthLine.length == 1){
+			Split = "\\s+";
+			FourthLine = CactusData[4].split(Split);
+		}
+		if (FourthLine.length == 1){
 			Split = ",";
-		
-		FourthLine = CactusData[4].split(Split);
+			FourthLine = CactusData[4].split(Split);
+			}
 		
 		
 		if(FourthLine.length*1.5 > size){
@@ -277,7 +283,7 @@ public class Cactus {
 	  		  	return;
 			}
 			
-			if(isNumeric(FirstLine[0])){	
+			if(isNumeric(FirstLine[0])&&FirstLine.length>2){	
 				this.cactus = new double[size][size];
 				this.Label = new String[size];
 				
@@ -285,7 +291,7 @@ public class Cactus {
 					CactusLine = CactusData[i].split(Split);
 					
 					for(int j = 0; j < size; j++){
-						//System.out.println(CactusLine[j]);
+						System.out.println(CactusLine[j]);
 
 						cactus[i][j] = Double.parseDouble(CactusLine[j]);
 					}
@@ -422,7 +428,7 @@ public class Cactus {
 		
 
 	}
-	
+	// read attribute
 	public Cactus(String path, String attribute) throws FileNotFoundException {
 		
 		sc = new Scanner(new File(path));

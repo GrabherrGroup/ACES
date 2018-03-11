@@ -34,7 +34,7 @@ public class DataManagement {
 	public int dimension=0;
 	public int LineNo;
 
-
+	public String clusteringName = "Hierarchical Clustering";
 	public int NumCluster;
  	public int[] labelsIndex;
  	public int[] newlabelsIndex;
@@ -54,6 +54,10 @@ public class DataManagement {
 	public String ChooseAttribute = "attribute"; // selected attribute
 	public String[] AttributeLabel;//list all the labels belong to the selected attribute
 	public String[] newAttributeLabel;
+	public String[] newRankAttribute;
+	public int[] AttributeIndex;
+	public double[] AttributeRank;
+
 	public String[] refLabel;
 	public int AttributeSize;
 	public int AttributeOriginalSize;
@@ -163,8 +167,21 @@ public class DataManagement {
 			LabelInt[i] = i;
 		}
 		
+		temp = AttributeOriginalMatrix[4].split(",");
+		String Split = ",";
+		
+		if (temp.length == 1){
+			Split = "\\s+";
+			temp = AttributeOriginalMatrix[4].split("\\s+");
+		}
+		if (temp.length == 1){
+			Split = "\t";
+			temp = AttributeOriginalMatrix[4].split("\t");
+		}
+			
+		
         for(int i = 1; i < AttributeOriginalSize; i++){
-			temp = AttributeOriginalMatrix[i].split(",");
+    		temp = AttributeOriginalMatrix[i].split(Split);
 			SampleInfoLabel[i-1] = temp[count];
 			ACES.ta.append(SampleInfoLabel[i-1] +"\n");
 			}

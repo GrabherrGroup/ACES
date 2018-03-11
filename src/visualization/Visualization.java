@@ -32,7 +32,7 @@ public class Visualization {
 
 	 final ImageIcon iconSave = new ImageIcon(getClass().getResource("/resources/save.png"));
 
- 	 public Visualization(int [] labelsIndex, String [] Label, double [][] DataAxis, int size, String ChooseDM) {
+ 	 public Visualization(int [] labelsIndex, String [] Label, double [][] DataAxis, int size, String ChooseDM, String ClusteringName) {
  		 super();
  		 
  		 double[] x = {1};
@@ -88,7 +88,7 @@ public class Visualization {
        }
 	     
   
-	     JFrame frame = new JFrame("Visualization using the " + ChooseDM);
+	     JFrame frame = new JFrame("Visualization using the " + ChooseDM + " (" + ClusteringName + ")");
 	     frame.setContentPane(plot);
 	     frame.setVisible(true);
 	     frame.setSize(900, 900);
