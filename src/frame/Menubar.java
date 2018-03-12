@@ -835,16 +835,17 @@ public class Menubar extends JMenuBar{
 
 					}
 		        	Arrays.sort(Rank);
-		        	
+		        	int index1 = 0; int index2 = 0;
 		        	for(int i = 0; i < DataM.AttributeLine.length; i++){
 		        			if(Rank[0] == DataM.AttributeRank[i]){
 		        				DataM.newRankAttribute[0] = DataM.AttributeLine[i];
+		        				index2 = i;
 			        			break;
 		        			}
 		        		}
 	        			ACES.ta.append(Integer.toString(1)+"   "+ DataM.newRankAttribute[0] +"\n");
 	        			
-	        	    int index1 = 0; int index2 = 0;
+	        	    
 	        	    
 		        	for(int count = 1; count < DataM.AttributeLine.length; count++){
 		        		
