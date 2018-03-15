@@ -55,7 +55,6 @@ public class DataManagement {
 	public String[] AttributeLabel;//list all the labels belong to the selected attribute
 	public String[] newAttributeLabel;
 	public String[] newRankAttribute;
-	public int[] AttributeIndex;
 	public double[] AttributeRank;
 
 	public String[] refLabel;
@@ -76,7 +75,10 @@ public class DataManagement {
     	 
     	 int count = 1;
     	 int num = 0;
-    	 
+    	 for(int i = 0; i< size; i++){
+    		 if(getLabelsIndex()[i]==0)
+    			 count = 0;
+    	 }
     	 do{
     		 for(int i = 0; i< size ; i++){
     			 if(getLabelsIndex()[i] == count){
@@ -274,7 +276,7 @@ public class DataManagement {
          StringBuffer nullLine = new StringBuffer();
          
          for(int i = 0; i < AttributeLine.length; i++){
-        	 nullLine.append("0").append(",");
+        	 nullLine.append("None").append(",");
          }
          
          if(Label[0].length()==SampleInfoLabel[0].length()){

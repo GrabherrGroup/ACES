@@ -467,7 +467,13 @@ public class Menubar extends JMenuBar{
 				DBSCAN DBSCAN = new DBSCAN(DataM.DBr,DataM.DBm);
 				DBSCAN.process(points);
 				DataM.setLabelsIndex(DBSCAN.getLabelsIndex()); 
-		       
+				int max = 0;
+				for(int i = 0; i < DataM.size; i++){
+					if (DataM.labelsIndex[i] > max)
+						max = DataM.labelsIndex[i];
+				}
+            	DataM.NumCluster = max;
+
 				DataM.CreateDataAfterClustering();
 	        	 ACES.ta.setText("DBSCAN Clustering results:\n" );  
 
@@ -634,33 +640,34 @@ public class Menubar extends JMenuBar{
 	    			}
 	    			DataM.AttributeOpenStatus = 1;
 	    			DataM.setAttributeLine(ACactus.getCactusData()[0].split(","));
+
+		        	DataM.AttributeSize = DataM.size+1;
+		        	DataM.AttributeMatrix = new String[DataM.size+1];
+		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
+		        	DataM.changeSampleInfo();
+	         
+		            ShowPower.setEnabled(true);
+		            ChooseAttributes.setEnabled(true);
+		    		ShowAttributes.setEnabled(true);
+		    		ShowAttributesMatrix.setEnabled(true);
+		    		addClusteringResults.setEnabled(true);
+		    		saveAttributes.setEnabled(true);
+		    		
+		    		plotAttributes.setEnabled(true); 
+		    		
+		    		ButtonBar.SIChoose.setEnabled(true);
+		    		ButtonBar.SIShowList.setEnabled(true);
+		    		ButtonBar.SIShow.setEnabled(true);
+		    		ButtonBar.AddCluster.setEnabled(true);
+		    		ButtonBar.SISave.setEnabled(true);
+		    		
+		    		ButtonBar.SIPlot.setEnabled(true);
 	            }
 		        catch (IOException ioe){
 		            System.out.println(ioe);
 		        }
 	            
-	            if(DataM.AttributeMatrix.length>DataM.size+1){
-		        	DataM.AttributeSize = DataM.size+1;
-		        	DataM.AttributeMatrix = new String[DataM.size+1];
-		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
-		        	DataM.changeSampleInfo();
-	        	}  
-	            ShowPower.setEnabled(true);
-	            ChooseAttributes.setEnabled(true);
-	    		ShowAttributes.setEnabled(true);
-	    		ShowAttributesMatrix.setEnabled(true);
-	    		addClusteringResults.setEnabled(true);
-	    		saveAttributes.setEnabled(true);
-	    		
-	    		plotAttributes.setEnabled(true); 
-	    		
-	    		ButtonBar.SIChoose.setEnabled(true);
-	    		ButtonBar.SIShowList.setEnabled(true);
-	    		ButtonBar.SIShow.setEnabled(true);
-	    		ButtonBar.AddCluster.setEnabled(true);
-	    		ButtonBar.SISave.setEnabled(true);
-	    		
-	    		ButtonBar.SIPlot.setEnabled(true);
+	          
 		    }    
 			else if (e.getSource()==ShowAttributesMatrix){
 				if (DataM.FileOpenStatus == 0){
@@ -680,8 +687,16 @@ public class Menubar extends JMenuBar{
 	        	}
 				ACES.ta.setText("Attributes Matrix\n");
 			
-				for(int i = 0; i < DataM.AttributeLine.length; i++)
-	    	    	ACES.ta.append(DataM.AttributeMatrix[i]+"   \n");
+
+				
+				String[] temp1; 
+                for(int i = 1; i <  DataM.size+1; i++){
+        			temp1 =  DataM.AttributeMatrix[i].split(",");
+        			for(int j = 0; j <  temp1.length; j++){
+    	    	    	ACES.ta.append(DataM.AttributeMatrix[i]+"\r");
+        			}
+        			ACES.ta.append("\n");
+        		}
 				
 			}
 			else if (e.getSource()==saveAttributes){
@@ -749,6 +764,8 @@ public class Menubar extends JMenuBar{
 	        	for(int i = 0; i < DataM.AttributeLine.length; i++){
 	        		ACES.ta.append(Integer.toString(i)+"   "+ DataM.AttributeLine[i]+"\r\n");
         		}
+	        	
+	        	
             }  
 			else if (e.getSource()==ShowPower) { 
 				if (DataM.FileOpenStatus == 0){
@@ -772,7 +789,6 @@ public class Menubar extends JMenuBar{
 	        	else{
 					ACES.ta.setText("The discriminative power of attribute" + "\r\n");
 					DataM.AttributeLabel = new String[DataM.size];
-		            DataM.AttributeIndex = new int[DataM.size];
 		            DataM.AttributeRank = new double[DataM.AttributeLine.length];
 		            DataM.newRankAttribute = new String[DataM.AttributeLine.length];
 		            
@@ -784,47 +800,125 @@ public class Menubar extends JMenuBar{
 		        			DataM.AttributeLabel[i-1] = temp1[count];
 		        		}
 		                Set<String> TT = new LinkedHashSet<String>(Arrays.asList(DataM.AttributeLabel));
-		                TT.remove("0");
+		                TT.remove("None");
 		                TT.remove("");
 		                DataM.setRefLabel(TT.toArray( new String[TT.size()] ));
-	
+		                
+		                
+		                if (DataM.refLabel.length==1){
+		                	DataM.AttributeRank[count] = 1000000;
+		                	continue;
+		                }
+		                int count_r = 0;
+		                int count_r_max = 0;
 		                for(int i = 0; i < DataM.refLabel.length; i++){
+		                	count_r = 0;
+		                	for(int j = 0; j < DataM.size; j++){
+		                		if (DataM.AttributeLabel[j].equals(DataM.refLabel[i]) ){
+		                			count_r = count_r + 1; 
+		                		}
+
+				        	}
+
+		                	if(count_r > count_r_max) 
+		                		count_r_max = count_r;
+		        		}
+		                	
+		                if (count_r_max>DataM.size*5/6){
+		                	DataM.AttributeRank[count] =  10000;
+		                	continue;
+		                }
+
+		                double[][] cluster_ref_weight = new double[DataM.refLabel.length][DataM.NumCluster];
+		               
+		                double count_num = 0;
+		                double count_cluster = 0;
+		                for(int i = 0; i < DataM.refLabel.length; i++){ 
+		                	count_num = 0;
+		                	for(int k = 1; k < DataM.NumCluster+1; k++){
+			                	for(int j = 0; j < DataM.size; j++){
+			                		if (DataM.AttributeLabel[j].equals(DataM.refLabel[i])&&(DataM.labelsIndex[j] == k)){
+			                			count_cluster = count_cluster + 1;
+			                			count_num = count_num + 1;
+			                		}
+					        	} 
+			                	cluster_ref_weight[i][k-1] = count_cluster;
+			                	count_cluster = 0;
+		                	}
+		                	for(int k = 1; k < DataM.NumCluster+1; k++){
+		                		cluster_ref_weight[i][k-1] = cluster_ref_weight[i][k-1]/count_num;	
+		                	}
+		        		}
+		                double cluster_weight = 0;
+		                double count_reflabel_max = 0;
+		                double temp_weight = 0;
+
+		                for(int k = 1; k < DataM.NumCluster+1; k++){
+		                    count_reflabel_max = 0;
+			                for(int i = 0; i < DataM.refLabel.length; i++){
+			                	if(cluster_ref_weight[i][k-1] > count_reflabel_max) 
+			                		count_reflabel_max = cluster_ref_weight[i][k-1];
+			        		}
+			                for(int i = 0; i < DataM.refLabel.length; i++){
+			                	cluster_ref_weight[i][k-1] = 1-(cluster_ref_weight[i][k-1]/count_reflabel_max);
+			                	temp_weight = temp_weight + cluster_ref_weight[i][k-1];
+
+			                }
+			                cluster_weight = cluster_weight + temp_weight;
+			                temp_weight = 0;
+		                }
+		                
+		                cluster_weight = cluster_weight/(DataM.refLabel.length-1);
+		             
+		                DataM.AttributeRank[count] = 10 - cluster_weight;
+		        		//ACES.ta.append(Integer.toString(count+1)+"   "+ cluster_weight+"\n");
+		                if (DataM.refLabel.length>7){
+		                	DataM.AttributeRank[count] = cluster_weight + 1000;
+		                	
+		                }
+		                
+		               
+	                }
+					
+					/*for(int i = 0; i < DataM.refLabel.length; i++){
 		                	for(int j = 0; j <  DataM.size; j++){
-		                		if (DataM.AttributeLabel[j] == DataM.refLabel[i]){
+		                		if (DataM.AttributeLabel[j].equals(DataM.refLabel[i])){
 		                			DataM.AttributeIndex[j] = i+1;   
 		                		}
 				        	}
 		        		}
-		                int sum = 0;
-		                int countSum = 0;
-		                double Smean = 0;
-		                double std_temp = 0;
-		                double std_cluster = 0;
-		                
-		                for (int j = 1; j < DataM.NumCluster+1; j++){
-		                    sum = 0;
-		                    countSum = 0;
-		                    Smean = 0;
-		                    std_temp = 0;
-		                	for(int i = 0; i <  DataM.size; i++){
-		                		if (DataM.labelsIndex[i] == j){
-				    				countSum = countSum + 1;
-				        			sum = sum + DataM.AttributeIndex[i];   					        	
-				    			}
-			        		}
-			                Smean = sum/countSum;
-			                for(int i = 0; i <  DataM.size; i++){
-		                		if (DataM.labelsIndex[i] == j){
-		                			std_temp = std_temp + (DataM.AttributeIndex[i]-Smean)*(DataM.AttributeIndex[i]-Smean);   					        	
-				    			}
-			        		}
-			                std_cluster = std_cluster + std_temp/countSum;
-		                }
-		               // std_cluster = std_cluster/DataM.NumCluster;
-		                DataM.AttributeRank[count] = std_cluster;
-		                if (DataM.refLabel.length>7)
-		                	DataM.AttributeRank[count] = std_cluster + 1000;
+		        		
+					int sum = 0;
+	                int countSum = 0;
+	                double Smean = 0;
+	                double std_temp = 0;
+	                double std_cluster = 0;
+	                
+	                for (int j = 1; j < DataM.NumCluster+1; j++){
+	                    sum = 0;
+	                    countSum = 0;
+	                    Smean = 0;
+	                    std_temp = 0;
+	                	for(int i = 0; i <  DataM.size; i++){
+	                		if (DataM.labelsIndex[i] == j){
+			    				countSum = countSum + 1;
+			        			sum = sum + DataM.AttributeIndex[i];   					        	
+			    			}
+		        		}
+		                Smean = sum/countSum;
+		                for(int i = 0; i <  DataM.size; i++){
+	                		if (DataM.labelsIndex[i] == j){
+	                			std_temp = std_temp + (DataM.AttributeIndex[i]-Smean)*(DataM.AttributeIndex[i]-Smean);   					        	
+			    			}
+		        		}
+		                std_cluster = std_cluster + std_temp/countSum;
 	                }
+	               // std_cluster = std_cluster/DataM.NumCluster;
+	                DataM.AttributeRank[count] = std_cluster;
+	                if (DataM.refLabel.length>7)
+	                	DataM.AttributeRank[count] = std_cluster + 1000;
+                }
+				*/
 					
 					DataM.AttributeRank[0] = 1000000;     
 	        
@@ -832,7 +926,7 @@ public class Menubar extends JMenuBar{
 	 
 		        	for(int count = 0; count < DataM.AttributeLine.length; count++){
 		        		Rank[count] = DataM.AttributeRank[count];
-
+		        		//ACES.ta.append(Integer.toString(count+1)+"   "+ DataM.AttributeLine[count] + "   "+Rank[count]+"\n");
 					}
 		        	Arrays.sort(Rank);
 		        	int index1 = 0; int index2 = 0;
@@ -918,7 +1012,7 @@ public class Menubar extends JMenuBar{
 	                ACES.ta.append("\n");
 	               
 	                Set<String> TT = new LinkedHashSet<String>(Arrays.asList(DataM.AttributeLabel));
-	                TT.remove("0");
+	                TT.remove("None");
 	                TT.remove("");
 	                DataM.setRefLabel(TT.toArray( new String[TT.size()] ));
 	                
