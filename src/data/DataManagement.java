@@ -50,12 +50,15 @@ public class DataManagement {
 
 	public String[] AttributeLine; //the list of all the attributes
 	public static String[] AttributeMatrix; //all the attributes info
+	public String[] newAttributeMatrix; //all the attributes info
+
 	public String[] AttributeOriginalMatrix; //all the original attributes info
 	public String ChooseAttribute = "attribute"; // selected attribute
 	public String[] AttributeLabel;//list all the labels belong to the selected attribute
 	public String[] newAttributeLabel;
 	public String[] newRankAttribute;
 	public double[] AttributeRank;
+	public String ATSplit;
 
 	public String[] refLabel;
 	public int AttributeSize;
@@ -169,21 +172,21 @@ public class DataManagement {
 			LabelInt[i] = i;
 		}
 		
-		temp = AttributeOriginalMatrix[4].split(",");
-		String Split = ",";
+		/*temp = AttributeOriginalMatrix[4].split(",");
+			ATSplit = ",";
 		
 		if (temp.length == 1){
-			Split = "\\s+";
+			ATSplit = "\\s+";
 			temp = AttributeOriginalMatrix[4].split("\\s+");
 		}
 		if (temp.length == 1){
-			Split = "\t";
+			ATSplit = "\t";
 			temp = AttributeOriginalMatrix[4].split("\t");
 		}
-			
+		*/	
 		
         for(int i = 1; i < AttributeOriginalSize; i++){
-    		temp = AttributeOriginalMatrix[i].split(Split);
+    		temp = AttributeOriginalMatrix[i].split(ATSplit);
 			SampleInfoLabel[i-1] = temp[count];
 			ACES.ta.append(SampleInfoLabel[i-1] +"\n");
 			}

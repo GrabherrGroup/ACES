@@ -631,15 +631,27 @@ public class Menubar extends JMenuBar{
 	    			DataM.setAttributeMatrix(ACactus.getCactusData());
 	    			DataM.AttributeOriginalSize = ACactus.getSize();
 	    			
+	    			String[] temp;
+	    			temp = DataM.AttributeOriginalMatrix[4].split(",");
+	    			DataM.ATSplit = ",";	    		
+		    		if (temp.length == 1){
+		    			DataM.ATSplit = "\\s+";
+		    			temp = DataM.AttributeOriginalMatrix[4].split("\\s+");
+		    		}
+		    		if (temp.length == 1){
+		    			DataM.ATSplit = "\t";
+		    			temp = DataM.AttributeOriginalMatrix[4].split("\t");
+		    		}
+	    				    			
 	    			for(int i = 0; i < ACactus.getSize(); i++){
-	    				DataM.setAttributeLine(ACactus.getCactusData()[i].split(","));
+	    				DataM.setAttributeLine(ACactus.getCactusData()[i].split(DataM.ATSplit));
 	    				for(int j = 0; j < DataM.AttributeLine.length; j++){  	
 	    					ACES.ta.append(DataM.AttributeLine[j]+"   \r");
 	        			}
 	    				ACES.ta.append("\n");
 	    			}
 	    			DataM.AttributeOpenStatus = 1;
-	    			DataM.setAttributeLine(ACactus.getCactusData()[0].split(","));
+	    			DataM.setAttributeLine(ACactus.getCactusData()[0].split(DataM.ATSplit));
 
 		        	DataM.AttributeSize = DataM.size+1;
 		        	DataM.AttributeMatrix = new String[DataM.size+1];
@@ -691,9 +703,9 @@ public class Menubar extends JMenuBar{
 				
 				String[] temp1; 
                 for(int i = 1; i <  DataM.size+1; i++){
-        			temp1 =  DataM.AttributeMatrix[i].split(",");
+        			temp1 =  DataM.AttributeMatrix[i].split(DataM.ATSplit);
         			for(int j = 0; j <  temp1.length; j++){
-    	    	    	ACES.ta.append(DataM.AttributeMatrix[i]+"\r");
+    	    	    	ACES.ta.append(DataM.AttributeMatrix[i]+"    ");
         			}
         			ACES.ta.append("\n");
         		}
@@ -714,7 +726,7 @@ public class Menubar extends JMenuBar{
 		            	FileWriter writer = new FileWriter(filename); 
 
 		                for(int i = 0; i < DataM.size+1; i++){
-		                	templine = DataM.AttributeMatrix[i].split(",");
+		                	templine = DataM.newAttributeMatrix[i].split(DataM.ATSplit);
 		                	for (int j=0; j< templine.length; j++){
 		                        writer.append(templine[j]);
 		                        writer.append(',');
@@ -735,10 +747,15 @@ public class Menubar extends JMenuBar{
 			}
 			else if (e.getSource()==addClusteringResults){
 				
-				DataM.AttributeMatrix[0] = String.join(",",DataM.CurrentDM, DataM.AttributeMatrix[0]);
+				DataM.newAttributeMatrix = new String[DataM.size+1];
+				
+				for(int i = 0; i < DataM.size; i++){
+					DataM.newAttributeMatrix[i] = DataM.AttributeMatrix[i];
+        		}
+				DataM.newAttributeMatrix[0] = String.join(",",DataM.CurrentDM, DataM.newAttributeMatrix[0]);
 				
 				for(int i = 1; i < DataM.size+1; i++){
-					DataM.AttributeMatrix[i]= String.join(",",Integer.toString(DataM.labelsIndex[i-1]), DataM.AttributeMatrix[i]);
+					DataM.newAttributeMatrix[i]= String.join(",",Integer.toString(DataM.labelsIndex[i-1]), DataM.newAttributeMatrix[i]);
         		}	
                 JOptionPane.showMessageDialog(null, "The Clustering results of ("+DataM.CurrentDM + ") has been saved","File Saved",JOptionPane.INFORMATION_MESSAGE, icon);
 
@@ -796,7 +813,7 @@ public class Menubar extends JMenuBar{
 	        			
 						String[] temp1; 
 	                    for(int i = 1; i <  DataM.size+1; i++){
-		        			temp1 =  DataM.AttributeMatrix[i].split(",");
+		        			temp1 =  DataM.AttributeMatrix[i].split(DataM.ATSplit);
 		        			DataM.AttributeLabel[i-1] = temp1[count];
 		        		}
 		                Set<String> TT = new LinkedHashSet<String>(Arrays.asList(DataM.AttributeLabel));
@@ -1004,7 +1021,7 @@ public class Menubar extends JMenuBar{
 	                String[] temp1; 
 	                DataM.AttributeLabel = new String[DataM.size];    
 	                for(int i = 1; i <  DataM.size+1; i++){
-	        			temp1 =  DataM.AttributeMatrix[i].split(",");
+	        			temp1 =  DataM.AttributeMatrix[i].split(DataM.ATSplit);
 	        			DataM.AttributeLabel[i-1] = temp1[count];
 	        			ACES.ta.append(Integer.toString(i)+"   "+ DataM.AttributeLabel[i-1] +"\n");
 	        		}
