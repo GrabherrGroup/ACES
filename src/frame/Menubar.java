@@ -516,6 +516,7 @@ public class Menubar extends JMenuBar{
 	        	 for (int i = 0; i < DataM.size; i++) {
 	        		 ACES.ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
+	        	 DataM.clusteringName = "Hierarchical Clustering";
 	         }
 			else if (e.getSource() == ShowDistanceMatrix){
 				

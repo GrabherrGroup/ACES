@@ -426,6 +426,7 @@ public class ButtonBar extends JPanel{
 	        	 for (int i = 0; i < DataM.size; i++) {
 	        		 ACES.ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
+	        	 DataM.clusteringName = "Hierarchical Clustering";
 			} 
 			else if (bc.getSource() == DMChoose){
 				DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
