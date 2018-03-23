@@ -51,12 +51,15 @@ public class KMClustering {
 		
 	    int i, j;
 	    
-	    for (i=0; i<10; i++) {
-	        if (selected_index[i] == 0) {
+	    /*for (i=0; i<10; i++) {
+	        if (selected_index[i] == 0 && selected_index[i+1] == 0) {
 	            NumCluster = i;  // number of the clusters
 	            break;
 	        }
-	    }
+	    }*/
+	    
+	    NumCluster = countIndex + 1;
+	    
 	    _nrows = cactusSize;
 	    _ndims = cactusSize;
 	    
@@ -194,8 +197,8 @@ public class KMClustering {
 
 			public void GetNumOfCluster() {
 				
-			    int iter;
-			    
+				int iter;
+				 
 			    if (step<6) {
 			        step = 6;
 			    }else if (step>30){
@@ -206,6 +209,9 @@ public class KMClustering {
 			    }
 			    else{
 			        iter = 11;
+			    }
+			    if (cactusSize < 15){
+			    	step = 4;
 			    }
 			    
 			    // new_cactus matrix creation and

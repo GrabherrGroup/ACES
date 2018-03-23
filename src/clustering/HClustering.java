@@ -26,7 +26,7 @@ public class HClustering {
 	public HClustering(String[] label, int size, double[][] cactusData) {
 		//super();
 		this.cactusSize = size;
-		step = cactusSize/6;
+	    step = (int) Math.floor(cactusSize/6);
 		
 		this.CactusData = new double[size][size];
 		this.newCactusData = new double[size][size];
@@ -51,7 +51,7 @@ public class HClustering {
 	public void GetNumOfCluster() {
 		
 	    int iter;
-	    
+ 
 	    if (step<6) {
 	        step = 6;
 	    }else if (step>30){
@@ -63,7 +63,9 @@ public class HClustering {
 	    else{
 	        iter = 11;
 	    }
-	    
+	    if (cactusSize < 15){
+	    	step = 4;
+	    }
 	    // new_cactus matrix creation and
 	    
 	    double cactus_mean = 0;
@@ -76,7 +78,7 @@ public class HClustering {
 	        for (j=0; j<cactusSize; j++) {
 	            dist = 0;
 	            d = 0;
-	            for (k=0; k<cactusSize; k++) {
+	            for (k=0; k<cactusSize; k++) { // distance of between two samples
 	                d = Math.abs(CactusData[i][k] - CactusData[j][k]);
 	                dist = dist + d;
 	            }
@@ -98,6 +100,7 @@ public class HClustering {
 	        cactus_var = 0;
 	        cactus_mean = 0;
 	    }
+	    
 	    double[] selected_line = new double[cactusSize];
 	    int[] Rank1 = new int[iter];
 	    
@@ -105,6 +108,7 @@ public class HClustering {
 	        selected_line[k] = newCactusData[selected_index[0]][k];
 	    }
 	    
+
 	    int r = 0;
 	    for (i=0; i<iter; i++) {
 	        double m = 0;
@@ -116,15 +120,16 @@ public class HClustering {
 	        }
 	        selected_line[r] = 0;
 	        Rank1[i] = r;
+	        
+
 	    }
 	    selected_index[1] = Rank1[0];
 	    countIndex = 1;
-	    
+
 	    for (i=1; i<iter; i++) {
 	        GetIndex(Rank1[i]);
 	    }
-	    
-	    
+	   
 	    
 	    for (k=0; k<cactusSize; k++) {
 	        selected_line[k] = newCactusData[selected_index[1]][k];
@@ -188,7 +193,6 @@ public class HClustering {
 	        }
 	    }
 
-	    
 	}
 	
 	public void GetIndex(int rank){
@@ -229,12 +233,14 @@ public class HClustering {
 		
 	    int i, j;
 	    
-	    for (i=0; i<10; i++) {
-	        if (selected_index[i] == 0) {
+	    /*for (i=0; i<10; i++) {
+	        if (selected_index[i] == 0 && selected_index[i+1] == 0) {
 	            NumCluster = i;  // number of the clusters
 	            break;
 	        }
-	    }
+	    }*/
+	    
+	    NumCluster = countIndex + 1;
 	        
 	    for (i=0; i<cactusSize; i++) {
 	        for (j=0; j<cactusSize; j++) {
@@ -269,6 +275,8 @@ public class HClustering {
 
 		    selected_line_r = labelsIndex[row];  
 	        selected_line_c = labelsIndex[column];
+	        
+	       
 	        
 	        int count_rc = 0;
 	        // find the closest two points and set the new number
@@ -311,7 +319,10 @@ public class HClustering {
 	    
 	    int m = 0;
 	    
-	    
+	    for (j=0; j<cactusSize; j++) {
+           if (labelsIndex[j]< cactusSize+1); 
+           		labelsIndex[j] = labelsIndex[j] + 1000;
+        }
 	    // set new clusters index
 	    for(count=1;count<=NumCluster; count++){
 	        for (i=0;i<cactusSize; i++) {
