@@ -34,9 +34,10 @@ public class Menubar extends JMenuBar{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	JMenu plotHeatMap, menuFile, menuDataFile, openDistanceMatrix, menuCluster, menuAttributes, menuExport, menuVisualization, menuHelp;
+	static JMenu clustering, plot3D, plotHeatMap;
+	JMenu Formats, Loadall, menuDataFile, menuEdit, menuView, menuExport, menuVisualization, menuHelp;
 	
-	JMenuItem LoadData, ShowDataMatrix, ShowLabelID, DataMatrixFormat, exitActionD, openFromLocation,ShortenLabels,DistanceMatrixFormat,exitAction,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
+	JMenuItem LoadData, ShowDataMatrix, DataMatrixFormat, exitAction, openFromLocation,ShortenLabels,DistanceMatrixFormat,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
 	
 	static JMenuItem ShowPower, KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
 	
@@ -59,169 +60,178 @@ public class Menubar extends JMenuBar{
 	private JMenuBar makeMenubar(DataManagement DataM) {
 
 		JMenuBar menubar = new JMenuBar();
-		// Data Matrix menu items
-		menuDataFile = new JMenu("Sample Data");
-		LoadData = new JMenuItem("Load");
-		ShowLabelID = new JMenuItem("Show Label ID");
-		DataMatrixFormat = new JMenuItem("Format");	
-		exitActionD = new JMenuItem("Exit");
-
-		// Distance Matrix menu items
-		menuFile = new JMenu("Distance Matrix");
-		openFromLocation = new JMenuItem("Load");
-		ShowDistanceMatrix = new JMenuItem("Show Distance Matrix");
-		ShowLabels = new JMenuItem("Show Label ID");
-		//ShortenLabels = new JMenuItem("Shorten Labels");
-		DistanceMatrixFormat = new JMenuItem("Distance Matrix Format");	
-		exitAction = new JMenuItem("Exit");
-		ChooseOtherDM = new JMenuItem("Choose the other distance matrix");
 		
 		
-		// Cluster menu items
-		menuCluster = new JMenu("Clustering");
-		numberOfCluster = new JMenuItem("Number of Clusters");
-		HierarchicalClustering = new JMenuItem("Hierarchical Clustering Results");
-		KMeansClustering = new JMenuItem("KMeans Clustering Results");
-		DBSCAN = new JMenuItem("DBSCAN Clustering Results");
-				
-		// Attributes menu items
-		menuAttributes = new JMenu("Attributes");
-		loadAttributes = new JMenuItem("Load");
-		loadFormatedAttributes = new JMenuItem("Load");
-		ShowAttributesMatrix = new JMenuItem("Show Sorted SampleInfo");
-		ShowAttributes = new JMenuItem("Show all Attributes");		
-		AttributesFormat = new JMenuItem("Attributes Format");
-		ShowPower = new JMenuItem("Show Discriminative Power of Each Attribute");
-		ChooseAttributes = new JMenuItem("Select an Attribute to Plot");
-		addClusteringResults = new JMenuItem("Add Clusters Info to the SampleInfo File");
+		
+		// File
+		menuDataFile = new JMenu("File");
+		Loadall = new JMenu("Load");
+		LoadData = new JMenuItem("Raw data");
+		openFromLocation = new JMenuItem("Distance matrix");
+		loadAttributes = new JMenuItem("Attributes");
+		Formats = new JMenu("Formats");
+        DataMatrixFormat = new JMenuItem("Raw data");	
+		DistanceMatrixFormat = new JMenuItem("Distance matrix");	
+		AttributesFormat = new JMenuItem("Attributes");
 		saveAttributes = new JMenuItem("Save the SampleInfo");
-		        
-		// Export menu items  
-		menuExport = new JMenu("Export");
+		exitAction = new JMenuItem("Exit");
+
+		menuDataFile.add(Loadall);
+		Loadall.add(LoadData);
+		Loadall.add(openFromLocation);
+		Loadall.add(loadAttributes);
+		menuDataFile.add(Formats);
+		Formats.add(DataMatrixFormat);
+		Formats.add(DistanceMatrixFormat);
+		Formats.add(AttributesFormat);
+		menuDataFile.add(exitAction);
+
+		// Edit
+		menuEdit = new JMenu("Edit");
+		ChooseOtherDM = new JMenuItem("Select other distance matrix");
+		ChooseAttributes = new JMenuItem("Select an attribute to plot");
+		addClusteringResults = new JMenuItem("Add clusters to SampleInfo");
+		
+		menuEdit.add(ChooseOtherDM);
+		menuEdit.add(ChooseAttributes);
+		menuEdit.add(addClusteringResults);
+
+		// View
+		menuView = new JMenu("Attributes");
+		ShowDistanceMatrix = new JMenuItem("Distance matrix");
+		ShowLabels = new JMenuItem("Label IDs");
+		clustering = new JMenu("Clustering");
+		numberOfCluster = new JMenuItem("Numbers");
+		HierarchicalClustering = new JMenuItem("Hierarchical");
+		KMeansClustering = new JMenuItem("KMeans");
+		DBSCAN = new JMenuItem("DBSCAN");
+		ShowAttributesMatrix = new JMenuItem("Sorted sampleInfo");
+		ShowAttributes = new JMenuItem("All attributes");		
+		ShowPower = new JMenuItem("Discriminative power");
+
+		menuView.add(ShowDistanceMatrix);
+		menuView.add(ShowLabels);
+		menuView.add(clustering);
+		clustering.add(numberOfCluster);
+		clustering.add(HierarchicalClustering);
+		clustering.add(KMeansClustering);
+		clustering.add(DBSCAN);
+		menuView.add(ShowAttributesMatrix);
+		menuView.add(ShowAttributes);
+		menuView.add(ShowPower);
+		
+		//ShortenLabels = new JMenuItem("Shorten Labels");
+		
 		
 		// Visualization menu items  
 		menuVisualization = new JMenu("Visualization");	
-		plotSamples = new JMenuItem("Plot Samples with Clustering Results");
-		plotAttributes = new JMenuItem("Plot Samples with the Selected Attribute");
+		plot3D = new JMenu("3D plot");
+		plotSamples = new JMenuItem("Samples");
+		plotAttributes = new JMenuItem("Selected attribute");
 		plotHeatMap = new JMenu("Heat Map");
-		plotHeatMapO = new JMenuItem("Original Distance Matrix");
-		plotHeatMapC = new JMenuItem("After Clustering");
-		plotHeatMapA = new JMenuItem("Clustering Results with the Selected Attribute");		        
+		plotHeatMapO = new JMenuItem("Original distance matrix");
+		plotHeatMapC = new JMenuItem("After clustering");
+		plotHeatMapA = new JMenuItem("With selected attribute");
+		
+		menuVisualization.add(plot3D);
+		menuVisualization.add(plotHeatMap);
+		plot3D.add(plotSamples);
+		plot3D.add(plotAttributes);
+		plotHeatMap.add(plotHeatMapO);
+		plotHeatMap.add(plotHeatMapC);
+		plotHeatMap.add(plotHeatMapA);
+		
 		// Help menu items
 		menuHelp = new JMenu("Help");
 		aboutAction = new JMenuItem("About");
 		manualAction = new JMenuItem("User Manual");
 		
-		menuDataFile.add(LoadData);
-		menuDataFile.add(ShowLabelID);
-		menuDataFile.add(DataMatrixFormat);
-		menuDataFile.add(exitActionD);
-	
-		menuFile.add(openFromLocation);
-		menuFile.add(ShowDistanceMatrix);
-		menuFile.add(ShowLabels);
-		menuFile.add(ChooseOtherDM);
-		menuFile.add(DistanceMatrixFormat);
-		menuFile.add(exitAction);
-		
-		menuCluster.add(numberOfCluster);
-		menuCluster.add(HierarchicalClustering);
-		menuCluster.add(KMeansClustering);
-		menuCluster.add(DBSCAN);
-		
-		menuAttributes.add(loadAttributes);
-		menuAttributes.add(ShowAttributesMatrix);
-		menuAttributes.add(ShowAttributes);
-		menuAttributes.add(ShowPower);
-		menuAttributes.add(ChooseAttributes);
-		menuAttributes.add(addClusteringResults);
-		menuAttributes.add(saveAttributes);
-		menuAttributes.add(AttributesFormat);
-		
-		menuVisualization.add(plotSamples);
-		menuVisualization.add(plotAttributes);
-		menuVisualization.add(plotHeatMap);
-		
+				
 		menuHelp.add(aboutAction);
 		menuHelp.add(manualAction);
 		
-		plotHeatMap.add(plotHeatMapO);
-		plotHeatMap.add(plotHeatMapC);
-		plotHeatMap.add(plotHeatMapA);
-		
 		menubar.add(menuDataFile);
-		menubar.add(menuFile);
-		menubar.add(menuCluster);
-		menubar.add(menuAttributes);
+		menubar.add(menuEdit);
+		menubar.add(menuView);
 		menubar.add(menuVisualization);
 		menubar.add(menuHelp);
 		
 		ListenForMenu lForMenu = new ListenForMenu();
-		
+		Formats.setBackground(new Color(230,230,230));
 		LoadData.addActionListener(lForMenu);
-		ShowLabelID.addActionListener(lForMenu);
-		ShowLabelID.setEnabled(false);
+		LoadData.setBackground(new Color(230,230,230));
+		openFromLocation.addActionListener(lForMenu);
+		loadAttributes.addActionListener(lForMenu);
+		loadAttributes.setEnabled(false);
+		loadAttributes.setBackground(new Color(230,230,230));
+		DistanceMatrixFormat.addActionListener(lForMenu);
 		DataMatrixFormat.addActionListener(lForMenu);
 		DataMatrixFormat.setBackground(new Color(230,230,230));
-		exitActionD.addActionListener(lForMenu);
+		AttributesFormat.addActionListener(lForMenu);
+		AttributesFormat.setBackground(new Color(230,230,230));			
+		exitAction.addActionListener(lForMenu);
 		
-		
-		openFromLocation.addActionListener(lForMenu);
+		ChooseOtherDM.addActionListener(lForMenu);
+		ChooseOtherDM.setEnabled(false);
+		ChooseAttributes.addActionListener(lForMenu);
+		ChooseAttributes.setEnabled(false);
+		ChooseAttributes.setBackground(new Color(230,230,230));
+		addClusteringResults.addActionListener(lForMenu);
+		addClusteringResults.setEnabled(false);
+			
 		ShowDistanceMatrix.addActionListener(lForMenu);
 		ShowDistanceMatrix.setEnabled(false);
-		ShowDistanceMatrix.setBackground(new Color(230,230,230));
 		ShowLabels.addActionListener(lForMenu);
 		ShowLabels.setEnabled(false);
-		DistanceMatrixFormat.addActionListener(lForMenu);
-		exitAction.addActionListener(lForMenu);
-		exitAction.setBackground(new Color(230,230,230));
+		clustering.setEnabled(false);
+		clustering.setBackground(new Color(230,230,230));
+		numberOfCluster.addActionListener(lForMenu);
+		numberOfCluster.setEnabled(false);
+		numberOfCluster.setBackground(new Color(230,230,230));
+		HierarchicalClustering.addActionListener(lForMenu);
+		HierarchicalClustering.setEnabled(false);
+		KMeansClustering.addActionListener(lForMenu);
+		KMeansClustering.setEnabled(false);
+		KMeansClustering.setBackground(new Color(230,230,230));
+		DBSCAN.addActionListener(lForMenu);
+		DBSCAN.setEnabled(false);
+		ShowPower.addActionListener(lForMenu);
+		ShowPower.setEnabled(false);
+		ShowAttributes.addActionListener(lForMenu);
+		ShowAttributes.setEnabled(false);
+		ShowAttributesMatrix.addActionListener(lForMenu);
+		ShowAttributesMatrix.setEnabled(false);
 		
+			
 		aboutAction.addActionListener(lForMenu);
 		manualAction.addActionListener(lForMenu);
+		manualAction.setBackground(new Color(230,230,230));
+	
 		
+		plot3D.setEnabled(false);
+		plotHeatMap.setEnabled(false);
+		plotHeatMap.setBackground(new Color(230,230,230));
+
 		plotSamples.addActionListener(lForMenu);
 		plotSamples.setEnabled(false);
+		plotAttributes.addActionListener(lForMenu);
+		plotAttributes.setEnabled(false);
+		plotAttributes.setBackground(new Color(230,230,230));
 		plotHeatMapO.addActionListener(lForMenu);
 		plotHeatMapC.addActionListener(lForMenu);
 		plotHeatMapA.addActionListener(lForMenu);
 		plotHeatMapO.setEnabled(false);
 		plotHeatMapC.setEnabled(false);
 		plotHeatMapA.setEnabled(false);
-		plotAttributes.addActionListener(lForMenu);
-		plotAttributes.setEnabled(false);
-		plotAttributes.setBackground(new Color(230,230,230));
-		ChooseOtherDM.addActionListener(lForMenu);
-		ChooseOtherDM.setEnabled(false);
-		ChooseOtherDM.setBackground(new Color(230,230,230));
+		plotHeatMapO.setBackground(new Color(230,230,230));
+		plotHeatMapA.setBackground(new Color(230,230,230));
+
 		
-		numberOfCluster.addActionListener(lForMenu);
-		numberOfCluster.setEnabled(false);
-		HierarchicalClustering.addActionListener(lForMenu);
-		HierarchicalClustering.setEnabled(false);
-		HierarchicalClustering.setBackground(new Color(230,230,230));
-		KMeansClustering.addActionListener(lForMenu);
-		KMeansClustering.setEnabled(false);
-		DBSCAN.addActionListener(lForMenu);
-		DBSCAN.setEnabled(false);
-		DBSCAN.setBackground(new Color(230,230,230));
 		
-		loadAttributes.addActionListener(lForMenu);
-		loadAttributes.setEnabled(false);
-		ShowPower.addActionListener(lForMenu);
-		ShowPower.setEnabled(false);
-		ShowPower.setBackground(new Color(230,230,230));
-		ChooseAttributes.addActionListener(lForMenu);
-		ChooseAttributes.setEnabled(false);
-		ShowAttributes.addActionListener(lForMenu);
-		ShowAttributes.setEnabled(false);
-		ShowAttributesMatrix.addActionListener(lForMenu);
-		ShowAttributesMatrix.setEnabled(false);
-		ShowAttributesMatrix.setBackground(new Color(230,230,230));
-		AttributesFormat.addActionListener(lForMenu);
-		AttributesFormat.setBackground(new Color(230,230,230));
-		addClusteringResults.addActionListener(lForMenu);
-		addClusteringResults.setEnabled(false);
-		addClusteringResults.setBackground(new Color(230,230,230));
+		
+		
+		
+
 		saveAttributes.addActionListener(lForMenu);
 		saveAttributes.setEnabled(false);
 	
@@ -248,11 +258,15 @@ public class Menubar extends JMenuBar{
                     FileReader fr = new FileReader(DataM.file1);
                     BufferedReader br = new BufferedReader(fr);
                     String aline;
-                    int count1 = 0;
+                    
+                    while ((aline=br.readLine()) != null )
+	                    ACES.ta.append(aline+"\r\n");
+                    
+                    /*int count1 = 0;
                     while ((aline=br.readLine()) != null && count1 <40){
 	                    count1 = count1 + 1;
 	                    ACES.ta.append(aline+"\r\n");
-                    }
+                    }*/
                     fr.close();
                     br.close();
                     DataM.FileOpenStatus = 1;
@@ -287,10 +301,12 @@ public class Menubar extends JMenuBar{
 	               
 	        		ShowDistanceMatrix.setEnabled(true);
 	        		ShowLabels.setEnabled(true);	 
-	        		ShowLabelID.setEnabled(true);
+	        		plot3D.setEnabled(true);
+	        		plotHeatMap.setEnabled(true);
 	        		plotSamples.setEnabled(true);	
 	        		plotHeatMapO.setEnabled(true);
 	        		plotHeatMapC.setEnabled(true);
+	        		clustering.setEnabled(true);
 	        		numberOfCluster.setEnabled(true);
 	        		HierarchicalClustering.setEnabled(true);
 	        		KMeansClustering.setEnabled(true);
@@ -421,10 +437,13 @@ public class Menubar extends JMenuBar{
 	                }
            
 	        		ShowDistanceMatrix.setEnabled(true);
-	        		ShowLabels.setEnabled(true);	        
+	        		ShowLabels.setEnabled(true);
+	        		plot3D.setEnabled(true);
+	        		plotHeatMap.setEnabled(true);
 	        		plotSamples.setEnabled(true);	
 	        		plotHeatMapO.setEnabled(true);
 	        		plotHeatMapC.setEnabled(true);
+	        		clustering.setEnabled(true);
 	        		numberOfCluster.setEnabled(true);
 	        		HierarchicalClustering.setEnabled(true);
 	        		KMeansClustering.setEnabled(true);
@@ -579,19 +598,6 @@ public class Menubar extends JMenuBar{
             	
 			}
 			else if (e.getSource() == ShowLabels){
-				
-				if (DataM.FileOpenStatus == 0){
-	        		JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
-	        		return;
-	        	}
-        	
-				ACES.ta.setText("Labels \n");
-				ACES.ta.append("\n");
-                for(int i = 0; i < DataM.size; i++){
-                	ACES.ta.append(Integer.toString(i+1) + "     " + DataM.Label[i] +"\n");
-                }
-			}
-			else if (e.getSource() == ShowLabelID){
 				
 				if (DataM.FileOpenStatus == 0){
 	        		JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);

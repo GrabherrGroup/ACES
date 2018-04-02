@@ -362,12 +362,15 @@ public class ButtonBar extends JPanel{
 		         
 	                Menubar.ShowDistanceMatrix.setEnabled(true);
 	                Menubar.ShowLabels.setEnabled(true);	        
-	                Menubar.plotSamples.setEnabled(true);	
+	                Menubar.plotSamples.setEnabled(true);
+	                Menubar.clustering.setEnabled(true);
 	                Menubar.numberOfCluster.setEnabled(true);
 	                Menubar.HierarchicalClustering.setEnabled(true);
 	                Menubar.loadAttributes.setEnabled(true);
 	                Menubar.plotHeatMapO.setEnabled(true);
 	                Menubar.plotHeatMapC.setEnabled(true);
+	                Menubar.plot3D.setEnabled(true);
+	                Menubar.plotHeatMap.setEnabled(true);
 	              
 	            	DMShow.setEnabled(true);
 	            	DMLabelID.setEnabled(true);	        
