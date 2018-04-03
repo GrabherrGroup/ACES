@@ -328,7 +328,7 @@ public class ButtonBar extends JPanel{
 	                	Menubar.ChooseOtherDM.setEnabled(true);
 	                	Menubar.ChooseOtherDM.setText("Choose the distance matrix (Current: " + DataM.CurrentDM + ")");
 	                	
-	                	JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
+	                	//JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
 	                	ACES.ta.setText(DataM.CurrentDM + "\r\n");
 	                	
 	                	int count;

@@ -65,7 +65,7 @@ public class Menubar extends JMenuBar{
 		
 		// File
 		menuDataFile = new JMenu("File");
-		Loadall = new JMenu("Load");
+		Loadall = new JMenu("Open");
 		LoadData = new JMenuItem("Raw data");
 		openFromLocation = new JMenuItem("Distance matrix");
 		loadAttributes = new JMenuItem("Attributes");
@@ -84,6 +84,7 @@ public class Menubar extends JMenuBar{
 		Formats.add(DataMatrixFormat);
 		Formats.add(DistanceMatrixFormat);
 		Formats.add(AttributesFormat);
+		menuDataFile.add(saveAttributes);
 		menuDataFile.add(exitAction);
 
 		// Edit
@@ -97,7 +98,7 @@ public class Menubar extends JMenuBar{
 		menuEdit.add(addClusteringResults);
 
 		// View
-		menuView = new JMenu("Attributes");
+		menuView = new JMenu("View");
 		ShowDistanceMatrix = new JMenuItem("Distance matrix");
 		ShowLabels = new JMenuItem("Label IDs");
 		clustering = new JMenu("Clustering");
@@ -168,9 +169,11 @@ public class Menubar extends JMenuBar{
 		DataMatrixFormat.addActionListener(lForMenu);
 		DataMatrixFormat.setBackground(new Color(230,230,230));
 		AttributesFormat.addActionListener(lForMenu);
-		AttributesFormat.setBackground(new Color(230,230,230));			
+		AttributesFormat.setBackground(new Color(230,230,230));	
+		saveAttributes.addActionListener(lForMenu);
 		exitAction.addActionListener(lForMenu);
-		
+		exitAction.setBackground(new Color(230,230,230));	
+
 		ChooseOtherDM.addActionListener(lForMenu);
 		ChooseOtherDM.setEnabled(false);
 		ChooseAttributes.addActionListener(lForMenu);
@@ -403,7 +406,7 @@ public class Menubar extends JMenuBar{
 		        		ChooseOtherDM.setEnabled(true);
 		        		ChooseOtherDM.setText("Choose the the other distance matrix (Current: " + DataM.CurrentDM + ")");
 
-		        		JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
+		        		//JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
 		        		ACES.ta.setText(DataM.CurrentDM + "\r\n");
 
 		                int count;
@@ -664,6 +667,12 @@ public class Menubar extends JMenuBar{
 		        	DataM.AttributeMatrix = new String[DataM.size+1];
 		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
 		        	DataM.changeSampleInfo();
+		        	
+		        	DataM.newAttributeMatrix = new String[DataM.size+1];
+					
+					for(int i = 0; i < DataM.size; i++){
+						DataM.newAttributeMatrix[i] = DataM.AttributeMatrix[i];
+	        		}
 	         
 		            ShowPower.setEnabled(true);
 		            ChooseAttributes.setEnabled(true);
@@ -709,10 +718,10 @@ public class Menubar extends JMenuBar{
 
 				
 				String[] temp1; 
-                for(int i = 1; i <  DataM.size+1; i++){
-        			temp1 =  DataM.AttributeMatrix[i].split(DataM.ATSplit);
+                for(int i = 0; i <  DataM.size+1; i++){
+        			temp1 =  DataM.newAttributeMatrix[i].split(DataM.ATSplit);
         			for(int j = 0; j <  temp1.length; j++){
-    	    	    	ACES.ta.append(DataM.AttributeMatrix[i]+"    ");
+    	    	    	ACES.ta.append(DataM.newAttributeMatrix[i]+"    ");
         			}
         			ACES.ta.append("\n");
         		}
@@ -754,11 +763,7 @@ public class Menubar extends JMenuBar{
 			}
 			else if (e.getSource()==addClusteringResults){
 				
-				DataM.newAttributeMatrix = new String[DataM.size+1];
 				
-				for(int i = 0; i < DataM.size; i++){
-					DataM.newAttributeMatrix[i] = DataM.AttributeMatrix[i];
-        		}
 				DataM.newAttributeMatrix[0] = String.join(",",DataM.CurrentDM, DataM.newAttributeMatrix[0]);
 				
 				for(int i = 1; i < DataM.size+1; i++){
