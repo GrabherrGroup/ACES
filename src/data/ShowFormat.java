@@ -72,7 +72,7 @@ public void show_DM_Format(JTextArea Ta){
 	
 public void show_O_Format(JTextArea Ta){
 	
-	Ta.setText("The recommended formats of Sample Data:\n");
+	Ta.setText("The recommended formats of Raw Data:\n");
 	Ta.append("\n");
 	Ta.append("\n");
 	Ta.append("-------------------------   Format 1   -------------------------\n");

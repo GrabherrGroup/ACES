@@ -14,8 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-
 import data.*;
 
 public class ACES extends JFrame{
@@ -25,14 +25,14 @@ public class ACES extends JFrame{
 	 */
 	private static final long serialVersionUID = -9034662823359227749L;
 	public static JFrame bodyFrame;
-	JPanel sampleInfoPanel, bodyPanel, dmInfoPanel, menuPanel, dmPanel, siPanel, drawingPanel;
+	JPanel sampleInfoPanel, bodyPanel, dmInfoPanel, menuPanel, dmPanel, siPanel;
 	public static JPanel backgroundPanel;
 	static JLabel sampleInfoLabel;
 	GridBagConstraints gridConstraints = new GridBagConstraints();
+
 	
-	public static JTextArea ta; // show the content
-	public static JScrollPane sp; 
-		
+	public static JTabbedPane drawingPanel;
+
 	static Menubar mainMenu;
 	DataManagement DataM = new DataManagement();
 	
@@ -97,8 +97,13 @@ public class ACES extends JFrame{
 		bodyPanel.setLayout(new BorderLayout());
 		backgroundPanel.add(menuPanel,BorderLayout.NORTH);	
 		backgroundPanel.add(bodyPanel);
-		drawingPanel= new JPanel();
-		drawingPanel.setLayout(new BorderLayout());
+		
+		drawingPanel= new JTabbedPane();
+		//drawingPanel.setLayout(new BorderLayout());
+		
+
+		
+		
 		
 		/* dmPanel holds the dmInfoPanel */
 		dmPanel = new JPanel();
@@ -117,21 +122,18 @@ public class ACES extends JFrame{
 		dmPanel.setBackground(Color.WHITE);
 		dmScroll.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 		bodyPanel.add(dmPanel, BorderLayout.WEST);
-		bodyPanel.add(drawingPanel, BorderLayout.CENTER);
-		
+		//bodyPanel.add(drawingPanel, BorderLayout.CENTER);
+		bodyPanel.add(drawingPanel);
+
 		mainMenu = new Menubar(DataM);
 		bodyFrame.setJMenuBar(mainMenu.getMenu());
-		menuPanel.add(mainMenu, BorderLayout.NORTH);
+		menuPanel.add(mainMenu, BorderLayout.CENTER);
 	
+
 		
-		ta = new JTextArea();
-		sp = new JScrollPane(ta);
-		
-		drawingPanel.add(sp);
 		gridConstraints.insets = new Insets(1,15,4,1);
 		
 		bodyFrame.add(backgroundPanel,BorderLayout.CENTER);
-		
 		bodyFrame.setIconImage(createImage("/resources/logo_mlv_small.png").getImage());
 		bodyFrame.setVisible(true);
 	}

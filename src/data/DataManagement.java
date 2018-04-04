@@ -7,6 +7,8 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import frame.ACES;
@@ -162,7 +164,13 @@ public class DataManagement {
 
         String[] temp; 
         SampleInfoLabel = new String[AttributeOriginalSize-1];
-        ACES.ta.setText("\n");
+        
+        JTextArea ta = new JTextArea();
+    	JScrollPane sp = new JScrollPane(ta);        	
+    	ACES.drawingPanel.addTab("Sorted SampleInfo", sp);
+        ta.setText("Attributes Matrix:\n");		
+	    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Sorted SampleInfo"));
+
 
         
 		char[] LabelChar= Label[1].toCharArray();
@@ -172,7 +180,7 @@ public class DataManagement {
 			LabelInt[i] = i;
 		}
 		
-		/*temp = AttributeOriginalMatrix[4].split(",");
+		temp = AttributeOriginalMatrix[4].split(",");
 			ATSplit = ",";
 		
 		if (temp.length == 1){
@@ -183,12 +191,12 @@ public class DataManagement {
 			ATSplit = "\t";
 			temp = AttributeOriginalMatrix[4].split("\t");
 		}
-		*/	
+			
 		
         for(int i = 1; i < AttributeOriginalSize; i++){
     		temp = AttributeOriginalMatrix[i].split(ATSplit);
 			SampleInfoLabel[i-1] = temp[count];
-			ACES.ta.append(SampleInfoLabel[i-1] +"\n");
+	        //ta.append(SampleInfoLabel[i-1] +"\n");
 			}
         
 		 JTextField field1 = new JTextField();
@@ -230,8 +238,8 @@ public class DataManagement {
            		 	 	break;
             		 }
             	 }
-            	 ACES.ta.setText("new Distance Matrix Labels \n");
-				 ACES.ta.append("\n");
+            	 //ACES.ta.setText("new Distance Matrix Labels \n");
+				 //ACES.ta.append("\n");
 				 
 				 for(int i = 0; i < size; i++){
 					 String[] t = Label[i].split("");
@@ -240,7 +248,7 @@ public class DataManagement {
                	 		 result.append(t[j]);
                	 	 }
                	 	 Label[i] =  result.toString();
-               	 	 ACES.ta.append(Integer.toString(i+1) + "     " + Label[i] +"\n");
+               	 	 //ACES.ta.append(Integer.toString(i+1) + "     " + Label[i] +"\n");
 	
                 } 
              }
@@ -255,8 +263,8 @@ public class DataManagement {
 	            		 break;
 	            	 }
 	             }
-	             ACES.ta.setText("new SampleInfo Labels \n");
-	 			 ACES.ta.append("\n");
+	          //   ACES.ta.setText("new SampleInfo Labels \n");
+	 			// ACES.ta.append("\n");
 	 				 
 	             for(int i = 0; i < AttributeOriginalSize-1; i++){
 	            	 String[] t = SampleInfoLabel[i].split("");
@@ -265,7 +273,7 @@ public class DataManagement {
 	                	 result.append(t[j]);
 		             }
 	                 SampleInfoLabel[i] =  result.toString();
-	                 ACES.ta.append(Integer.toString(i+1) + "     " + SampleInfoLabel[i] +"\n");
+	            //     ACES.ta.append(Integer.toString(i+1) + "     " + SampleInfoLabel[i] +"\n");
 	 	
 	             }  
              }
@@ -294,6 +302,15 @@ public class DataManagement {
        		     }
        	  	 }	      	  	            	  
          }
+         String[] temp1; 
+         for(int i = 0; i <  size+1; i++){
+ 			temp1 =  AttributeMatrix[i].split(ATSplit);
+ 			for(int j = 0; j <  temp1.length; j++){
+	    	    	ta.append(AttributeMatrix[i]+"\r");
+ 			}
+ 			ta.append("\n");
+ 		}
+			
 	}
 	
 	

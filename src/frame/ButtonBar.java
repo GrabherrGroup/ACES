@@ -25,6 +25,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import data.*;
@@ -257,19 +259,25 @@ public class ButtonBar extends JPanel{
 			if (bc.getSource() == DMLoad){
 				DataM.fd = new FileDialog(ACES.bodyFrame,"Open",FileDialog.LOAD);
 				DataM.fd.setVisible(true);  
-                ACES.ta.setText("Orignial distance matrix: \n");
-                ACES.ta.setText("\n");
                 
                 if (DataM.fd.getFile()==null)
 	            	  return;
                 
-                try {             
+                try {   
                 	DataM.file1 = new File(DataM.fd.getDirectory(),DataM.fd.getFile());
                     FileReader fr = new FileReader(DataM.file1);
                     BufferedReader br = new BufferedReader(fr);
                     String aline;
-                    while ((aline=br.readLine()) != null)
-                    ACES.ta.append(aline+"\r\n");
+                  
+                    JTextArea ta = new JTextArea();
+            		JScrollPane sp = new JScrollPane(ta);        	
+            		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
+                    ta.setText(DataM.file1.getName()+"\n");
+   		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.file1.getName()));
+
+                    while ((aline=br.readLine()) != null )
+	                    ta.append(aline+"\r\n");
+                    
                     fr.close();
                     br.close();
                     DataM.FileOpenStatus = 1;
@@ -329,7 +337,7 @@ public class ButtonBar extends JPanel{
 	                	Menubar.ChooseOtherDM.setText("Choose the distance matrix (Current: " + DataM.CurrentDM + ")");
 	                	
 	                	//JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
-	                	ACES.ta.setText(DataM.CurrentDM + "\r\n");
+	                	ta.setText(DataM.CurrentDM + "\r\n");
 	                	
 	                	int count;
 						for(count = 0; count < DataM.getAllCaci().length; count++){	
@@ -354,9 +362,9 @@ public class ButtonBar extends JPanel{
 	                	
 	                	for(int i = 0; i < DataM.size; i++){
 		                	for(int j = 0; j < DataM.size; j++){
-		                		ACES.ta.append(Double.toString(DataM.DataMatrix[i][j])+"       \r");
+		                		ta.append(Double.toString(DataM.DataMatrix[i][j])+"       \r");
 							}
-		                	ACES.ta.append("\n");
+		                	ta.append("\n");
 		                }
 	                }	
 		         
@@ -389,67 +397,87 @@ public class ButtonBar extends JPanel{
 				if (DataM.FileOpenStatus == 0){
 	        		  JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
 	        		  return;
-	        	  }
+	        	}
       	
-				ACES.ta.setText("Distance Matrix \n");
-				ACES.ta.append("\n");
-				for(int i = 0; i < DataM.size; i++){
-					for(int j = 0; j < DataM.size; j++){
-						ACES.ta.append(Double.toString(DataM.DataMatrix[i][j])+"       \r");
+				JTextArea ta = new JTextArea();
+	        	JScrollPane sp = new JScrollPane(ta);        	
+	        	ACES.drawingPanel.addTab("Distance Matrix", sp);
+	            ta.setText("Distance Matrix \n");
+	            ta.append("\n");
+			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Distance Matrix"));
+
+              for(int i = 0; i < DataM.size; i++){
+              	for(int j = 0; j < DataM.size; j++){
+              		ta.append(Double.toString(DataM.DataMatrix[i][j])+"       \r");
 					}
-              	ACES.ta.append("\n");
+              	ta.append("\n");
               }	
 			} 
 			else if (bc.getSource() == DMLabelID){
 				if (DataM.FileOpenStatus == 0){
-	        		  JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
-	        		  return;
-	        	  }
-      	
-				ACES.ta.setText("Labels \n");
-				ACES.ta.append("\n");
-             
-				for(int i = 0; i < DataM.size; i++){
-					ACES.ta.append(Integer.toString(i+1) + "     " + DataM.Label[i] +"\n");
-				}
+	        		JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		return;
+	        	}
+        	
+				JTextArea ta = new JTextArea();
+	        	JScrollPane sp = new JScrollPane(ta);        	
+	        	ACES.drawingPanel.addTab("Labels", sp);
+	            ta.setText("Labels \n");
+				ta.append("\n");
+			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Labels"));
+
+                for(int i = 0; i < DataM.size; i++){
+                	ta.append(Integer.toString(i+1) + "     " + DataM.Label[i] +"\n");
+                }
 			} 
 			else if (bc.getSource() == DMCluster){
 				if (DataM.FileOpenStatus == 0){
 	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
 	        		 return;
 	        	 }
-				HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
-            	DataM.NumCluster = CV.getNumCluster();
-            	DataM.setLabelsIndex(CV.getLabelsIndex()); 
-            	
-	             DataM.CreateDataAfterClustering();
+	        	 
+	        	 HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+	            	DataM.NumCluster = CV.getNumCluster();
+	            	DataM.setLabelsIndex(CV.getLabelsIndex()); 
 	            	
-	        	 ACES.ta.setText("Hierarchical Clustering results:\n" );  
-	
+	             DataM.CreateDataAfterClustering();
+	            
+	             JTextArea ta = new JTextArea();
+	        	 JScrollPane sp = new JScrollPane(ta);        	
+	        	 ACES.drawingPanel.addTab("Hierarchical", sp);
+	             ta.setText("Hierarchical Clustering results:\n" );  
+			     ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Hierarchical"));
+
 	        	 for (int i = 0; i < DataM.size; i++) {
-	        		 ACES.ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
+	        		 ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
 	        	 DataM.clusteringName = "Hierarchical Clustering";
 			} 
 			else if (bc.getSource() == DMChoose){
-				DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
+DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.AllCaci, DataM.AllCaci[0]);
+				
 				if(DataM.ChooseDM == null){
             		DataM.ChooseDM = DataM.CurrentDM;
         			return;
             	}
             	else
             		DataM.CurrentDM = DataM.ChooseDM;
-        		Menubar.ChooseOtherDM.setText("Choose the distance matrix (Current: " + DataM.CurrentDM + ")");
+				
+        		Menubar.ChooseOtherDM.setText("Choose the the other distance matrix (Current: " + DataM.CurrentDM + ")");
 
+            	//JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
         		
-            	JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
-            	ACES.ta.setText(DataM.CurrentDM + "\r\n");
-            	
+        		JTextArea ta = new JTextArea();
+	        	JScrollPane sp = new JScrollPane(ta);        	
+	        	ACES.drawingPanel.addTab(DataM.CurrentDM, sp);
+	            ta.setText(DataM.CurrentDM + "\r\n");
+			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.CurrentDM));
+
         		for(int i = 0; i < DataM.size; i++){
                 	for(int j = 0; j < DataM.size; j++){
-                		ACES.ta.append(Double.toString(DataM.DataMatrix[i][j])+"       \r");
+                		ta.append(Double.toString(DataM.DataMatrix[i][j])+"       \r");
 					}
-                	ACES.ta.append("\n");
+                	ta.append("\n");
                 }
               
                 int count;
@@ -468,8 +496,7 @@ public class ButtonBar extends JPanel{
             	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
             	DataM.NumCluster = CV.getNumCluster();
             	DataM.setLabelsIndex(CV.getLabelsIndex());
-            	
-            	
+
             	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
             	DataM.setDataAxis(PCA3Axis.getDataAxis());
 			} 
@@ -534,7 +561,6 @@ public class ButtonBar extends JPanel{
 	            if (DataM.fd.getFile()==null)
 	            	return;
 
-	            ACES.ta.setText("\n");
 
 	            try {   
 	            	DataM.file1 = new File(DataM.fd.getDirectory(),DataM.fd.getFile());
@@ -555,22 +581,33 @@ public class ButtonBar extends JPanel{
 		    			DataM.ATSplit = "\t";
 		    			temp = DataM.AttributeOriginalMatrix[4].split("\t");
 		    		}
-	    			
+		    		
+		    		JTextArea ta = new JTextArea();
+		        	JScrollPane sp = new JScrollPane(ta);        	
+		        	ACES.drawingPanel.addTab("SampleInfo", sp);
+		            ta.setText("SampleInfo \n");
+				    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("SampleInfo"));
+    			
 	    			for(int i = 0; i < ACactus.getSize(); i++){
 	    				DataM.setAttributeLine(ACactus.getCactusData()[i].split(DataM.ATSplit));
 	    				for(int j = 0; j < DataM.AttributeLine.length; j++){  	
-	    					ACES.ta.append(DataM.AttributeLine[j]+"   \r");
+	    					ta.append(DataM.AttributeLine[j]+"   \r");
 	        			}
-	    				ACES.ta.append("\n");
+	    				ta.append("\n");
 	    			}
 	    			DataM.AttributeOpenStatus = 1;
 	    			DataM.setAttributeLine(ACactus.getCactusData()[0].split(DataM.ATSplit));
-	    			
-	    			
-			        	DataM.AttributeSize = DataM.size+1;
-			        	DataM.AttributeMatrix = new String[DataM.size+1];
-			        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
-			        	DataM.changeSampleInfo();
+
+		        	DataM.AttributeSize = DataM.size+1;
+		        	DataM.AttributeMatrix = new String[DataM.size+1];
+		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
+		        	DataM.changeSampleInfo();
+		        	
+		        	DataM.newAttributeMatrix = new String[DataM.size+1];
+					
+					for(int i = 0; i < DataM.size; i++){
+						DataM.newAttributeMatrix[i] = DataM.AttributeMatrix[i];
+	        		}
 		        	  
 		            Menubar.ShowPower.setEnabled(true);
 		            Menubar.ChooseAttributes.setEnabled(true);
@@ -612,10 +649,21 @@ public class ButtonBar extends JPanel{
 		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
 		        	DataM.changeSampleInfo();
 	        	}
-				ACES.ta.setText("Attributes Matrix\n");
-				
-				for(int i = 0; i < DataM.AttributeLine.length; i++)
-	    	    	ACES.ta.append(DataM.AttributeMatrix[i]+"   \n");	
+	        	
+	        	JTextArea ta = new JTextArea();
+	        	JScrollPane sp = new JScrollPane(ta);        	
+	        	ACES.drawingPanel.addTab("Sorted SampleInfo", sp);
+	            ta.setText("Attributes Matrix:\n");		
+			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Sorted SampleInfo"));
+
+				String[] temp1; 
+                for(int i = 0; i <  DataM.size+1; i++){
+        			temp1 =  DataM.newAttributeMatrix[i].split(DataM.ATSplit);
+        			for(int j = 0; j <  temp1.length; j++){
+    	    	    	ta.append(DataM.newAttributeMatrix[i]+"    ");
+        			}
+        			ta.append("\n");
+        		}
 			}
 			else if (bc.getSource() == SIShowList){
 				if (DataM.FileOpenStatus == 0){
@@ -633,10 +681,15 @@ public class ButtonBar extends JPanel{
 		        	DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
 		        	DataM.changeSampleInfo();
 	        	}
-	              
-	        	ACES.ta.setText("All attributes \n");
+	        	
+	        	JTextArea ta = new JTextArea();
+	        	JScrollPane sp = new JScrollPane(ta);        	
+	        	ACES.drawingPanel.addTab("All attributes", sp);
+	            ta.setText("All attributes \n");
+			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("All attributes"));
+
 	        	for(int i = 0; i < DataM.AttributeLine.length; i++){
-	        		ACES.ta.append(Integer.toString(i)+"   "+ DataM.AttributeLine[i]+"\r\n");
+	        		ta.append(Integer.toString(i)+"   "+ DataM.AttributeLine[i]+"\r\n");
         		}
 			}
 			else if (bc.getSource() == AddCluster){
@@ -676,8 +729,13 @@ public class ButtonBar extends JPanel{
 	        		DataM.ChooseAttribute = (String)JOptionPane.showInputDialog(null,"choose the attribute you wish to plot", "Attributes", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAttributeLine(), DataM.getAttributeLine()[0]);
 		        	if(DataM.ChooseAttribute == null)
 		        		return;
-		        	ACES.ta.setText("selected Attribute: " + DataM.ChooseAttribute+ "\r\n");
-		              
+		        	
+		        	JTextArea ta = new JTextArea();
+		        	JScrollPane sp = new JScrollPane(ta);        	
+		        	ACES.drawingPanel.addTab(DataM.ChooseAttribute, sp);
+		            ta.setText("selected Attribute: " + DataM.ChooseAttribute+ "\r\n");
+				    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.ChooseAttribute));
+ 
 		        	int count;
 					for(count = 0; count < DataM.AttributeLine.length; count++){	
 	        			if(DataM.AttributeLine[count].equals(DataM.ChooseAttribute))
@@ -689,15 +747,13 @@ public class ButtonBar extends JPanel{
 	                for(int i = 1; i <  DataM.size+1; i++){
 	        			temp1 =  DataM.AttributeMatrix[i].split(DataM.ATSplit);
 	        			DataM.AttributeLabel[i-1] = temp1[count];
-	        			ACES.ta.append(Integer.toString(i)+"   "+ DataM.AttributeLabel[i-1] +"\n");
+	        			ta.append(Integer.toString(i)+"   "+ DataM.AttributeLabel[i-1] +"\n");
 	        		}
-	                ACES.ta.append("\n");
-	                ACES.ta.append("\n");
-	           
-	                
-	                
+	                ta.append("\n");
+	                ta.append("\n");
+	               
 	                Set<String> TT = new LinkedHashSet<String>(Arrays.asList(DataM.AttributeLabel));
-	                TT.remove("0");
+	                TT.remove("None");
 	                TT.remove("");
 	                DataM.setRefLabel(TT.toArray( new String[TT.size()] ));
 	                
@@ -707,8 +763,9 @@ public class ButtonBar extends JPanel{
 	                for(int i = 0; i < DataM.refLabel.length; i++){
 	                	message[i+2] = DataM.refLabel[i] + "\n"; 
 	        		}
-	                SIHeat.setEnabled(true);
-	                Menubar.plotHeatMapA.setEnabled(true);
+	        		ButtonBar.SIHeat.setEnabled(true);
+	        		Menubar.plotHeatMapA.setEnabled(true);
+
                 	JOptionPane.showMessageDialog(null, message,"Unique Labels", JOptionPane.CLOSED_OPTION, icon);
                 
 	                DataM.AttributeChooseStatus = 1;
