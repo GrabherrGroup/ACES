@@ -281,6 +281,7 @@ public class ButtonBar extends JPanel{
                     fr.close();
                     br.close();
                     DataM.FileOpenStatus = 1;
+                    DataM.currentFilename = DataM.file1.getName();
                     
                     DataM.ChooseAttribute = "attribute";	                		              
                 	Menubar.ChooseAttributes.setEnabled(false);
@@ -322,6 +323,7 @@ public class ButtonBar extends JPanel{
 	                	DataM.setSize(DataM.getLabel().length);
 	                	DataM.setAllDataMatrix(oneCactus.getCactus());
 	                	DataM.setAllCaci(oneCactus.getAllCacti());
+	                	DataM.currentFilename = DataM.file1.getName();
 	                	
 	                	DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
 		        		
@@ -506,7 +508,7 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 	        		 return;
 	        	 }
 	        	 
-	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM,DataM.clusteringName);
+	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.currentFilename, DataM.CurrentDM, DataM.clusteringName);
 			}
 			else if(bc.getSource()==DMHeatO){
 	        	 if (DataM.FileOpenStatus == 0){
@@ -792,7 +794,7 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 		        	 DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
 		        	 DataM.changeSampleInfo();
 	        	 }
-	        	 new Visualization(DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute);
+	        	 new Visualization(DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute, DataM.currentFilename);
   
 			}
 			else if (bc.getSource() == SISave){

@@ -21,7 +21,9 @@ public class DataManagement {
 	public int FileOpenStatus = 0; //check whether the distance matrix files have been loaded first
 	public int AttributeOpenStatus = 0; 
 	public int AttributeChooseStatus = 0;
-	
+	public int RawFileLoadStatus = 0;
+	public String currentFilename;
+
 	public double DBr = 1; //DBSCAN eps
 	public int DBm = 10;  //DBSCAN minPts
 	
@@ -403,7 +405,13 @@ public class DataManagement {
              }
              
              if (jcd.getSelectedItem() == "Column")
-            	 dimension = 1;            
+            	 dimension = 1;
+             RawFileLoadStatus = 1;
+         }
+         if (option == JOptionPane.NO_OPTION){
+        	 RawFileLoadStatus = 0; 
+        	 JOptionPane.showMessageDialog(null, "Please set those parameters.\nOtherwise, the raw data file cannot be extracted.", null, JOptionPane.INFORMATION_MESSAGE, icon);  	  
+
          }
      }
 	

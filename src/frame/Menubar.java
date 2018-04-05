@@ -255,6 +255,8 @@ public class Menubar extends JMenuBar{
                 	DataM.file1 = new File(DataM.fd.getDirectory(),DataM.fd.getFile());
                     FileReader fr = new FileReader(DataM.file1);
                     BufferedReader br = new BufferedReader(fr);
+                    
+
                     String aline;
                     
                     JTextArea ta = new JTextArea();
@@ -268,47 +270,53 @@ public class Menubar extends JMenuBar{
                     
                     fr.close();
                     br.close();
-                    DataM.FileOpenStatus = 1;
                     
                     DataM.setDataInfo();
-                    
-                	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile(),DataM.Row,DataM.Column,DataM.dimension,DataM.LineNo);
-                	DataM.setLabel(oneCactus.getLabel()); 
-                	DataM.setOriginalDataMatrix(oneCactus.getOriginalData());
-                	DataM.setDataMatrix(oneCactus.getCactus());
-                	DataM.sampleSize = oneCactus.sampleSize;
-                	DataM.size = oneCactus.getSize();
-                	                	
-                	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
-                	DataM.NumCluster = CV.getNumCluster();
-                	DataM.setLabelsIndex(CV.getLabelsIndex());
-                	             	
-                	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
-                	DataM.setDataAxis(PCA3Axis.getDataAxis());
-	        		ButtonBar.DMChoose.setEnabled(true);
-                
-	        		ShowDistanceMatrix.setEnabled(true);
-	        		ShowLabels.setEnabled(true);	 
-	        		plot3D.setEnabled(true);
-	        		plotHeatMap.setEnabled(true);
-	        		plotSamples.setEnabled(true);	
-	        		plotHeatMapO.setEnabled(true);
-	        		plotHeatMapC.setEnabled(true);
-	        		clustering.setEnabled(true);
-	        		numberOfCluster.setEnabled(true);
-	        		HierarchicalClustering.setEnabled(true);
-	        		KMeansClustering.setEnabled(true);
-	        		DBSCAN.setEnabled(true);
 
-	        		loadAttributes.setEnabled(true);
-	        		
-	        		ButtonBar.DMShow.setEnabled(true);
-	        		ButtonBar.DMLabelID.setEnabled(true);	        
-	        		ButtonBar.DMCluster.setEnabled(true);	
-	        		ButtonBar.DMPlot.setEnabled(true);
-	        		ButtonBar.SILoad.setEnabled(true);
-	        		ButtonBar.DMHeatO.setEnabled(true);
-	        		ButtonBar.DMHeatC.setEnabled(true);
+                    if (DataM.RawFileLoadStatus ==1){
+                    	DataM.FileOpenStatus = 1;
+                        DataM.currentFilename = DataM.file1.getName();
+                    	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile(),DataM.Row,DataM.Column,DataM.dimension,DataM.LineNo);
+                    	DataM.setLabel(oneCactus.getLabel()); 
+                    	DataM.setOriginalDataMatrix(oneCactus.getOriginalData());
+                    	DataM.setDataMatrix(oneCactus.getCactus());
+                    	DataM.sampleSize = oneCactus.sampleSize;
+                    	DataM.size = oneCactus.getSize();
+                    	                	
+                    	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+                    	DataM.NumCluster = CV.getNumCluster();
+                    	DataM.setLabelsIndex(CV.getLabelsIndex());
+                    	             	
+                    	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
+                    	DataM.setDataAxis(PCA3Axis.getDataAxis());
+    	        		ButtonBar.DMChoose.setEnabled(true);
+                    
+    	        		ShowDistanceMatrix.setEnabled(true);
+    	        		ShowLabels.setEnabled(true);	 
+    	        		plot3D.setEnabled(true);
+    	        		plotHeatMap.setEnabled(true);
+    	        		plotSamples.setEnabled(true);	
+    	        		plotHeatMapO.setEnabled(true);
+    	        		plotHeatMapC.setEnabled(true);
+    	        		clustering.setEnabled(true);
+    	        		numberOfCluster.setEnabled(true);
+    	        		HierarchicalClustering.setEnabled(true);
+    	        		KMeansClustering.setEnabled(true);
+    	        		DBSCAN.setEnabled(true);
+
+    	        		loadAttributes.setEnabled(true);
+    	        		
+    	        		ButtonBar.DMShow.setEnabled(true);
+    	        		ButtonBar.DMLabelID.setEnabled(true);	        
+    	        		ButtonBar.DMCluster.setEnabled(true);	
+    	        		ButtonBar.DMPlot.setEnabled(true);
+    	        		ButtonBar.SILoad.setEnabled(true);
+    	        		ButtonBar.DMHeatO.setEnabled(true);
+    	        		ButtonBar.DMHeatC.setEnabled(true);
+                    }
+                    else{
+                    	return;
+                    }         
                 }
                 catch (IOException ioe){
                 	System.out.println(ioe);
@@ -330,7 +338,7 @@ public class Menubar extends JMenuBar{
                     JTextArea ta = new JTextArea();
             		JScrollPane sp = new JScrollPane(ta);        	
             		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
-                    ta.setText(DataM.file1.getName()+"\n");
+                    ta.setText("\n");
    		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.file1.getName()));
 
                     while ((aline=br.readLine()) != null )
@@ -339,7 +347,7 @@ public class Menubar extends JMenuBar{
                     fr.close();
                     br.close();
                     DataM.FileOpenStatus = 1;
-                    
+                    DataM.currentFilename = DataM.file1.getName();
                     DataM.ChooseAttribute = "attribute";	                		              
                 	ChooseAttributes.setEnabled(false);
     	    		ShowAttributes.setEnabled(false);
@@ -382,6 +390,7 @@ public class Menubar extends JMenuBar{
 	                	DataM.setSize(DataM.getLabel().length);
 	                	DataM.setAllDataMatrix(oneCactus.getCactus());
 	                	DataM.setAllCaci(oneCactus.getAllCacti());
+	                	DataM.currentFilename = DataM.file1.getName();
 	                	
 	                	DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.getAllCaci(), DataM.getAllCaci()[0]);
 		        		
@@ -949,45 +958,7 @@ public class Menubar extends JMenuBar{
 		               
 	                }
 					
-					/*for(int i = 0; i < DataM.refLabel.length; i++){
-		                	for(int j = 0; j <  DataM.size; j++){
-		                		if (DataM.AttributeLabel[j].equals(DataM.refLabel[i])){
-		                			DataM.AttributeIndex[j] = i+1;   
-		                		}
-				        	}
-		        		}
-		        		
-					int sum = 0;
-	                int countSum = 0;
-	                double Smean = 0;
-	                double std_temp = 0;
-	                double std_cluster = 0;
-	                
-	                for (int j = 1; j < DataM.NumCluster+1; j++){
-	                    sum = 0;
-	                    countSum = 0;
-	                    Smean = 0;
-	                    std_temp = 0;
-	                	for(int i = 0; i <  DataM.size; i++){
-	                		if (DataM.labelsIndex[i] == j){
-			    				countSum = countSum + 1;
-			        			sum = sum + DataM.AttributeIndex[i];   					        	
-			    			}
-		        		}
-		                Smean = sum/countSum;
-		                for(int i = 0; i <  DataM.size; i++){
-	                		if (DataM.labelsIndex[i] == j){
-	                			std_temp = std_temp + (DataM.AttributeIndex[i]-Smean)*(DataM.AttributeIndex[i]-Smean);   					        	
-			    			}
-		        		}
-		                std_cluster = std_cluster + std_temp/countSum;
-	                }
-	               // std_cluster = std_cluster/DataM.NumCluster;
-	                DataM.AttributeRank[count] = std_cluster;
-	                if (DataM.refLabel.length>7)
-	                	DataM.AttributeRank[count] = std_cluster + 1000;
-                }
-				*/
+					
 					
 					DataM.AttributeRank[0] = 1000000;     
 	        
@@ -1199,7 +1170,7 @@ public class Menubar extends JMenuBar{
 	        		 return;
 	        	 }
 	        	 
-	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.CurrentDM, DataM.clusteringName);
+	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.currentFilename, DataM.CurrentDM, DataM.clusteringName);
 	         }
 	         else if(e.getSource()==plotAttributes){
 	        	 if (DataM.FileOpenStatus == 0){
@@ -1221,7 +1192,7 @@ public class Menubar extends JMenuBar{
 		        	 DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
 		        	 DataM.changeSampleInfo();
 	        	 }
-	        	 new Visualization(DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute);
+	        	 new Visualization(DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute, DataM.currentFilename);
    
 	        }
 			else if (e.getSource() == exitAction){

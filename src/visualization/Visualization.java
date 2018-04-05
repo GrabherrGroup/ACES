@@ -32,7 +32,7 @@ public class Visualization {
 
 	 final ImageIcon iconSave = new ImageIcon(getClass().getResource("/resources/save.png"));
 
- 	 public Visualization(int [] labelsIndex, String [] Label, double [][] DataAxis, int size, String ChooseDM, String ClusteringName) {
+ 	 public Visualization(int [] labelsIndex, String [] Label, double [][] DataAxis, int size, String Filename, String ChooseDM, String ClusteringName) {
  		 super();
  		 
  		 double[] x = {1};
@@ -86,14 +86,18 @@ public class Visualization {
 			}
 			
        }
+	     String name = "Visualization of " + Filename + " (" + ChooseDM + ") "+ " (" + ClusteringName + ")";
 	     
+	     if (ChooseDM == "current Distance Matrix")
+	    	 name = "Visualization of " + Filename + " (" + ClusteringName + ")";
+	    
   
-	     JFrame frame = new JFrame("Visualization using the " + ChooseDM + " (" + ClusteringName + ")");
-	     frame.setContentPane(plot);
+	     JFrame frame = new JFrame(name);
+    	 frame.setContentPane(plot);
 	     frame.setVisible(true);
 	     frame.setSize(900, 900);
 	     
-	     frame.addWindowListener(new java.awt.event.WindowAdapter() {
+	     /*frame.addWindowListener(new java.awt.event.WindowAdapter() {
 	 		    @Override
 	 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 	 		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save this plot?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
@@ -122,10 +126,10 @@ public class Visualization {
 	 		        	 
 	 		         }	
 	 		    }
-	 		});  
+	 		});  */
  	 }
  	 
- 	public Visualization(String [] label, String [] refLabel, double [][] DataAxis, int size, int num, String Attribute) {
+ 	public Visualization(String [] label, String [] refLabel, double [][] DataAxis, int size, int num, String Attribute, String Filename) {
 		super();
 	
 		double[] x = {1};
@@ -190,15 +194,14 @@ public class Visualization {
 			
        }
 	    
-	    JFrame frame = new JFrame("Visualization using the " + Attribute);
+	    JFrame frame = new JFrame("Visualization of "+ Filename + " (" + Attribute +")");
 	    frame.setContentPane(plot);
 	    frame.setVisible(true);
 	    frame.setSize(900, 900);
 	    
 	    
 	    
-	    
-	    frame.addWindowListener(new java.awt.event.WindowAdapter() {
+	    /*frame.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override
  		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
  		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save this plot?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
@@ -226,7 +229,7 @@ public class Visualization {
  		        	 
  		         }	
  		    }
- 		}); 
+ 		}); */
  	 }
  	
 
