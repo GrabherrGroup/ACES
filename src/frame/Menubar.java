@@ -62,9 +62,7 @@ public class Menubar extends JMenuBar{
 	private JMenuBar makeMenubar(DataManagement DataM) {
 
 		JMenuBar menubar = new JMenuBar();
-		
-		
-		
+
 		// File
 		menuDataFile = new JMenu("File");
 		Loadall = new JMenu("Open");
@@ -122,8 +120,6 @@ public class Menubar extends JMenuBar{
 		menuView.add(ShowAttributesMatrix);
 		menuView.add(ShowAttributes);
 		menuView.add(ShowPower);
-		
-		//ShortenLabels = new JMenuItem("Shorten Labels");
 		
 		
 		// Visualization menu items  
@@ -860,154 +856,7 @@ public class Menubar extends JMenuBar{
 	        	if(DataM.AttributeOriginalSize>DataM.size+1)
 	        	  	return;
 	        	else{
-	        		JTextArea ta = new JTextArea();
-		        	JScrollPane sp = new JScrollPane(ta);        	
-		        	ACES.drawingPanel.addTab("Attributes Rank", sp);
-		            ta.setText("The discriminative power of attribute" + "\r\n");
-				    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Attributes Rank"));
-
-					DataM.AttributeLabel = new String[DataM.size];
-		            DataM.AttributeRank = new double[DataM.AttributeLine.length];
-		            DataM.newRankAttribute = new String[DataM.AttributeLine.length];
-		            
-					for(int count = 1; count < DataM.AttributeLine.length; count++){	
-	        			
-						String[] temp1; 
-	                    for(int i = 1; i <  DataM.size+1; i++){
-		        			temp1 =  DataM.AttributeMatrix[i].split(DataM.ATSplit);
-		        			DataM.AttributeLabel[i-1] = temp1[count];
-		        		}
-		                Set<String> TT = new LinkedHashSet<String>(Arrays.asList(DataM.AttributeLabel));
-		                TT.remove("None");
-		                TT.remove("");
-		                DataM.setRefLabel(TT.toArray( new String[TT.size()] ));
-		                
-		                
-		                if (DataM.refLabel.length==1){
-		                	DataM.AttributeRank[count] = 1000000;
-		                	continue;
-		                }
-		                int count_r = 0;
-		                int count_r_max = 0;
-		                for(int i = 0; i < DataM.refLabel.length; i++){
-		                	count_r = 0;
-		                	for(int j = 0; j < DataM.size; j++){
-		                		if (DataM.AttributeLabel[j].equals(DataM.refLabel[i]) ){
-		                			count_r = count_r + 1; 
-		                		}
-
-				        	}
-
-		                	if(count_r > count_r_max) 
-		                		count_r_max = count_r;
-		        		}
-		                	
-		                if (count_r_max>DataM.size*5/6){
-		                	DataM.AttributeRank[count] =  10000;
-		                	continue;
-		                }
-
-		                double[][] cluster_ref_weight = new double[DataM.refLabel.length][DataM.NumCluster];
-		               
-		                double count_num = 0;
-		                double count_cluster = 0;
-		                for(int i = 0; i < DataM.refLabel.length; i++){ 
-		                	count_num = 0;
-		                	for(int k = 1; k < DataM.NumCluster+1; k++){
-			                	for(int j = 0; j < DataM.size; j++){
-			                		if (DataM.AttributeLabel[j].equals(DataM.refLabel[i])&&(DataM.labelsIndex[j] == k)){
-			                			count_cluster = count_cluster + 1;
-			                			count_num = count_num + 1;
-			                		}
-					        	} 
-			                	cluster_ref_weight[i][k-1] = count_cluster;
-			                	count_cluster = 0;
-		                	}
-		                	for(int k = 1; k < DataM.NumCluster+1; k++){
-		                		cluster_ref_weight[i][k-1] = cluster_ref_weight[i][k-1]/count_num;	
-		                	}
-		        		}
-		                double cluster_weight = 0;
-		                double count_reflabel_max = 0;
-		                double temp_weight = 0;
-
-		                for(int k = 1; k < DataM.NumCluster+1; k++){
-		                    count_reflabel_max = 0;
-			                for(int i = 0; i < DataM.refLabel.length; i++){
-			                	if(cluster_ref_weight[i][k-1] > count_reflabel_max) 
-			                		count_reflabel_max = cluster_ref_weight[i][k-1];
-			        		}
-			                for(int i = 0; i < DataM.refLabel.length; i++){
-			                	cluster_ref_weight[i][k-1] = 1-(cluster_ref_weight[i][k-1]/count_reflabel_max);
-			                	temp_weight = temp_weight + cluster_ref_weight[i][k-1];
-
-			                }
-			                cluster_weight = cluster_weight + temp_weight;
-			                temp_weight = 0;
-		                }
-		                
-		                cluster_weight = cluster_weight/(DataM.refLabel.length-1);
-		             
-		                DataM.AttributeRank[count] = 10 - cluster_weight;
-		        		//ACES.ta.append(Integer.toString(count+1)+"   "+ cluster_weight+"\n");
-		                if (DataM.refLabel.length>7){
-		                	DataM.AttributeRank[count] = cluster_weight + 1000;
-		                	
-		                }
-		                
-		               
-	                }
-					
-					
-					
-					DataM.AttributeRank[0] = 1000000;     
-	        
-	                double[] Rank = new double[DataM.AttributeLine.length];
-	 
-		        	for(int count = 0; count < DataM.AttributeLine.length; count++){
-		        		Rank[count] = DataM.AttributeRank[count];
-		        		//ACES.ta.append(Integer.toString(count+1)+"   "+ DataM.AttributeLine[count] + "   "+Rank[count]+"\n");
-					}
-		        	Arrays.sort(Rank);
-		        	int index1 = 0; int index2 = 0;
-		        	for(int i = 0; i < DataM.AttributeLine.length; i++){
-		        			if(Rank[0] == DataM.AttributeRank[i]){
-		        				DataM.newRankAttribute[0] = DataM.AttributeLine[i];
-		        				index2 = i;
-			        			break;
-		        			}
-		        		}
-	        			ta.append(Integer.toString(1)+"   "+ DataM.newRankAttribute[0] +"\n");
-	        			
-	        	    
-	        	    
-		        	for(int count = 1; count < DataM.AttributeLine.length; count++){
-		        		
-		        		if (Rank[count] != Rank[count-1]){
-		        			for(int i = 0; i < DataM.AttributeLine.length; i++){
-			        			if(Rank[count] == DataM.AttributeRank[i]){
-			        				DataM.newRankAttribute[count] = DataM.AttributeLine[i];
-			        				index2 = i;
-			        				break; 			
-			        			}
-			        		}
-		        			ta.append(Integer.toString(count+1)+"   "+ DataM.newRankAttribute[count] +"\n");
-		        			index1 = 0;
-		        			
-		        		}
-		        		else{
-		        			index1 = index1+1;
-		        			for(int i = index2+1; i < DataM.AttributeLine.length; i++){
-			        			if(Rank[count] == DataM.AttributeRank[i]){
-			        				DataM.newRankAttribute[count] = DataM.AttributeLine[i];
-			        				index2 = i;
-				        			break;
-			        			}
-			        		}
-		        			ta.append(Integer.toString(count-index1+1)+"   "+ DataM.newRankAttribute[count] +"\n");
-		        		}
-		        		
-					}
+	        		DataM.createDisPower();
 	        	}
              }  
 			else if (e.getSource()==ChooseAttributes) { 

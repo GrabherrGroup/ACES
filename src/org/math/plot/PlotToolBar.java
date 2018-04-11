@@ -228,6 +228,7 @@ public class PlotToolBar extends JToolBar {
 
     void saveGraphicFile() throws IOException {
             File ff = pngFileChooser.getSelectedFile();
+   
 			SVGGraphics2D g2 = new SVGGraphics2D(plotPanel.getWidth(), plotPanel.getHeight());
 			plotPanel.paint(g2);
       
@@ -236,7 +237,7 @@ public class PlotToolBar extends JToolBar {
 			} catch (IOException ex) {
 			    System.err.println(ex);
 			}
-			    JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
+			   // JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
  
     }
     boolean adjustBoundsVisible = true;

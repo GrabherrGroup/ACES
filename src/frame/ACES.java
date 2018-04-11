@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import data.*;
 
 public class ACES extends JFrame{
@@ -100,9 +99,7 @@ public class ACES extends JFrame{
 		
 		drawingPanel= new JTabbedPane();
 		//drawingPanel.setLayout(new BorderLayout());
-		
-
-		
+	
 		
 		
 		/* dmPanel holds the dmInfoPanel */

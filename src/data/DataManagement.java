@@ -149,9 +149,6 @@ public class DataManagement {
 	}
 	
 
-	
-	
-	
 	public void changeSampleInfo() {
 		String ChooseLabel = (String)JOptionPane.showInputDialog(null,"Please choose the Label info column", "Labels", JOptionPane.QUESTION_MESSAGE, icon, AttributeLine, AttributeLine[0]);
         if(ChooseLabel == null){
@@ -334,6 +331,16 @@ public class DataManagement {
 		Arrays.sort(temp);
 		count = (int) (count/3.5);
 		DBr = temp[count];
+		if (size < 50)
+			DBm = 2;
+		else if(size>=50 && size < 100)
+			DBm = 3;
+		else if(size>=100 && size < 150)
+			DBm = 5;
+		else if(size>=150 && size < 200)
+			DBm = 6;
+		else 
+			DBm = 7;
 	
 		 JTextField field1 = new JTextField();
          JTextField field2 = new JTextField();
@@ -365,9 +372,7 @@ public class DataManagement {
 		 JTextField field1 = new JTextField();
          JTextField field2 = new JTextField();
          JTextField field3 = new JTextField();
-       //  field1.setText(Integer.toString(0));
-       //  field2.setText(Integer.toString(0));
-       //  field3.setText(Integer.toString(0));
+  
          
          String[] direction={"Row","Column"};
         
@@ -406,6 +411,7 @@ public class DataManagement {
              
              if (jcd.getSelectedItem() == "Column")
             	 dimension = 1;
+             
              RawFileLoadStatus = 1;
          }
          if (option == JOptionPane.NO_OPTION){
@@ -414,6 +420,151 @@ public class DataManagement {
 
          }
      }
+	
+	public void createDisPower(){
+		
+		JTextArea ta = new JTextArea();
+    	JScrollPane sp = new JScrollPane(ta);        	
+    	ACES.drawingPanel.addTab("Attributes Rank", sp);
+        ta.setText("The discriminative power of attribute" + "\r\n");
+	    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Attributes Rank"));
+
+		AttributeLabel = new String[size];
+        AttributeRank = new double[AttributeLine.length];
+        newRankAttribute = new String[AttributeLine.length];
+        
+		for(int count = 1; count < AttributeLine.length; count++){				
+			String[] temp1; 
+            for(int i = 1; i < size+1; i++){
+    			temp1 = AttributeMatrix[i].split(ATSplit);
+    			AttributeLabel[i-1] = temp1[count];
+    		}
+            Set<String> TT = new LinkedHashSet<String>(Arrays.asList(AttributeLabel));
+            TT.remove("None");
+            TT.remove("");
+            setRefLabel(TT.toArray( new String[TT.size()] ));
+          
+            if (refLabel.length==1){
+            	AttributeRank[count] = 1000000; // no discriminative power
+            	continue;
+            }
+            
+            // remove the attribute with high tau but low discriminative power
+            /*int count_r = 0;
+            int count_r_max = 0;
+            for(int i = 0; i < refLabel.length; i++){
+            	count_r = 0;
+            	for(int j = 0; j < size; j++){
+            		if (AttributeLabel[j].equals(refLabel[i]) ){
+            			count_r = count_r + 1; 
+            		}
+	        	}
+            	if(count_r > count_r_max) 
+            		count_r_max = count_r;
+    		}
+            	
+            if (count_r_max>size*5/6){
+            	AttributeRank[count] =  10000;
+            	continue;
+            }*/
+
+            double[][] cluster_ref_weight = new double[refLabel.length][NumCluster];
+           
+            double count_num = 0;
+            double count_cluster = 0;
+            for(int i = 0; i < refLabel.length; i++){ 
+            	count_num = 0;
+            	for(int k = 1; k < NumCluster+1; k++){
+                	for(int j = 0; j < size; j++){
+                		if (AttributeLabel[j].equals(refLabel[i])&&(labelsIndex[j] == k)){
+                			count_cluster = count_cluster + 1;
+                			count_num = count_num + 1;
+                		}
+		        	} 
+                	cluster_ref_weight[i][k-1] = count_cluster;
+                	count_cluster = 0;
+            	}
+            	for(int k = 1; k < NumCluster+1; k++){
+            		cluster_ref_weight[i][k-1] = cluster_ref_weight[i][k-1]/count_num;	
+            	}
+    		}
+            double cluster_weight = 0;
+            double count_reflabel_max = 0;
+            double temp_weight = 0;
+
+            for(int k = 1; k < NumCluster+1; k++){
+                count_reflabel_max = 0;
+                for(int i = 0; i < refLabel.length; i++){
+                	if(cluster_ref_weight[i][k-1] > count_reflabel_max) 
+                		count_reflabel_max = cluster_ref_weight[i][k-1];
+        		}
+                for(int i = 0; i < refLabel.length; i++){
+                	cluster_ref_weight[i][k-1] = 1-(cluster_ref_weight[i][k-1]/count_reflabel_max);
+                	temp_weight = temp_weight + cluster_ref_weight[i][k-1];
+
+                }
+                cluster_weight = cluster_weight + temp_weight;
+                temp_weight = 0;
+            }
+            
+            cluster_weight = cluster_weight/(refLabel.length-1);
+         
+            AttributeRank[count] = 10 - cluster_weight;
+    		//ACES.ta.append(Integer.toString(count+1)+"   "+ cluster_weight+"\n");
+            if (refLabel.length>7){
+            	AttributeRank[count] = cluster_weight + 1000;      	
+            }       
+        }
+		
+		AttributeRank[0] = 1000000;     
+
+        double[] Rank = new double[AttributeLine.length];
+
+    	for(int count = 0; count < AttributeLine.length; count++){
+    		Rank[count] = AttributeRank[count];
+    		//ACES.ta.append(Integer.toString(count+1)+"   "+ DataM.AttributeLine[count] + "   "+Rank[count]+"\n");
+		}
+    	Arrays.sort(Rank);
+    	int index1 = 0; int index2 = 0;
+    	for(int i = 0; i < AttributeLine.length; i++){
+    			if(Rank[0] == AttributeRank[i]){
+    				newRankAttribute[0] = AttributeLine[i];
+    				index2 = i;
+        			break;
+    			}
+    		}
+			ta.append(Integer.toString(1)+"   "+ newRankAttribute[0] +"\n");
+			
+	    
+	    
+    	for(int count = 1; count < AttributeLine.length; count++){
+    		
+    		if (Rank[count] != Rank[count-1]){
+    			for(int i = 0; i < AttributeLine.length; i++){
+        			if(Rank[count] == AttributeRank[i]){
+        				newRankAttribute[count] = AttributeLine[i];
+        				index2 = i;
+        				break; 			
+        			}
+        		}
+    			ta.append(Integer.toString(count+1)+"   "+ newRankAttribute[count] +"\n");
+    			index1 = 0;
+    			
+    		}
+    		else{
+    			index1 = index1+1;
+    			for(int i = index2+1; i < AttributeLine.length; i++){
+        			if(Rank[count] == AttributeRank[i]){
+        				newRankAttribute[count] = AttributeLine[i];
+        				index2 = i;
+	        			break;
+        			}
+        		}
+    			ta.append(Integer.toString(count-index1+1)+"   "+ newRankAttribute[count] +"\n");
+    		}   		
+		}
+    	
+	}
 	
 
  	public double[][] getOriginalDataMatrix() {
