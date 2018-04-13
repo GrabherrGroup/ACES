@@ -62,12 +62,14 @@ public class DataManagement {
 	public String[] newAttributeLabel;
 	public String[] newRankAttribute;
 	public double[] AttributeRank;
-	public String ATSplit;
+	public String ATSplit = ",";
 
 	public String[] refLabel;
 	public int AttributeSize;
 	public int AttributeOriginalSize;
 	public String[] SampleInfoLabel;
+	
+	public double[][] distanceBank;
 	
 	
 	public DataManagement(){	 
@@ -433,6 +435,26 @@ public class DataManagement {
         AttributeRank = new double[AttributeLine.length];
         newRankAttribute = new String[AttributeLine.length];
         
+        int outputCount = 0;
+        
+        double[][] distanceBank = {{0.5,0,0,0,0,0,0,0,0,0},
+        		{-0.5,0,0,0,0,0,0,0,0,0},
+        		{0,0.866025,0,0,0,0,0,0,0,0},
+        		{0,0.288675,0.816497,0,0,0,0,0,0,0},
+        		{0,0.288675,0.204124,0.790569,0,0,0,0,0,0},
+        		{0,0.288675,0.204124,0.158114,0.774597,0,0,0,0,0},
+        		{0,0.288675,0.204124,0.158114,0.129099,0.763763,0,0,0,0},
+        		{0,0.288675,0.204124,0.158114,0.129099,0.109109,0.755929,0,0,0},
+        		{0,0.288675,0.204124,0.158114,0.129099,0.109109,0.0944911,0.75,0,0},
+        		{0,0.288675,0.204124,0.158114,0.129099,0.109109,0.0944911,0.0833333,0.745356,0},
+        		{0,0.288675,0.204124,0.158114,0.129099,0.109109,0.0944911,0.0833333,0.0745356, 0.74162}};
+        
+        double[][] meanWithin = new double[NumCluster][10];
+        double[] meanAll = new double[10];
+        int[] clusterWithinNum = new int[NumCluster];
+        double Sb;
+        double Sw;
+        
 		for(int count = 1; count < AttributeLine.length; count++){				
 			String[] temp1; 
             for(int i = 1; i < size+1; i++){
@@ -448,72 +470,79 @@ public class DataManagement {
             	AttributeRank[count] = 1000000; // no discriminative power
             	continue;
             }
-            
-            // remove the attribute with high tau but low discriminative power
-            /*int count_r = 0;
-            int count_r_max = 0;
-            for(int i = 0; i < refLabel.length; i++){
-            	count_r = 0;
-            	for(int j = 0; j < size; j++){
-            		if (AttributeLabel[j].equals(refLabel[i]) ){
-            			count_r = count_r + 1; 
-            		}
-	        	}
-            	if(count_r > count_r_max) 
-            		count_r_max = count_r;
-    		}
-            	
-            if (count_r_max>size*5/6){
-            	AttributeRank[count] =  10000;
+            if (refLabel.length>10){
+            	AttributeRank[count] = 1000000; // no discriminative power
             	continue;
-            }*/
-
-            double[][] cluster_ref_weight = new double[refLabel.length][NumCluster];
-           
-            double count_num = 0;
-            double count_cluster = 0;
-            for(int i = 0; i < refLabel.length; i++){ 
-            	count_num = 0;
-            	for(int k = 1; k < NumCluster+1; k++){
-                	for(int j = 0; j < size; j++){
-                		if (AttributeLabel[j].equals(refLabel[i])&&(labelsIndex[j] == k)){
-                			count_cluster = count_cluster + 1;
-                			count_num = count_num + 1;
-                		}
-		        	} 
-                	cluster_ref_weight[i][k-1] = count_cluster;
-                	count_cluster = 0;
-            	}
-            	for(int k = 1; k < NumCluster+1; k++){
-            		cluster_ref_weight[i][k-1] = cluster_ref_weight[i][k-1]/count_num;	
-            	}
-    		}
-            double cluster_weight = 0;
-            double count_reflabel_max = 0;
-            double temp_weight = 0;
-
-            for(int k = 1; k < NumCluster+1; k++){
-                count_reflabel_max = 0;
-                for(int i = 0; i < refLabel.length; i++){
-                	if(cluster_ref_weight[i][k-1] > count_reflabel_max) 
-                		count_reflabel_max = cluster_ref_weight[i][k-1];
-        		}
-                for(int i = 0; i < refLabel.length; i++){
-                	cluster_ref_weight[i][k-1] = 1-(cluster_ref_weight[i][k-1]/count_reflabel_max);
-                	temp_weight = temp_weight + cluster_ref_weight[i][k-1];
-
-                }
-                cluster_weight = cluster_weight + temp_weight;
-                temp_weight = 0;
             }
             
-            cluster_weight = cluster_weight/(refLabel.length-1);
-         
-            AttributeRank[count] = 10 - cluster_weight;
-    		//ACES.ta.append(Integer.toString(count+1)+"   "+ cluster_weight+"\n");
-            if (refLabel.length>7){
-            	AttributeRank[count] = cluster_weight + 1000;      	
-            }       
+            outputCount = outputCount + 1;
+            
+            for(int i = 0; i < NumCluster; i++){ 
+            	clusterWithinNum[i] = 0;
+            	for(int j = 0; j < 10; j++){
+            		meanWithin[i][j] = 0;
+            		meanAll[j] = 0;
+            	}
+            }
+   
+            //sum the values for mean
+            for(int i = 0; i < refLabel.length; i++){ 
+            	for(int k = 1; k < NumCluster+1; k++){
+            		for(int j = 0; j < size; j++){
+                		if (AttributeLabel[j].equals(refLabel[i])&&(labelsIndex[j] == k)){
+                			for(int m = 0; m<10;m++){
+                				meanWithin[k-1][m] = meanWithin[k-1][m] + distanceBank[i][m]; 
+                				meanAll[m] = meanAll[m] + distanceBank[i][m];
+                			}  
+                			clusterWithinNum[k-1] = clusterWithinNum[k-1] + 1;
+                		}
+		        	} 		
+            	}       	
+            }
+            
+            for(int k = 1; k < NumCluster+1; k++){
+	            for(int m = 0; m<10;m++){
+					meanWithin[k-1][m] = meanWithin[k-1][m]/clusterWithinNum[k-1];
+				}
+			}
+            
+            for(int m = 0; m<10;m++){
+        		meanAll[m] = meanAll[m]/size;               				
+			}
+            
+            Sb = 0;
+            double[] tempmean = new double[10];
+            
+            // calculate Sb
+            for(int k = 0; k < NumCluster; k++){
+            	for(int m = 0; m<10;m++){
+            		tempmean[m] = meanWithin[k][m];               				
+    			}
+	            Sb = Sb + distance(tempmean,meanAll)*clusterWithinNum[k];
+				
+			}
+            
+		    // calculate Sw
+		    Sw = 0;
+		    double[] tempValue = new double[10];
+		    
+			for(int k = 1; k < NumCluster+1; k++){ 
+				for(int m = 0; m<10;m++){
+            		tempmean[m] = meanWithin[k-1][m];               				
+    			}
+				for(int i = 0; i < refLabel.length; i++){
+            		for(int j = 0; j < size; j++){
+                		if (AttributeLabel[j].equals(refLabel[i])&&(labelsIndex[j] == k)){
+                			for(int m = 0; m<10;m++){
+                				tempValue[m] = distanceBank[i][m];               				
+                			}
+                			Sw = Sw + distance(tempValue,tempmean);
+                		}
+		        	}       				
+    			}
+            }
+
+            AttributeRank[count] = -Sb/Sw;
         }
 		
 		AttributeRank[0] = 1000000;     
@@ -532,12 +561,12 @@ public class DataManagement {
     				index2 = i;
         			break;
     			}
-    		}
-			ta.append(Integer.toString(1)+"   "+ newRankAttribute[0] +"\n");
+    	}
+		ta.append(Integer.toString(1)+"   "+ newRankAttribute[0] + "  -  " + Double.toString(-Rank[0]) +"\n");
 			
 	    
 	    
-    	for(int count = 1; count < AttributeLine.length; count++){
+    	for(int count = 1; count < outputCount; count++){
     		
     		if (Rank[count] != Rank[count-1]){
     			for(int i = 0; i < AttributeLine.length; i++){
@@ -547,7 +576,7 @@ public class DataManagement {
         				break; 			
         			}
         		}
-    			ta.append(Integer.toString(count+1)+"   "+ newRankAttribute[count] +"\n");
+    			ta.append(Integer.toString(count+1)+"   "+ newRankAttribute[count] + "  -  " + Double.toString(-Rank[count]) +"\n");
     			index1 = 0;
     			
     		}
@@ -560,13 +589,21 @@ public class DataManagement {
 	        			break;
         			}
         		}
-    			ta.append(Integer.toString(count-index1+1)+"   "+ newRankAttribute[count] +"\n");
+    			ta.append(Integer.toString(count-index1+1)+"   "+ newRankAttribute[count] + "  -  " + Double.toString(-Rank[count]) +"\n");
     		}   		
 		}
     	
 	}
 	
+	public double distance(double[] target1, double[] target2){
+		double output = 0;		
+		for (int i = 0; i < target1.length; i++){
+			output = output + (target1[i] - target2[i])*(target1[i] - target2[i]);
+		}		
+		return output;		
+	}
 
+	
  	public double[][] getOriginalDataMatrix() {
 		return OriginalDataMatrix;
 	}
