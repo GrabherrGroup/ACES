@@ -732,23 +732,23 @@ public class HeatChart {
 				heatMapGraphics.fillRect(cellX, cellY, cellSize.width, cellSize.height);
 			}
 			if (labelsIndex[x] == 1)
-				heatMapGraphics.setColor(Color.RED);
+				heatMapGraphics.setColor(Color.getHSBColor((float) 0.33, 1, (float) 0.4));
 			else if (labelsIndex[x] == 2)
-				heatMapGraphics.setColor(Color.BLUE);
+				heatMapGraphics.setColor(Color.getHSBColor((float) 0.875, (float) 0.8, (float) 1.0));
 			else if (labelsIndex[x] == 3)
-				heatMapGraphics.setColor(Color.GREEN);
+				heatMapGraphics.setColor(Color.getHSBColor((float) 0.7, 1, (float) 1));
 			else if (labelsIndex[x] == 4)
-				heatMapGraphics.setColor(Color.CYAN);
+				heatMapGraphics.setColor(Color.getHSBColor((float) 0.083, (float) 0.5, (float) 0.8));
 			else if (labelsIndex[x] == 5)
-				heatMapGraphics.setColor(Color.MAGENTA);
+				heatMapGraphics.setColor(Color.getHSBColor((float) 0.583, (float) 0.5, (float) 0.8));
 			else if (labelsIndex[x] == 6)
-				heatMapGraphics.setColor(Color.ORANGE);
+				heatMapGraphics.setColor(Color.getHSBColor((float) 0.25, (float) 0.4, (float) 1.0));
 			else if (labelsIndex[x] == 7)
-				heatMapGraphics.setColor(Color.YELLOW);
+				heatMapGraphics.setColor(Color.getHSBColor((float) 0.44, (float) 0.6, (float) 0.5));
 			else if (labelsIndex[x] == 8)
-				heatMapGraphics.setColor(Color.PINK);
+				heatMapGraphics.setColor(Color.getHSBColor((float) 0.0, 1, (float) 0.6));
 			else if (labelsIndex[x] == 9)
-				heatMapGraphics.setColor(Color.GRAY);
+				heatMapGraphics.setColor(Color.getHSBColor((float) 0.75, (float) 0.5, (float) 0.6));
 			else if(labelsIndex[x] == 0)
 				heatMapGraphics.setColor(Color.WHITE);
 			else
