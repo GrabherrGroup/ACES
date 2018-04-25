@@ -398,7 +398,7 @@ public class Menubar extends JMenuBar{
 	                		DataM.CurrentDM = DataM.ChooseDM;
 	           	
 		        		ChooseOtherDM.setEnabled(true);
-		        		ChooseOtherDM.setText("Choose the the other distance matrix (Current: " + DataM.CurrentDM + ")");
+		        		ChooseOtherDM.setText("Select other distance matrix (Current: " + DataM.CurrentDM + ")");
 
 		        		//JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
 		        		ta.setText(DataM.CurrentDM + "\r\n");
@@ -579,7 +579,7 @@ public class Menubar extends JMenuBar{
             	else
             		DataM.CurrentDM = DataM.ChooseDM;
 				
-        		ChooseOtherDM.setText("Choose the the other distance matrix (Current: " + DataM.CurrentDM + ")");
+        		ChooseOtherDM.setText("Select other distance matrix (Current: " + DataM.CurrentDM + ")");
 
             	//JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
         		
@@ -1054,6 +1054,14 @@ public class Menubar extends JMenuBar{
 			else if (e.getSource() == aboutAction){
 				new About();
 			}
+			else if (e.getSource() == manualAction){
+				String URL = "https://grabherrgroup.github.io/ACES/";
+				try {
+					java.awt.Desktop.getDesktop().browse(java.net.URI.create(URL));
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(ACES.bodyFrame, "Problem opening the online documentation page!","Error", 0, icon);
+				}
+			} 
 			
 				
 		} 

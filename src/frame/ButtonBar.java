@@ -465,7 +465,7 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
             	else
             		DataM.CurrentDM = DataM.ChooseDM;
 				
-        		Menubar.ChooseOtherDM.setText("Choose the the other distance matrix (Current: " + DataM.CurrentDM + ")");
+        		Menubar.ChooseOtherDM.setText("Select other distance matrix (Current: " + DataM.CurrentDM + ")");
 
             	//JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
         		

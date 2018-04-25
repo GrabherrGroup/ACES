@@ -562,7 +562,8 @@ public class DataManagement {
         			break;
     			}
     	}
-		ta.append(Integer.toString(1)+"   "+ newRankAttribute[0] + "  -  " + Double.toString(-Rank[0]) +"\n");
+    	
+		ta.append(Integer.toString(1)+"   "+ newRankAttribute[0] + "  -  " + Float.toString(-(float)Rank[0]) +"\n");
 			
 	    
 	    
@@ -576,7 +577,7 @@ public class DataManagement {
         				break; 			
         			}
         		}
-    			ta.append(Integer.toString(count+1)+"   "+ newRankAttribute[count] + "  -  " + Double.toString(-Rank[count]) +"\n");
+    			ta.append(Integer.toString(count+1)+"   "+ newRankAttribute[count] + "  -  " + Float.toString(-(float)Rank[count]) +"\n");
     			index1 = 0;
     			
     		}
@@ -589,7 +590,7 @@ public class DataManagement {
 	        			break;
         			}
         		}
-    			ta.append(Integer.toString(count-index1+1)+"   "+ newRankAttribute[count] + "  -  " + Double.toString(-Rank[count]) +"\n");
+    			ta.append(Integer.toString(count-index1+1)+"   "+ newRankAttribute[count] + "  -  " + Float.toString(-(float)Rank[count]) +"\n");
     		}   		
 		}
     	
