@@ -258,7 +258,7 @@ public class Menubar extends JMenuBar{
                     JTextArea ta = new JTextArea();
             		JScrollPane sp = new JScrollPane(ta);        	
             		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
-                    ta.setText(DataM.file1.getName()+"\n");
+                    ta.setText("\n");
    		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.file1.getName()));
 
                     while ((aline=br.readLine()) != null )
