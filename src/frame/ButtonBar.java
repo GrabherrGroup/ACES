@@ -273,7 +273,7 @@ public class ButtonBar extends JPanel{
             		JScrollPane sp = new JScrollPane(ta);        	
             		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
                     ta.setText(DataM.file1.getName()+"\n");
-   		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.file1.getName()));
+                    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
                     while ((aline=br.readLine()) != null )
 	                    ta.append(aline+"\r\n");
@@ -406,7 +406,7 @@ public class ButtonBar extends JPanel{
 	        	ACES.drawingPanel.addTab("Distance Matrix", sp);
 	            ta.setText("Distance Matrix \n");
 	            ta.append("\n");
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Distance Matrix"));
+	            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
               for(int i = 0; i < DataM.size; i++){
               	for(int j = 0; j < DataM.size; j++){
@@ -426,7 +426,7 @@ public class ButtonBar extends JPanel{
 	        	ACES.drawingPanel.addTab("Labels", sp);
 	            ta.setText("Labels \n");
 				ta.append("\n");
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Labels"));
+				ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
                 for(int i = 0; i < DataM.size; i++){
                 	ta.append(Integer.toString(i+1) + "     " + DataM.Label[i] +"\n");
@@ -448,7 +448,7 @@ public class ButtonBar extends JPanel{
 	        	 JScrollPane sp = new JScrollPane(ta);        	
 	        	 ACES.drawingPanel.addTab("Hierarchical", sp);
 	             ta.setText("Hierarchical Clustering results:\n" );  
-			     ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Hierarchical"));
+	             ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	 for (int i = 0; i < DataM.size; i++) {
 	        		 ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
@@ -473,7 +473,7 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 	        	JScrollPane sp = new JScrollPane(ta);        	
 	        	ACES.drawingPanel.addTab(DataM.CurrentDM, sp);
 	            ta.setText(DataM.CurrentDM + "\r\n");
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.CurrentDM));
+	            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
         		for(int i = 0; i < DataM.size; i++){
                 	for(int j = 0; j < DataM.size; j++){
@@ -588,7 +588,7 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 		        	JScrollPane sp = new JScrollPane(ta);        	
 		        	ACES.drawingPanel.addTab("SampleInfo", sp);
 		            ta.setText("SampleInfo \n");
-				    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("SampleInfo"));
+		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
     			
 	    			for(int i = 0; i < ACactus.getSize(); i++){
 	    				DataM.setAttributeLine(ACactus.getCactusData()[i].split(DataM.ATSplit));
@@ -656,7 +656,7 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 	        	JScrollPane sp = new JScrollPane(ta);        	
 	        	ACES.drawingPanel.addTab("Sorted SampleInfo", sp);
 	            ta.setText("Attributes Matrix:\n");		
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Sorted SampleInfo"));
+	            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 				String[] temp1; 
                 for(int i = 0; i <  DataM.size+1; i++){
@@ -688,7 +688,7 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 	        	JScrollPane sp = new JScrollPane(ta);        	
 	        	ACES.drawingPanel.addTab("All attributes", sp);
 	            ta.setText("All attributes \n");
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("All attributes"));
+	            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	for(int i = 0; i < DataM.AttributeLine.length; i++){
 	        		ta.append(Integer.toString(i)+"   "+ DataM.AttributeLine[i]+"\r\n");
@@ -736,7 +736,7 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 		        	JScrollPane sp = new JScrollPane(ta);        	
 		        	ACES.drawingPanel.addTab(DataM.ChooseAttribute, sp);
 		            ta.setText("selected Attribute: " + DataM.ChooseAttribute+ "\r\n");
-				    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.ChooseAttribute));
+		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
  
 		        	int count;
 					for(count = 0; count < DataM.AttributeLine.length; count++){	

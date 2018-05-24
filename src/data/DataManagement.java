@@ -170,7 +170,7 @@ public class DataManagement {
     	JScrollPane sp = new JScrollPane(ta);        	
     	ACES.drawingPanel.addTab("Sorted SampleInfo", sp);
         ta.setText("Attributes Matrix:\n");		
-	    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Sorted SampleInfo"));
+        ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 
         
@@ -429,7 +429,7 @@ public class DataManagement {
     	JScrollPane sp = new JScrollPane(ta);        	
     	ACES.drawingPanel.addTab("Attributes Rank", sp);
         ta.setText("The discriminative power of attribute" + "\r\n");
-	    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Attributes Rank"));
+        ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 		AttributeLabel = new String[size];
         AttributeRank = new double[AttributeLine.length];

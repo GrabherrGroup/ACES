@@ -259,7 +259,7 @@ public class Menubar extends JMenuBar{
             		JScrollPane sp = new JScrollPane(ta);        	
             		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
                     ta.setText("\n");
-   		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.file1.getName()));
+                    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
                     while ((aline=br.readLine()) != null )
 	                    ta.append(aline+"\r\n");
@@ -335,7 +335,7 @@ public class Menubar extends JMenuBar{
             		JScrollPane sp = new JScrollPane(ta);        	
             		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
                     ta.setText("\n");
-   		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.file1.getName()));
+                    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
                     while ((aline=br.readLine()) != null )
 	                    ta.append(aline+"\r\n");
@@ -495,7 +495,7 @@ public class Menubar extends JMenuBar{
         		JScrollPane sp = new JScrollPane(ta);        	
         		ACES.drawingPanel.addTab("DBSCAN", sp);
                 ta.setText("DBSCAN Clustering results:\n" );  
-		        ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("DBSCAN"));
+		        ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	 for (int i = 0; i < DataM.size; i++) {
 	        		 ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
@@ -517,7 +517,7 @@ public class Menubar extends JMenuBar{
         		JScrollPane sp = new JScrollPane(ta);        	
         		ACES.drawingPanel.addTab("KMeans", sp);
                 ta.setText("KMeans Clustering results:\n" );  
-		        ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("KMeans"));
+                ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	 for (int i = 0; i < DataM.size; i++) {
 	        		 ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
@@ -540,7 +540,7 @@ public class Menubar extends JMenuBar{
 	        	 JScrollPane sp = new JScrollPane(ta);        	
 	        	 ACES.drawingPanel.addTab("Hierarchical", sp);
 	             ta.setText("Hierarchical Clustering results:\n" );  
-			     ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Hierarchical"));
+	             ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	 for (int i = 0; i < DataM.size; i++) {
 	        		 ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
@@ -559,7 +559,7 @@ public class Menubar extends JMenuBar{
 	        	ACES.drawingPanel.addTab("Distance Matrix", sp);
 	            ta.setText("Distance Matrix \n");
 	            ta.append("\n");
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Distance Matrix"));
+	            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
                 for(int i = 0; i < DataM.size; i++){
                 	for(int j = 0; j < DataM.size; j++){
@@ -587,7 +587,7 @@ public class Menubar extends JMenuBar{
 	        	JScrollPane sp = new JScrollPane(ta);        	
 	        	ACES.drawingPanel.addTab(DataM.CurrentDM, sp);
 	            ta.setText(DataM.CurrentDM + "\r\n");
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.CurrentDM));
+	            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
         		for(int i = 0; i < DataM.size; i++){
                 	for(int j = 0; j < DataM.size; j++){
@@ -629,7 +629,7 @@ public class Menubar extends JMenuBar{
 	        	ACES.drawingPanel.addTab("Labels", sp);
 	            ta.setText("Labels \n");
 				ta.append("\n");
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Labels"));
+				ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
                 for(int i = 0; i < DataM.size; i++){
                 	ta.append(Integer.toString(i+1) + "     " + DataM.Label[i] +"\n");
@@ -641,7 +641,8 @@ public class Menubar extends JMenuBar{
 		         JScrollPane sp = new JScrollPane(ta); 
 	
 		         ACES.drawingPanel.addTab("Distance matrix format", sp);
-		         ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Distance matrix format"));
+		         ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
+		         
 	        	DMF.show_DM_Format(ta);	
 			}
 			else if (e.getSource()==loadAttributes) {        	  
@@ -683,7 +684,7 @@ public class Menubar extends JMenuBar{
 		        	JScrollPane sp = new JScrollPane(ta);        	
 		        	ACES.drawingPanel.addTab("SampleInfo", sp);
 		            ta.setText("SampleInfo \n");
-				    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("SampleInfo"));
+		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
     			
 	    			for(int i = 0; i < ACactus.getSize(); i++){
 	    				DataM.setAttributeLine(ACactus.getCactusData()[i].split(DataM.ATSplit));
@@ -750,7 +751,7 @@ public class Menubar extends JMenuBar{
 	        	JScrollPane sp = new JScrollPane(ta);        	
 	        	ACES.drawingPanel.addTab("Sorted SampleInfo", sp);
 	            ta.setText("Attributes Matrix:\n");		
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Sorted SampleInfo"));
+	            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 				String[] temp1; 
                 for(int i = 0; i <  DataM.size+1; i++){
@@ -828,7 +829,7 @@ public class Menubar extends JMenuBar{
 	        	JScrollPane sp = new JScrollPane(ta);        	
 	        	ACES.drawingPanel.addTab("All attributes", sp);
 	            ta.setText("All attributes \n");
-			    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("All attributes"));
+	            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	for(int i = 0; i < DataM.AttributeLine.length; i++){
 	        		ta.append(Integer.toString(i)+"   "+ DataM.AttributeLine[i]+"\r\n");
@@ -887,7 +888,7 @@ public class Menubar extends JMenuBar{
 		        	JScrollPane sp = new JScrollPane(ta);        	
 		        	ACES.drawingPanel.addTab(DataM.ChooseAttribute, sp);
 		            ta.setText("selected Attribute: " + DataM.ChooseAttribute+ "\r\n");
-				    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab(DataM.ChooseAttribute));
+		            ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
  
 		        	int count;
 					for(count = 0; count < DataM.AttributeLine.length; count++){	
@@ -945,7 +946,7 @@ public class Menubar extends JMenuBar{
 	        	 JTextArea ta = new JTextArea();
 		         JScrollPane sp = new JScrollPane(ta);        	
 		         ACES.drawingPanel.addTab("Raw data format", sp);
-				 ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Raw data format"));
+		         ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	 AF.show_O_Format(ta);	  
 	         }
@@ -954,7 +955,7 @@ public class Menubar extends JMenuBar{
 	        	 JTextArea ta = new JTextArea();
 		         JScrollPane sp = new JScrollPane(ta);        	
 		         ACES.drawingPanel.addTab("SampleInfo format", sp);
-				 ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("SampleInfo format"));
+		         ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	 AF.show_A_Format(ta);	  
 	         }
@@ -967,7 +968,7 @@ public class Menubar extends JMenuBar{
 	        	 JTextArea ta = new JTextArea();
 		         JScrollPane sp = new JScrollPane(ta);        	
 		         ACES.drawingPanel.addTab("Cluster Numbers", sp);
-				 ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.indexOfTab("Cluster Numbers"));
+		         ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 				 
 		         ta.setText("There are " + Integer.toString(DataM.size) + " samples and " + Integer.toString(DataM.NumCluster) + " clusters in total.\n" ); 
 		         ta.append("\n");
