@@ -51,15 +51,15 @@ public class Visualization {
 			y[0] = DataAxis[1][j];
 			z[0] = DataAxis[2][j];
 			
-			if (labelsIndex[j] == 1)
+			if (labelsIndex[j] == 1){
+				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.7, 1, (float) 1), x, y, z);
+				plot.addLegend("EAST");
+			}
+			else if (labelsIndex[j] == 3)
 				{plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.33, 1, (float) 0.4), x, y, z);
 			//plot.addLabel("#", Color.RED, where);
-			plot.addLegend("EAST");
 			}
-			else if (labelsIndex[j] == 3){
-				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.7, 1, (float) 1), x, y, z);
-			//	plot.addLabel("#", Color.BLUE, where);
-			}
+			
 			else if (labelsIndex[j] == 8){
 				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.0, 1, (float) 0.6), x, y, z);
 			}
@@ -159,13 +159,12 @@ public class Visualization {
 			y[0] = DataAxis[1][j];
 			z[0] = DataAxis[2][j];
 			
-			if (labelsIndex[j] == 1)
-			{plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.33, 1, (float) 0.4), x, y, z);
-		//plot.addLabel("#", Color.RED, where);
-		plot.addLegend("EAST");
+		if (labelsIndex[j] == 1){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.7, 1, (float) 1), x, y, z);
+			plot.addLegend("EAST");
 		}
 		else if (labelsIndex[j] == 3){
-			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.7, 1, (float) 1), x, y, z);
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.33, 1, (float) 0.4), x, y, z);
 		//	plot.addLabel("#", Color.BLUE, where);
 		}
 		else if (labelsIndex[j] == 8){
