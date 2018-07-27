@@ -40,12 +40,14 @@ public class Menubar extends JMenuBar{
 	JMenu Formats, Loadall, menuDataFile, menuEdit, menuView, menuExport, menuVisualization, menuHelp;
 	
 	JMenuItem LoadData, ShowDataMatrix, DataMatrixFormat, exitAction, openFromLocation,ShortenLabels,DistanceMatrixFormat,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
+	static JMenuItem menuCurrent;
 	
 	static JMenuItem ShowPower, KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
 	
 	
 	JMenuBar menu;
     DataManagement DataM;
+    static String CurrentFile = "Current File";
 
 	JLabel waitMessage = new JLabel();
 	final ImageIcon icon = new ImageIcon(getClass().getResource("/resources/logo_mlv_small.png"));
@@ -75,7 +77,8 @@ public class Menubar extends JMenuBar{
 		AttributesFormat = new JMenuItem("Attributes");
 		saveAttributes = new JMenuItem("Save the SampleInfo");
 		exitAction = new JMenuItem("Exit");
-
+		
+		
 		menuDataFile.add(Loadall);
 		Loadall.add(LoadData);
 		Loadall.add(openFromLocation);
@@ -149,11 +152,16 @@ public class Menubar extends JMenuBar{
 		menuHelp.add(aboutAction);
 		menuHelp.add(manualAction);
 		
+		menuCurrent = new JMenuItem("current");
+
+		
 		menubar.add(menuDataFile);
 		menubar.add(menuEdit);
 		menubar.add(menuView);
 		menubar.add(menuVisualization);
 		menubar.add(menuHelp);
+		menubar.add(menuCurrent);
+		
 		
 		ListenForMenu lForMenu = new ListenForMenu();
 		Formats.setBackground(new Color(230,230,230));
@@ -229,7 +237,11 @@ public class Menubar extends JMenuBar{
 
 		saveAttributes.addActionListener(lForMenu);
 		saveAttributes.setEnabled(false);
+		
+		menuCurrent.setVisible(false);
+		menuCurrent.setBackground(new Color(255,255,123));
 	
+		
 		return menubar;
 	}
 	
@@ -263,13 +275,14 @@ public class Menubar extends JMenuBar{
 
                     while ((aline=br.readLine()) != null )
 	                    ta.append(aline+"\r\n");
+                    ta.setCaretPosition(0);
                     
                     fr.close();
                     br.close();
                     
                     DataM.setDataInfo();
-
-                    if (DataM.RawFileLoadStatus ==1){
+                   
+                    if ((DataM.RawFileLoadStatus ==1)){
                     	DataM.FileOpenStatus = 1;
                         DataM.currentFilename = DataM.file1.getName();
                     	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile(),DataM.Row,DataM.Column,DataM.dimension,DataM.LineNo);
@@ -309,6 +322,12 @@ public class Menubar extends JMenuBar{
     	        		ButtonBar.SILoad.setEnabled(true);
     	        		ButtonBar.DMHeatO.setEnabled(true);
     	        		ButtonBar.DMHeatC.setEnabled(true);
+    	        		
+    	        		menuCurrent.setVisible(true);
+    	        		CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+    	        		menuCurrent.setText(CurrentFile);
+    	        		
+    	        		
                     }
                     else{
                     	return;
@@ -327,21 +346,7 @@ public class Menubar extends JMenuBar{
                 
                 try {   
                 	DataM.file1 = new File(DataM.fd.getDirectory(),DataM.fd.getFile());
-                    FileReader fr = new FileReader(DataM.file1);
-                    BufferedReader br = new BufferedReader(fr);
-                    String aline;
-                  
-                    JTextArea ta = new JTextArea();
-            		JScrollPane sp = new JScrollPane(ta);        	
-            		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
-                    ta.setText("\n");
-                    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
-
-                    while ((aline=br.readLine()) != null )
-	                    ta.append(aline+"\r\n");
                     
-                    fr.close();
-                    br.close();
                     DataM.FileOpenStatus = 1;
                     DataM.currentFilename = DataM.file1.getName();
                     DataM.ChooseAttribute = "attribute";	                		              
@@ -364,6 +369,23 @@ public class Menubar extends JMenuBar{
 
 	                if (oneCactus.getAllCacti() == null){
 	                	
+	                	FileReader fr = new FileReader(DataM.file1);
+	                    BufferedReader br = new BufferedReader(fr);
+	                    String aline;
+	                  
+	                    JTextArea ta = new JTextArea();
+	            		JScrollPane sp = new JScrollPane(ta);        	
+	            		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
+	                    ta.setText("\n");
+	                    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
+
+	                    while ((aline=br.readLine()) != null )
+		                    ta.append(aline+"\r\n");
+	                    ta.setCaretPosition(0);
+
+	                    fr.close();
+	                    br.close();
+	                	
 	            		ChooseOtherDM.setEnabled(false);
 
 	                	DataM.setLabel(oneCactus.getLabel()); 	
@@ -376,10 +398,31 @@ public class Menubar extends JMenuBar{
 	                	
 	                	PCA PCA3Axis = new PCA(3,oneCactus.getSize(),oneCactus.getSize(),oneCactus.getCactus());
 	                	DataM.setDataAxis(PCA3Axis.getDataAxis());
+	                	
+	                	menuCurrent.setVisible(true);
+	                	CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+    	        		menuCurrent.setText(CurrentFile);  
+    	        		
 			
 	                }
 	             	else{
-	                	
+	             		FileReader fr = new FileReader(DataM.file1);
+	                    BufferedReader br = new BufferedReader(fr);
+	                    String aline;
+	                  
+	                    JTextArea ta = new JTextArea();
+	            		JScrollPane sp = new JScrollPane(ta);  
+	            		
+	                    ta.setText("\n");
+	                    while ((aline=br.readLine()) != null )
+		                    ta.append(aline+"\r\n");
+	                    
+	                    ta.setCaretPosition(0);
+
+	                    fr.close();
+	                    br.close();
+	             		
+	             		
 	            		ChooseOtherDM.setEnabled(true);
 
 	                	DataM.setLabel(oneCactus.getLabel()); 
@@ -400,7 +443,11 @@ public class Menubar extends JMenuBar{
 		        		ChooseOtherDM.setEnabled(true);
 		        		ChooseOtherDM.setText("Select other distance matrix (Current: " + DataM.CurrentDM + ")");
 
-		        		//JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
+		        		
+	                    
+	            		ACES.drawingPanel.addTab(DataM.CurrentDM, sp);                   
+	                    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
+
 		        		ta.setText(DataM.CurrentDM + "\r\n");
 		                int count;
 						for(count = 0; count < DataM.getAllCaci().length; count++){	
@@ -430,6 +477,11 @@ public class Menubar extends JMenuBar{
 							}
 		                	ta.append("\n");
 		                }
+	                    ta.setCaretPosition(0);
+
+		        		menuCurrent.setVisible(true);
+	                	CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+    	        		menuCurrent.setText(CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
 	                }
            
 	        		ShowDistanceMatrix.setEnabled(true);
@@ -501,6 +553,9 @@ public class Menubar extends JMenuBar{
 	        		 ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
 	        	 DataM.clusteringName = "DBSCAN Clustering";
+	        	 
+                ta.setCaretPosition(0);
+
 			}
 			else if (e.getSource() == KMeansClustering){
 				if (DataM.FileOpenStatus == 0){
@@ -523,6 +578,9 @@ public class Menubar extends JMenuBar{
 	        		 ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
 	        	 DataM.clusteringName = "KMeans Clustering";
+	        	 
+                 ta.setCaretPosition(0);
+
 			}
 			else if(e.getSource()==HierarchicalClustering) {
 	        	 if (DataM.FileOpenStatus == 0){
@@ -546,6 +604,9 @@ public class Menubar extends JMenuBar{
 	        		 ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
 	        	 DataM.clusteringName = "Hierarchical Clustering";
+	        	 
+                 ta.setCaretPosition(0);
+
 	         }
 			else if (e.getSource() == ShowDistanceMatrix){
 				
@@ -567,6 +628,9 @@ public class Menubar extends JMenuBar{
 					}
                 	ta.append("\n");
                 }
+                
+                ta.setCaretPosition(0);
+
 			}
 			else if(e.getSource() == ChooseOtherDM){
 				
@@ -595,7 +659,8 @@ public class Menubar extends JMenuBar{
 					}
                 	ta.append("\n");
                 }
-              
+                ta.setCaretPosition(0);
+
                 int count;
 				for(count = 0; count < DataM.getAllCaci().length; count++){	
         			if(DataM.getAllCaci()[count].equals(DataM.CurrentDM))
@@ -616,6 +681,9 @@ public class Menubar extends JMenuBar{
             	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
             	DataM.setDataAxis(PCA3Axis.getDataAxis());
             	
+            	CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+        		menuCurrent.setText(CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
+            	
 			}
 			else if (e.getSource() == ShowLabels){
 				
@@ -634,6 +702,8 @@ public class Menubar extends JMenuBar{
                 for(int i = 0; i < DataM.size; i++){
                 	ta.append(Integer.toString(i+1) + "     " + DataM.Label[i] +"\n");
                 }
+                ta.setCaretPosition(0);
+
 			}
 			else if (e.getSource() == DistanceMatrixFormat){
 				ShowFormat DMF = new ShowFormat();
@@ -644,6 +714,8 @@ public class Menubar extends JMenuBar{
 		         ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 		         
 	        	DMF.show_DM_Format(ta);	
+                ta.setCaretPosition(0);
+
 			}
 			else if (e.getSource()==loadAttributes) {        	  
 				if (DataM.FileOpenStatus == 0){
@@ -693,6 +765,8 @@ public class Menubar extends JMenuBar{
 	        			}
 	    				ta.append("\n");
 	    			}
+                    ta.setCaretPosition(0);
+
 	    			DataM.AttributeOpenStatus = 1;
 	    			DataM.setAttributeLine(ACactus.getCactusData()[0].split(DataM.ATSplit));
 
@@ -761,7 +835,8 @@ public class Menubar extends JMenuBar{
         			}
         			ta.append("\n");
         		}
-				
+                ta.setCaretPosition(0);
+
 			}
 			else if (e.getSource()==saveAttributes){
 
@@ -834,7 +909,7 @@ public class Menubar extends JMenuBar{
 	        	for(int i = 0; i < DataM.AttributeLine.length; i++){
 	        		ta.append(Integer.toString(i)+"   "+ DataM.AttributeLine[i]+"\r\n");
         		}
-	        	
+                ta.setCaretPosition(0);
 	        	
             }  
 			else if (e.getSource()==ShowPower) { 
@@ -905,7 +980,8 @@ public class Menubar extends JMenuBar{
 	        		}
 	                ta.append("\n");
 	                ta.append("\n");
-	               
+                    ta.setCaretPosition(0);
+
 	                Set<String> TT = new LinkedHashSet<String>(Arrays.asList(DataM.AttributeLabel));
 	                TT.remove("None");
 	                TT.remove("");
@@ -948,7 +1024,9 @@ public class Menubar extends JMenuBar{
 		         ACES.drawingPanel.addTab("Raw data format", sp);
 		         ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
-	        	 AF.show_O_Format(ta);	  
+	        	 AF.show_O_Format(ta);	
+                 ta.setCaretPosition(0);
+
 	         }
 			 else if (e.getSource() == AttributesFormat){
 	        	 ShowFormat AF = new ShowFormat();
@@ -958,6 +1036,8 @@ public class Menubar extends JMenuBar{
 		         ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	 AF.show_A_Format(ta);	  
+                 ta.setCaretPosition(0);
+
 	         }
 	         else if(e.getSource()==numberOfCluster) {
 	        	 if (DataM.FileOpenStatus == 0){
@@ -975,6 +1055,7 @@ public class Menubar extends JMenuBar{
 		         ta.append("1. ACES has helped you estimate the number of clusters.\n");
 		         ta.append("2. This number will be applied to Hierarchical and KMeans clustering.\n");
 		         ta.append("3. If you are not satisfied with this number, please try DBSCAN clustering. Different parameters will result in different clustering results.\n");
+                 ta.setCaretPosition(0);
 
 	         }
 	         else if(e.getSource()==plotHeatMapO){

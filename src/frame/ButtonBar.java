@@ -265,32 +265,17 @@ public class ButtonBar extends JPanel{
                 
                 try {   
                 	DataM.file1 = new File(DataM.fd.getDirectory(),DataM.fd.getFile());
-                    FileReader fr = new FileReader(DataM.file1);
-                    BufferedReader br = new BufferedReader(fr);
-                    String aline;
-                  
-                    JTextArea ta = new JTextArea();
-            		JScrollPane sp = new JScrollPane(ta);        	
-            		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
-                    ta.setText(DataM.file1.getName()+"\n");
-                    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
-
-                    while ((aline=br.readLine()) != null )
-	                    ta.append(aline+"\r\n");
                     
-                    fr.close();
-                    br.close();
                     DataM.FileOpenStatus = 1;
                     DataM.currentFilename = DataM.file1.getName();
-                    
                     DataM.ChooseAttribute = "attribute";	                		              
-                	Menubar.ChooseAttributes.setEnabled(false);
-                	Menubar.ShowAttributes.setEnabled(false);
-                	Menubar.ShowAttributesMatrix.setEnabled(false);
-                	Menubar.addClusteringResults.setEnabled(false);
-                	Menubar.saveAttributes.setEnabled(false);
+                    Menubar.ChooseAttributes.setEnabled(false);
+                    Menubar.ShowAttributes.setEnabled(false);
+                    Menubar.ShowAttributesMatrix.setEnabled(false);
+                    Menubar.addClusteringResults.setEnabled(false);
+                    Menubar.saveAttributes.setEnabled(false);
     	    		
-                	Menubar.plotAttributes.setEnabled(false); 
+                    Menubar.plotAttributes.setEnabled(false); 
     	    		
     	    		ButtonBar.SIChoose.setEnabled(false);
     	    		ButtonBar.SIShowList.setEnabled(false);
@@ -303,7 +288,25 @@ public class ButtonBar extends JPanel{
 
 	                if (oneCactus.getAllCacti() == null){
 	                	
-	                	Menubar.ChooseOtherDM.setEnabled(false);
+	                	FileReader fr = new FileReader(DataM.file1);
+	                    BufferedReader br = new BufferedReader(fr);
+	                    String aline;
+	                  
+	                    JTextArea ta = new JTextArea();
+	            		JScrollPane sp = new JScrollPane(ta);        	
+	            		ACES.drawingPanel.addTab(DataM.file1.getName(), sp);
+	                    ta.setText("\n");
+	                    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
+
+	                    while ((aline=br.readLine()) != null )
+		                    ta.append(aline+"\r\n");
+	                    ta.setCaretPosition(0);
+
+	                    fr.close();
+	                    br.close();
+	                	
+	                    Menubar.ChooseOtherDM.setEnabled(false);
+
 	                	DataM.setLabel(oneCactus.getLabel()); 	
 	                	DataM.setDataMatrix(oneCactus.getCactus());
 	                	DataM.setSize(oneCactus.getSize());
@@ -315,9 +318,31 @@ public class ButtonBar extends JPanel{
 	                	PCA PCA3Axis = new PCA(3,oneCactus.getSize(),oneCactus.getSize(),oneCactus.getCactus());
 	                	DataM.setDataAxis(PCA3Axis.getDataAxis());
 	                	
-	                	}
-	                else{
-	                	Menubar.ChooseOtherDM.setEnabled(true);
+	                	Menubar.menuCurrent.setVisible(true);
+	                	Menubar.CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+	                	Menubar.menuCurrent.setText(Menubar.CurrentFile);  
+    	        		
+			
+	                }
+	             	else{
+	             		FileReader fr = new FileReader(DataM.file1);
+	                    BufferedReader br = new BufferedReader(fr);
+	                    String aline;
+	                  
+	                    JTextArea ta = new JTextArea();
+	            		JScrollPane sp = new JScrollPane(ta);  
+	            		
+	                    ta.setText("\n");
+	                    while ((aline=br.readLine()) != null )
+		                    ta.append(aline+"\r\n");
+	                    
+	                    ta.setCaretPosition(0);
+
+	                    fr.close();
+	                    br.close();
+	             		
+	             		
+	                    Menubar.ChooseOtherDM.setEnabled(true);
 
 	                	DataM.setLabel(oneCactus.getLabel()); 
 	                	DataM.setSize(DataM.getLabel().length);
@@ -333,15 +358,17 @@ public class ButtonBar extends JPanel{
 	                	}
 	                	else
 	                		DataM.CurrentDM = DataM.ChooseDM;
-	                	
-	                		
+	           	
 	                	Menubar.ChooseOtherDM.setEnabled(true);
-	                	Menubar.ChooseOtherDM.setText("Choose the distance matrix (Current: " + DataM.CurrentDM + ")");
-	                	
-	                	//JOptionPane.showMessageDialog(null, DataM.CurrentDM+" will be opened",null,JOptionPane.INFORMATION_MESSAGE,icon);
-	                	ta.setText(DataM.CurrentDM + "\r\n");
-	                	
-	                	int count;
+	                	Menubar.ChooseOtherDM.setText("Select other distance matrix (Current: " + DataM.CurrentDM + ")");
+
+		        		
+	                    
+	            		ACES.drawingPanel.addTab(DataM.CurrentDM, sp);                   
+	                    ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
+
+		        		ta.setText(DataM.CurrentDM + "\r\n");
+		                int count;
 						for(count = 0; count < DataM.getAllCaci().length; count++){	
 		        			if(DataM.getAllCaci()[count].equals(DataM.CurrentDM))
 		        			{break;}
@@ -361,39 +388,47 @@ public class ButtonBar extends JPanel{
 	                	
 	                	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
 	                	DataM.setDataAxis(PCA3Axis.getDataAxis());
-	                	
-	                	for(int i = 0; i < DataM.size; i++){
+		        		ButtonBar.DMChoose.setEnabled(true);
+		        		
+		        		for(int i = 0; i < DataM.size; i++){
 		                	for(int j = 0; j < DataM.size; j++){
 		                		ta.append(Double.toString(DataM.DataMatrix[i][j])+"       \r");
 							}
 		                	ta.append("\n");
 		                }
-	                }	
-		         
+	                    ta.setCaretPosition(0);
+
+		        		Menubar.menuCurrent.setVisible(true);
+		        		Menubar.CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+	                	Menubar.menuCurrent.setText(Menubar.CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
+	                }
+           
 	                Menubar.ShowDistanceMatrix.setEnabled(true);
-	                Menubar.ShowLabels.setEnabled(true);	        
-	                Menubar.plotSamples.setEnabled(true);
-	                Menubar.clustering.setEnabled(true);
-	                Menubar.numberOfCluster.setEnabled(true);
-	                Menubar.HierarchicalClustering.setEnabled(true);
-	                Menubar.loadAttributes.setEnabled(true);
-	                Menubar.plotHeatMapO.setEnabled(true);
-	                Menubar.plotHeatMapC.setEnabled(true);
-	                Menubar.plot3D.setEnabled(true);
-	                Menubar.plotHeatMap.setEnabled(true);
-	              
-	            	DMShow.setEnabled(true);
-	            	DMLabelID.setEnabled(true);	        
-	            	DMCluster.setEnabled(true);	
-	            	DMPlot.setEnabled(true);
-	            	DMHeatO.setEnabled(true);
-	            	DMHeatC.setEnabled(true);
-	            	SILoad.setEnabled(true);
+	        		Menubar.ShowLabels.setEnabled(true);
+	        		Menubar.plot3D.setEnabled(true);
+	        		Menubar.plotHeatMap.setEnabled(true);
+	        		Menubar.plotSamples.setEnabled(true);	
+	        		Menubar.plotHeatMapO.setEnabled(true);
+	        		Menubar.plotHeatMapC.setEnabled(true);
+	        		Menubar.clustering.setEnabled(true);
+	        		Menubar.numberOfCluster.setEnabled(true);
+	        		Menubar.HierarchicalClustering.setEnabled(true);
+	        		Menubar.KMeansClustering.setEnabled(true);
+	        		Menubar.DBSCAN.setEnabled(true);
+
+	        		Menubar.loadAttributes.setEnabled(true);
+	        		
+	        		ButtonBar.DMShow.setEnabled(true);
+	        		ButtonBar.DMLabelID.setEnabled(true);	        
+	        		ButtonBar.DMCluster.setEnabled(true);	
+	        		ButtonBar.DMPlot.setEnabled(true);
+	        		ButtonBar.SILoad.setEnabled(true);
+	        		ButtonBar.DMHeatO.setEnabled(true);
+	        		ButtonBar.DMHeatC.setEnabled(true);
                 }
-                
-               catch (IOException ioe){
-            	   System.out.println(ioe);
-               }
+                catch (IOException ioe){
+                	System.out.println(ioe);
+                }
 			} 
 			else if (bc.getSource() == DMShow){
 				if (DataM.FileOpenStatus == 0){
@@ -414,6 +449,8 @@ public class ButtonBar extends JPanel{
 					}
               	ta.append("\n");
               }	
+              ta.setCaretPosition(0);
+
 			} 
 			else if (bc.getSource() == DMLabelID){
 				if (DataM.FileOpenStatus == 0){
@@ -431,6 +468,8 @@ public class ButtonBar extends JPanel{
                 for(int i = 0; i < DataM.size; i++){
                 	ta.append(Integer.toString(i+1) + "     " + DataM.Label[i] +"\n");
                 }
+                ta.setCaretPosition(0);
+
 			} 
 			else if (bc.getSource() == DMCluster){
 				if (DataM.FileOpenStatus == 0){
@@ -454,9 +493,11 @@ public class ButtonBar extends JPanel{
 	        		 ta.append(DataM.newDataLabel[i] + " ---- " + Integer.toString(DataM.newlabelsIndex[i]) + "\n");
 	        	 }
 	        	 DataM.clusteringName = "Hierarchical Clustering";
+                 ta.setCaretPosition(0);
+
 			} 
 			else if (bc.getSource() == DMChoose){
-DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.AllCaci, DataM.AllCaci[0]);
+				DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.AllCaci, DataM.AllCaci[0]);
 				
 				if(DataM.ChooseDM == null){
             		DataM.ChooseDM = DataM.CurrentDM;
@@ -481,6 +522,8 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 					}
                 	ta.append("\n");
                 }
+                ta.setCaretPosition(0);
+
               
                 int count;
 				for(count = 0; count < DataM.getAllCaci().length; count++){	
@@ -501,6 +544,9 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 
             	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
             	DataM.setDataAxis(PCA3Axis.getDataAxis());
+            	
+            	Menubar.CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+            	Menubar.menuCurrent.setText(Menubar.CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
 			} 
 			else if (bc.getSource() == DMPlot){
 				if (DataM.FileOpenStatus == 0){
@@ -597,6 +643,9 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 	        			}
 	    				ta.append("\n");
 	    			}
+	    			
+                    ta.setCaretPosition(0);
+
 	    			DataM.AttributeOpenStatus = 1;
 	    			DataM.setAttributeLine(ACactus.getCactusData()[0].split(DataM.ATSplit));
 
@@ -666,6 +715,9 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
         			}
         			ta.append("\n");
         		}
+                
+                ta.setCaretPosition(0);
+
 			}
 			else if (bc.getSource() == SIShowList){
 				if (DataM.FileOpenStatus == 0){
@@ -693,6 +745,9 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 	        	for(int i = 0; i < DataM.AttributeLine.length; i++){
 	        		ta.append(Integer.toString(i)+"   "+ DataM.AttributeLine[i]+"\r\n");
         		}
+	        	
+                ta.setCaretPosition(0);
+
 			}
 			else if (bc.getSource() == AddCluster){
 				DataM.newAttributeMatrix = new String[DataM.size+1];
@@ -753,7 +808,8 @@ DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance m
 	        		}
 	                ta.append("\n");
 	                ta.append("\n");
-	               
+                    ta.setCaretPosition(0);
+
 	                Set<String> TT = new LinkedHashSet<String>(Arrays.asList(DataM.AttributeLabel));
 	                TT.remove("None");
 	                TT.remove("");

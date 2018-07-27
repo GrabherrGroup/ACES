@@ -193,6 +193,7 @@ public class Cactus {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 			        		JOptionPane.showMessageDialog(null, "Please reformat your data file!",null,JOptionPane.INFORMATION_MESSAGE,icon);	
+			        		this.size = 0;
 			        		break;
 						}
 					}
