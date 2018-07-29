@@ -92,6 +92,7 @@ public class Cactus {
 		else
 			this.size = sizeC-column;
 		
+		
 		if(row == 0 && column == 0){
 			if(direction == 1){
 				this.OriginalData = new double[sizeR][sizeC];
@@ -185,16 +186,17 @@ public class Cactus {
 					}
 				}else{
 					CactusLine = CactusData[labelnum].split(Split);
+				
 					
 					for(int j = column; j < sizeC; j++){
 						try {
 							this.Label[j-column] = CactusLine[j];
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
-			        		JOptionPane.showMessageDialog(null, "Please reformat your data file!",null,JOptionPane.INFORMATION_MESSAGE,icon);	
+							//e.printStackTrace();
+			        		//JOptionPane.showMessageDialog(null, "Please reformat your data file!",null,JOptionPane.INFORMATION_MESSAGE,icon);	
 			        		this.size = 0;
-			        		break;
+			        		return;
 						}
 					}
 				}

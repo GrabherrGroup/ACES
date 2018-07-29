@@ -115,7 +115,7 @@ public class ButtonBar extends JPanel{
 		DMCluster = new JButton(iconHC);
 		DMCluster.setEnabled(false);
 		DMCluster.setBorderPainted(false);
-		DMCluster.setToolTipText("Clustering Results");
+		DMCluster.setToolTipText("Hierarchical Clustering Results");
 		DMCluster.setPreferredSize(new Dimension(30,30));
 		DMCluster.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMCluster, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
@@ -319,9 +319,11 @@ public class ButtonBar extends JPanel{
 	                	DataM.setDataAxis(PCA3Axis.getDataAxis());
 	                	
 	                	Menubar.menuCurrent.setVisible(true);
-	                	Menubar.CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+	                	Menubar.menuCurrentC.setVisible(true);
+
+	                	Menubar.CurrentFile = "Current File: ("+DataM.file1.getName()+")";
 	                	Menubar.menuCurrent.setText(Menubar.CurrentFile);  
-    	        		
+	                	Menubar.menuCurrentC.setText(" (Hierarchical Clustering)");	
 			
 	                }
 	             	else{
@@ -398,8 +400,10 @@ public class ButtonBar extends JPanel{
 		                }
 	                    ta.setCaretPosition(0);
 
-		        		Menubar.menuCurrent.setVisible(true);
-		        		Menubar.CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+	                	Menubar.menuCurrent.setVisible(true);
+	                	Menubar.menuCurrentC.setVisible(true);
+	                	Menubar.menuCurrentC.setText(" (Hierarchical Clustering)");	
+		        		Menubar.CurrentFile = "Current File: ("+DataM.file1.getName()+")";
 	                	Menubar.menuCurrent.setText(Menubar.CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
 	                }
            
@@ -494,6 +498,7 @@ public class ButtonBar extends JPanel{
 	        	 }
 	        	 DataM.clusteringName = "Hierarchical Clustering";
                  ta.setCaretPosition(0);
+                 Menubar.menuCurrentC.setText(" (Hierarchical Clustering)");	
 
 			} 
 			else if (bc.getSource() == DMChoose){
@@ -545,8 +550,13 @@ public class ButtonBar extends JPanel{
             	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
             	DataM.setDataAxis(PCA3Axis.getDataAxis());
             	
-            	Menubar.CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+            	Menubar.menuCurrent.setVisible(true);
+            	Menubar.menuCurrentC.setVisible(true);
+            	Menubar.menuCurrentC.setText(" (Hierarchical Clustering)");	
+            	Menubar.CurrentFile = "Current File: ("+DataM.file1.getName()+")";
             	Menubar.menuCurrent.setText(Menubar.CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
+            	DataM.currentFilename = DataM.currentFilename+ " ("+ DataM.CurrentDM + ")";
+
 			} 
 			else if (bc.getSource() == DMPlot){
 				if (DataM.FileOpenStatus == 0){
@@ -563,7 +573,7 @@ public class ButtonBar extends JPanel{
 	        	 }
 	        	 
 	        	 try {
-	        		 new Visualization(DataM.DataMatrix, DataM.size,"Original Distance Matrix",DataM.Label,DataM.Label);
+	        		 new Visualization(DataM.DataMatrix, DataM.size,DataM.currentFilename,DataM.Label,DataM.Label);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -575,25 +585,25 @@ public class ButtonBar extends JPanel{
 	        		 return;
 	        	 }
 	        	 
-	        	 if (DataM.ChooseAttribute == "attribute"){
+	        	// if (DataM.ChooseAttribute == "attribute"){
 	        		 DataM.CreateDataAfterClustering();
 
 		        	 try {
-						new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel, DataM.newDataLabel);
+						new Visualization(DataM.newData, DataM.size,DataM.currentFilename + "("+DataM.clusteringName+")", DataM.newDataLabel, DataM.newDataLabel);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} 
-	        	 }else{
+	        	 /*}else{
 	        		 DataM.CreateDataAfterClusteringandChooseAttri();
 
 		        	 try {
-						new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+						new Visualization(DataM.newData, DataM.size,DataM.currentFilename + "("+DataM.clusteringName+")"+": "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-	        	 }
+	        	 }*/
 	         }
 			else if (bc.getSource() == SILoad){
 				if (DataM.FileOpenStatus == 0){
@@ -895,7 +905,7 @@ public class ButtonBar extends JPanel{
 	        	 DataM.CreateDataAfterClusteringandChooseAttri();
 
 	        	 try {
-					new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+						new Visualization(DataM.newData, DataM.size,DataM.currentFilename + "("+DataM.clusteringName+")"+": "+ " "+DataM.ChooseAttribute, DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

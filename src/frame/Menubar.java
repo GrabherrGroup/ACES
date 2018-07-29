@@ -40,7 +40,7 @@ public class Menubar extends JMenuBar{
 	JMenu Formats, Loadall, menuDataFile, menuEdit, menuView, menuExport, menuVisualization, menuHelp;
 	
 	JMenuItem LoadData, ShowDataMatrix, DataMatrixFormat, exitAction, openFromLocation,ShortenLabels,DistanceMatrixFormat,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
-	static JMenuItem menuCurrent;
+	static JMenuItem menuCurrent, menuCurrentC;
 	
 	static JMenuItem ShowPower, KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
 	
@@ -153,7 +153,7 @@ public class Menubar extends JMenuBar{
 		menuHelp.add(manualAction);
 		
 		menuCurrent = new JMenuItem("current");
-
+		menuCurrentC = new JMenuItem(" (Hierarchical Clustering)");
 		
 		menubar.add(menuDataFile);
 		menubar.add(menuEdit);
@@ -161,7 +161,8 @@ public class Menubar extends JMenuBar{
 		menubar.add(menuVisualization);
 		menubar.add(menuHelp);
 		menubar.add(menuCurrent);
-		
+		menubar.add(menuCurrentC);
+
 		
 		ListenForMenu lForMenu = new ListenForMenu();
 		Formats.setBackground(new Color(230,230,230));
@@ -239,6 +240,7 @@ public class Menubar extends JMenuBar{
 		saveAttributes.setEnabled(false);
 		
 		menuCurrent.setVisible(false);
+		menuCurrentC.setVisible(false);
 		menuCurrent.setBackground(new Color(255,255,123));
 	
 		
@@ -285,56 +287,66 @@ public class Menubar extends JMenuBar{
                     if ((DataM.RawFileLoadStatus ==1)){
                     	DataM.FileOpenStatus = 1;
                         DataM.currentFilename = DataM.file1.getName();
-                    	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile(),DataM.Row,DataM.Column,DataM.dimension,DataM.LineNo);
-                    	DataM.setLabel(oneCactus.getLabel()); 
-                    	DataM.setOriginalDataMatrix(oneCactus.getOriginalData());
-                    	DataM.setDataMatrix(oneCactus.getCactus());
-                    	DataM.sampleSize = oneCactus.sampleSize;
-                    	DataM.size = oneCactus.getSize();
-                    	                	
-                    	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
-                    	DataM.NumCluster = CV.getNumCluster();
-                    	DataM.setLabelsIndex(CV.getLabelsIndex());
-                    	             	
-                    	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
-                    	DataM.setDataAxis(PCA3Axis.getDataAxis());
-    	        		ButtonBar.DMChoose.setEnabled(true);
-                    
-    	        		ShowDistanceMatrix.setEnabled(true);
-    	        		ShowLabels.setEnabled(true);	 
-    	        		plot3D.setEnabled(true);
-    	        		plotHeatMap.setEnabled(true);
-    	        		plotSamples.setEnabled(true);	
-    	        		plotHeatMapO.setEnabled(true);
-    	        		plotHeatMapC.setEnabled(true);
-    	        		clustering.setEnabled(true);
-    	        		numberOfCluster.setEnabled(true);
-    	        		HierarchicalClustering.setEnabled(true);
-    	        		KMeansClustering.setEnabled(true);
-    	        		DBSCAN.setEnabled(true);
+                        try{
+                        	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile(),DataM.Row,DataM.Column,DataM.dimension,DataM.LineNo);
+                        	DataM.setLabel(oneCactus.getLabel()); 
+                        	DataM.setOriginalDataMatrix(oneCactus.getOriginalData());
+                        	DataM.setDataMatrix(oneCactus.getCactus());
+                        	DataM.sampleSize = oneCactus.sampleSize;
+                        	DataM.size = oneCactus.getSize();
+                        	                	
+                        	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
+                        	DataM.NumCluster = CV.getNumCluster();
+                        	DataM.setLabelsIndex(CV.getLabelsIndex());
+                        	             	
+                        	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
+                        	DataM.setDataAxis(PCA3Axis.getDataAxis());
+        	        		ButtonBar.DMChoose.setEnabled(true);
+                        
+        	        		ShowDistanceMatrix.setEnabled(true);
+        	        		ShowLabels.setEnabled(true);	 
+        	        		plot3D.setEnabled(true);
+        	        		plotHeatMap.setEnabled(true);
+        	        		plotSamples.setEnabled(true);	
+        	        		plotHeatMapO.setEnabled(true);
+        	        		plotHeatMapC.setEnabled(true);
+        	        		clustering.setEnabled(true);
+        	        		numberOfCluster.setEnabled(true);
+        	        		HierarchicalClustering.setEnabled(true);
+        	        		KMeansClustering.setEnabled(true);
+        	        		DBSCAN.setEnabled(true);
 
-    	        		loadAttributes.setEnabled(true);
-    	        		
-    	        		ButtonBar.DMShow.setEnabled(true);
-    	        		ButtonBar.DMLabelID.setEnabled(true);	        
-    	        		ButtonBar.DMCluster.setEnabled(true);	
-    	        		ButtonBar.DMPlot.setEnabled(true);
-    	        		ButtonBar.SILoad.setEnabled(true);
-    	        		ButtonBar.DMHeatO.setEnabled(true);
-    	        		ButtonBar.DMHeatC.setEnabled(true);
-    	        		
-    	        		menuCurrent.setVisible(true);
-    	        		CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
-    	        		menuCurrent.setText(CurrentFile);
-    	        		
-    	        		
+        	        		loadAttributes.setEnabled(true);
+        	        		
+        	        		ButtonBar.DMShow.setEnabled(true);
+        	        		ButtonBar.DMLabelID.setEnabled(true);	        
+        	        		ButtonBar.DMCluster.setEnabled(true);	
+        	        		ButtonBar.DMPlot.setEnabled(true);
+        	        		ButtonBar.SILoad.setEnabled(true);
+        	        		ButtonBar.DMHeatO.setEnabled(true);
+        	        		ButtonBar.DMHeatC.setEnabled(true);
+        	        		
+        	        		menuCurrent.setVisible(true);
+        	        		menuCurrentC.setVisible(true);
+        	        		CurrentFile = "Current File: ("+DataM.file1.getName()+")";
+        	        		menuCurrent.setText(CurrentFile);
+        	        		menuCurrentC.setText(" (Hierarchical Clustering)");	
+                        }
+                        catch(ArrayIndexOutOfBoundsException ex){
+			        		JOptionPane.showMessageDialog(null, "Please reformat your data file!",null,JOptionPane.INFORMATION_MESSAGE,icon);	
+
+                            ACES.drawingPanel.remove(ACES.drawingPanel.getTabCount() - 1);
+
+                        }
+                    	
                     }
                     else{
+                        ACES.drawingPanel.remove(ACES.drawingPanel.getTabCount() - 1);
                     	return;
                     }         
                 }
                 catch (IOException ioe){
-                	System.out.println(ioe);
+                	
                 }
 			} 	
 			else if (e.getSource() == openFromLocation){
@@ -400,9 +412,11 @@ public class Menubar extends JMenuBar{
 	                	DataM.setDataAxis(PCA3Axis.getDataAxis());
 	                	
 	                	menuCurrent.setVisible(true);
-	                	CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+	                	CurrentFile = "Current File: ("+DataM.file1.getName()+")";
     	        		menuCurrent.setText(CurrentFile);  
-    	        		
+    	        		menuCurrentC.setVisible(true);
+    	        		menuCurrentC.setText(" (Hierarchical Clustering)");	
+
 			
 	                }
 	             	else{
@@ -480,8 +494,12 @@ public class Menubar extends JMenuBar{
 	                    ta.setCaretPosition(0);
 
 		        		menuCurrent.setVisible(true);
-	                	CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
-    	        		menuCurrent.setText(CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
+	                	CurrentFile = "Current File: ("+DataM.file1.getName()+")";
+	                	DataM.currentFilename = DataM.currentFilename+ " ("+ DataM.CurrentDM + ")";
+    	        		menuCurrent.setText(CurrentFile+ " ("+ DataM.CurrentDM + ")");   
+    	        		menuCurrentC.setVisible(true);
+    	        		menuCurrentC.setText(" (Hierarchical Clustering)");	
+
 	                }
            
 	        		ShowDistanceMatrix.setEnabled(true);
@@ -555,6 +573,8 @@ public class Menubar extends JMenuBar{
 	        	 DataM.clusteringName = "DBSCAN Clustering";
 	        	 
                 ta.setCaretPosition(0);
+        		 menuCurrentC.setText(" (DBSCAN Clustering)");	
+
 
 			}
 			else if (e.getSource() == KMeansClustering){
@@ -580,6 +600,7 @@ public class Menubar extends JMenuBar{
 	        	 DataM.clusteringName = "KMeans Clustering";
 	        	 
                  ta.setCaretPosition(0);
+         		 menuCurrentC.setText(" (KMeans Clustering)");	
 
 			}
 			else if(e.getSource()==HierarchicalClustering) {
@@ -606,6 +627,7 @@ public class Menubar extends JMenuBar{
 	        	 DataM.clusteringName = "Hierarchical Clustering";
 	        	 
                  ta.setCaretPosition(0);
+         		 menuCurrentC.setText(" (Hierarchical Clustering)");	
 
 	         }
 			else if (e.getSource() == ShowDistanceMatrix){
@@ -681,9 +703,10 @@ public class Menubar extends JMenuBar{
             	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
             	DataM.setDataAxis(PCA3Axis.getDataAxis());
             	
-            	CurrentFile = "    Current File: ("+DataM.file1.getName()+")";
+            	CurrentFile = "Current File: ("+DataM.file1.getName()+")";
         		menuCurrent.setText(CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
-            	
+        		menuCurrentC.setVisible(true);
+        		menuCurrentC.setText(" (Hierarchical Clustering)");	
 			}
 			else if (e.getSource() == ShowLabels){
 				
@@ -1011,7 +1034,7 @@ public class Menubar extends JMenuBar{
 	        	 DataM.CreateDataAfterClusteringandChooseAttri();
 
 	        	 try {
-					new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+					new Visualization(DataM.newData, DataM.size,DataM.currentFilename + "("+DataM.clusteringName+")"+": "+ " "+DataM.ChooseAttribute, DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1064,7 +1087,7 @@ public class Menubar extends JMenuBar{
 	        		 return;
 	        	 }
 	        	 try {
-					new Visualization(DataM.DataMatrix, DataM.size,"Original Distance Matrix",DataM.Label,DataM.Label);
+					new Visualization(DataM.DataMatrix, DataM.size, DataM.currentFilename, DataM.Label,DataM.Label);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1075,25 +1098,25 @@ public class Menubar extends JMenuBar{
 	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
 	        		 return;
 	        	 }
-	        	 if (DataM.ChooseAttribute == "attribute"){
+	        	// if (DataM.ChooseAttribute == "attribute"){
 	        		 DataM.CreateDataAfterClustering();
 
 		        	 try {
-						new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering", DataM.newDataLabel, DataM.newDataLabel);
+						new Visualization(DataM.newData, DataM.size,DataM.currentFilename + "("+DataM.clusteringName+")", DataM.newDataLabel, DataM.newDataLabel);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} 
-	        	 }else{
+	        	 /*}else{
 	        		 DataM.CreateDataAfterClusteringandChooseAttri();
 
 		        	 try {
-						new Visualization(DataM.newData, DataM.size,"Distance Matrix after Clustering: "+ " "+DataM.ChooseAttribute+ " ", DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+						new Visualization(DataM.newData, DataM.size,DataM.currentFilename + "("+DataM.clusteringName+")"+": "+ " "+DataM.ChooseAttribute, DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-	        	 }	        	 	 
+	        	 }	        	*/ 	 
 	         }
 	         else if(e.getSource()==plotSamples){
 	        	 if (DataM.FileOpenStatus == 0){

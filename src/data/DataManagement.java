@@ -311,6 +311,7 @@ public class DataManagement {
  			}
  			ta.append("\n");
  		}
+         ta.setCaretPosition(0);
 			
 	}
 	
@@ -419,7 +420,10 @@ public class DataManagement {
          if (option == JOptionPane.NO_OPTION){
         	 RawFileLoadStatus = 0; 
         	 JOptionPane.showMessageDialog(null, "Please set those parameters.\nOtherwise, the raw data file cannot be extracted.", null, JOptionPane.INFORMATION_MESSAGE, icon);  	  
-
+         }
+         if (option == JOptionPane.CLOSED_OPTION){
+        	 RawFileLoadStatus = 0; 
+        	 JOptionPane.showMessageDialog(null, "Please set those parameters.\nOtherwise, the raw data file cannot be extracted.", null, JOptionPane.INFORMATION_MESSAGE, icon);  	  
          }
      }
 	
@@ -564,7 +568,7 @@ public class DataManagement {
     	}
     	
 		ta.append(Integer.toString(1)+"   "+ newRankAttribute[0] + "  -  " + Float.toString(-(float)Rank[0]) +"\n");
-			
+		
 	    
 	    
     	for(int count = 1; count < outputCount; count++){
@@ -593,6 +597,7 @@ public class DataManagement {
     			ta.append(Integer.toString(count-index1+1)+"   "+ newRankAttribute[count] + "  -  " + Float.toString(-(float)Rank[count]) +"\n");
     		}   		
 		}
+    	ta.setCaretPosition(0);
     	
 	}
 	
