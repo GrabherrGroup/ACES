@@ -375,7 +375,6 @@ public class DataManagement {
 		 JTextField field1 = new JTextField();
          JTextField field2 = new JTextField();
          JTextField field3 = new JTextField();
-  
          
          String[] direction={"Row","Column"};
         
@@ -402,7 +401,7 @@ public class DataManagement {
          field2.getActionListeners();
          field3.getActionListeners();
          jcd.getActionListeners();
-         int option = JOptionPane.showConfirmDialog(null, message, "Please set the parameters to extract data ", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
+         int option = JOptionPane.showConfirmDialog(null, message, "Please set the parameters to extract data. ", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
          if (option == JOptionPane.OK_OPTION){
              Row = Integer.parseInt(field1.getText())-1;
              Column = Integer.parseInt(field2.getText())-1;

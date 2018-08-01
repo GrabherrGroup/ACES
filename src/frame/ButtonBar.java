@@ -318,13 +318,9 @@ public class ButtonBar extends JPanel{
 	                	PCA PCA3Axis = new PCA(3,oneCactus.getSize(),oneCactus.getSize(),oneCactus.getCactus());
 	                	DataM.setDataAxis(PCA3Axis.getDataAxis());
 	                	
-	                	Menubar.menuCurrent.setVisible(true);
-	                	Menubar.menuCurrentC.setVisible(true);
-
-	                	Menubar.CurrentFile = "Current File: ("+DataM.file1.getName()+")";
-	                	Menubar.menuCurrent.setText(Menubar.CurrentFile);  
-	                	Menubar.menuCurrentC.setText(" (Hierarchical Clustering)");	
-			
+	                	DataM.clusteringName = "Hierarchical Clustering";
+    	        		Menubar.CurrentFile = "Current File:  "+ DataM.currentFilename;
+    	        		ACES.currFile.setText(Menubar.CurrentFile+ "-------("+DataM.clusteringName+")"); 
 	                }
 	             	else{
 	             		FileReader fr = new FileReader(DataM.file1);
@@ -400,11 +396,9 @@ public class ButtonBar extends JPanel{
 		                }
 	                    ta.setCaretPosition(0);
 
-	                	Menubar.menuCurrent.setVisible(true);
-	                	Menubar.menuCurrentC.setVisible(true);
-	                	Menubar.menuCurrentC.setText(" (Hierarchical Clustering)");	
-		        		Menubar.CurrentFile = "Current File: ("+DataM.file1.getName()+")";
-	                	Menubar.menuCurrent.setText(Menubar.CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
+    	        		DataM.clusteringName = "Hierarchical Clustering";
+    	        		Menubar.CurrentFile = "Current File:  "+ DataM.currentFilename+ " ("+ DataM.CurrentDM + ")";
+    	        		ACES.currFile.setText(Menubar.CurrentFile+ "-------("+DataM.clusteringName+")"); 
 	                }
            
 	                Menubar.ShowDistanceMatrix.setEnabled(true);
@@ -498,8 +492,8 @@ public class ButtonBar extends JPanel{
 	        	 }
 	        	 DataM.clusteringName = "Hierarchical Clustering";
                  ta.setCaretPosition(0);
-                 Menubar.menuCurrentC.setText(" (Hierarchical Clustering)");	
-
+                 
+                 ACES.currFile.setText(Menubar.CurrentFile+ "-------("+DataM.clusteringName+")"); 
 			} 
 			else if (bc.getSource() == DMChoose){
 				DataM.ChooseDM = (String)JOptionPane.showInputDialog(null,"choose the distance matrix you wish to plot", "Distance matrix", JOptionPane.QUESTION_MESSAGE, icon, DataM.AllCaci, DataM.AllCaci[0]);
@@ -550,13 +544,9 @@ public class ButtonBar extends JPanel{
             	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
             	DataM.setDataAxis(PCA3Axis.getDataAxis());
             	
-            	Menubar.menuCurrent.setVisible(true);
-            	Menubar.menuCurrentC.setVisible(true);
-            	Menubar.menuCurrentC.setText(" (Hierarchical Clustering)");	
-            	Menubar.CurrentFile = "Current File: ("+DataM.file1.getName()+")";
-            	Menubar.menuCurrent.setText(Menubar.CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
-            	DataM.currentFilename = DataM.currentFilename+ " ("+ DataM.CurrentDM + ")";
-
+            	DataM.clusteringName = "Hierarchical Clustering";
+        		Menubar.CurrentFile = "Current File:  "+ DataM.currentFilename+ " ("+ DataM.CurrentDM + ")";
+        		ACES.currFile.setText(Menubar.CurrentFile+ "-------("+DataM.clusteringName+")"); 
 			} 
 			else if (bc.getSource() == DMPlot){
 				if (DataM.FileOpenStatus == 0){

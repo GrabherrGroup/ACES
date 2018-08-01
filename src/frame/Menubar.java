@@ -37,12 +37,10 @@ public class Menubar extends JMenuBar{
 	 */
 	private static final long serialVersionUID = 1L;
 	static JMenu clustering, plot3D, plotHeatMap;
-	JMenu Formats, Loadall, menuDataFile, menuEdit, menuView, menuExport, menuVisualization, menuHelp;
-	
+	JMenu Formats, Loadall, menuDataFile, menuEdit, menuView, menuExport, menuVisualization, menuHelp;	
 	JMenuItem LoadData, ShowDataMatrix, DataMatrixFormat, exitAction, openFromLocation,ShortenLabels,DistanceMatrixFormat,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
-	static JMenuItem menuCurrent, menuCurrentC;
-	
-	static JMenuItem ShowPower, KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
+
+	static JMenuItem menuCurrent, menuCurrentC, ShowPower, KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
 	
 	
 	JMenuBar menu;
@@ -130,7 +128,7 @@ public class Menubar extends JMenuBar{
 		plot3D = new JMenu("3D plot");
 		plotSamples = new JMenuItem("Samples");
 		plotAttributes = new JMenuItem("Selected attribute");
-		plotHeatMap = new JMenu("Heat Map");
+		plotHeatMap = new JMenu("Heat map");
 		plotHeatMapO = new JMenuItem("Original distance matrix");
 		plotHeatMapC = new JMenuItem("After clustering");
 		plotHeatMapA = new JMenuItem("With selected attribute");
@@ -146,24 +144,22 @@ public class Menubar extends JMenuBar{
 		// Help menu items
 		menuHelp = new JMenu("Help");
 		aboutAction = new JMenuItem("About");
-		manualAction = new JMenuItem("User Manual");
-		
+		manualAction = new JMenuItem("User Manual");	
 				
 		menuHelp.add(aboutAction);
 		menuHelp.add(manualAction);
 		
-		menuCurrent = new JMenuItem("current");
-		menuCurrentC = new JMenuItem(" (Hierarchical Clustering)");
+		//menuCurrent = new JMenuItem("current");
+		//menuCurrentC = new JMenuItem(" (Hierarchical Clustering)");
 		
 		menubar.add(menuDataFile);
 		menubar.add(menuEdit);
 		menubar.add(menuView);
 		menubar.add(menuVisualization);
 		menubar.add(menuHelp);
-		menubar.add(menuCurrent);
-		menubar.add(menuCurrentC);
-
-		
+		//menubar.add(menuCurrent);
+		//menubar.add(menuCurrentC);
+	
 		ListenForMenu lForMenu = new ListenForMenu();
 		Formats.setBackground(new Color(230,230,230));
 		LoadData.addActionListener(lForMenu);
@@ -221,7 +217,6 @@ public class Menubar extends JMenuBar{
 		plot3D.setEnabled(false);
 		plotHeatMap.setEnabled(false);
 		plotHeatMap.setBackground(new Color(230,230,230));
-
 		plotSamples.addActionListener(lForMenu);
 		plotSamples.setEnabled(false);
 		plotAttributes.addActionListener(lForMenu);
@@ -239,11 +234,10 @@ public class Menubar extends JMenuBar{
 		saveAttributes.addActionListener(lForMenu);
 		saveAttributes.setEnabled(false);
 		
-		menuCurrent.setVisible(false);
-		menuCurrentC.setVisible(false);
-		menuCurrent.setBackground(new Color(255,255,123));
-	
-		
+		//menuCurrent.setVisible(false);
+		//menuCurrentC.setVisible(false);
+		//menuCurrent.setBackground(new Color(255,255,123));
+			
 		return menubar;
 	}
 	
@@ -266,7 +260,6 @@ public class Menubar extends JMenuBar{
                     FileReader fr = new FileReader(DataM.file1);
                     BufferedReader br = new BufferedReader(fr);
                     
-
                     String aline;
                     
                     JTextArea ta = new JTextArea();
@@ -326,11 +319,9 @@ public class Menubar extends JMenuBar{
         	        		ButtonBar.DMHeatO.setEnabled(true);
         	        		ButtonBar.DMHeatC.setEnabled(true);
         	        		
-        	        		menuCurrent.setVisible(true);
-        	        		menuCurrentC.setVisible(true);
-        	        		CurrentFile = "Current File: ("+DataM.file1.getName()+")";
-        	        		menuCurrent.setText(CurrentFile);
-        	        		menuCurrentC.setText(" (Hierarchical Clustering)");	
+        	        	    CurrentFile = "Current File:  "+ DataM.currentFilename;
+        		        	DataM.clusteringName = "Hierarchical Clustering";
+        	        		ACES.currFile.setText(CurrentFile+ "-------("+DataM.clusteringName+")");
                         }
                         catch(ArrayIndexOutOfBoundsException ex){
 			        		JOptionPane.showMessageDialog(null, "Please reformat your data file!",null,JOptionPane.INFORMATION_MESSAGE,icon);	
@@ -411,14 +402,10 @@ public class Menubar extends JMenuBar{
 	                	PCA PCA3Axis = new PCA(3,oneCactus.getSize(),oneCactus.getSize(),oneCactus.getCactus());
 	                	DataM.setDataAxis(PCA3Axis.getDataAxis());
 	                	
-	                	menuCurrent.setVisible(true);
-	                	CurrentFile = "Current File: ("+DataM.file1.getName()+")";
-    	        		menuCurrent.setText(CurrentFile);  
-    	        		menuCurrentC.setVisible(true);
-    	        		menuCurrentC.setText(" (Hierarchical Clustering)");	
-
-			
-	                }
+	                	DataM.clusteringName = "Hierarchical Clustering";
+    	        	    CurrentFile = "Current File:  "+ DataM.currentFilename;
+    	        		ACES.currFile.setText(CurrentFile+ "-------("+DataM.clusteringName+")");
+                    }
 	             	else{
 	             		FileReader fr = new FileReader(DataM.file1);
 	                    BufferedReader br = new BufferedReader(fr);
@@ -493,13 +480,9 @@ public class Menubar extends JMenuBar{
 		                }
 	                    ta.setCaretPosition(0);
 
-		        		menuCurrent.setVisible(true);
-	                	CurrentFile = "Current File: ("+DataM.file1.getName()+")";
-	                	DataM.currentFilename = DataM.currentFilename+ " ("+ DataM.CurrentDM + ")";
-    	        		menuCurrent.setText(CurrentFile+ " ("+ DataM.CurrentDM + ")");   
-    	        		menuCurrentC.setVisible(true);
-    	        		menuCurrentC.setText(" (Hierarchical Clustering)");	
-
+	                	DataM.clusteringName = "Hierarchical Clustering";
+	                	CurrentFile = "Current File:  "+ DataM.currentFilename+ " ("+ DataM.CurrentDM + ")";
+    	        		ACES.currFile.setText(CurrentFile+ "-------("+DataM.clusteringName+")");                    
 	                }
            
 	        		ShowDistanceMatrix.setEnabled(true);
@@ -573,7 +556,7 @@ public class Menubar extends JMenuBar{
 	        	 DataM.clusteringName = "DBSCAN Clustering";
 	        	 
                 ta.setCaretPosition(0);
-        		 menuCurrentC.setText(" (DBSCAN Clustering)");	
+        		ACES.currFile.setText(CurrentFile+ "-------("+DataM.clusteringName+")");                    
 
 
 			}
@@ -600,8 +583,8 @@ public class Menubar extends JMenuBar{
 	        	 DataM.clusteringName = "KMeans Clustering";
 	        	 
                  ta.setCaretPosition(0);
-         		 menuCurrentC.setText(" (KMeans Clustering)");	
-
+                 
+	             ACES.currFile.setText(CurrentFile+ "-------("+DataM.clusteringName+")");                    
 			}
 			else if(e.getSource()==HierarchicalClustering) {
 	        	 if (DataM.FileOpenStatus == 0){
@@ -627,7 +610,8 @@ public class Menubar extends JMenuBar{
 	        	 DataM.clusteringName = "Hierarchical Clustering";
 	        	 
                  ta.setCaretPosition(0);
-         		 menuCurrentC.setText(" (Hierarchical Clustering)");	
+                 
+	        	 ACES.currFile.setText(CurrentFile+ "-------("+DataM.clusteringName+")");                    
 
 	         }
 			else if (e.getSource() == ShowDistanceMatrix){
@@ -703,10 +687,9 @@ public class Menubar extends JMenuBar{
             	PCA PCA3Axis = new PCA(3,DataM.size,DataM.size,DataM.getDataMatrix());
             	DataM.setDataAxis(PCA3Axis.getDataAxis());
             	
-            	CurrentFile = "Current File: ("+DataM.file1.getName()+")";
-        		menuCurrent.setText(CurrentFile+ " ("+ DataM.CurrentDM + ")"); 
-        		menuCurrentC.setVisible(true);
-        		menuCurrentC.setText(" (Hierarchical Clustering)");	
+            	DataM.clusteringName = "Hierarchical Clustering";
+            	CurrentFile = "Current File:  "+ DataM.currentFilename+ " ("+ DataM.CurrentDM + ")";
+        		ACES.currFile.setText(CurrentFile+ "-------("+DataM.clusteringName+")"); 
 			}
 			else if (e.getSource() == ShowLabels){
 				
