@@ -281,7 +281,7 @@ public class Menubar extends JMenuBar{
                     	DataM.FileOpenStatus = 1;
                         DataM.currentFilename = DataM.file1.getName();
                         try{
-                        	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile(),DataM.Row,DataM.Column,DataM.dimension,DataM.LineNo);
+                        	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile(),DataM.Row,DataM.Column,DataM.direction,DataM.disoption,DataM.LineNo);
                         	DataM.setLabel(oneCactus.getLabel()); 
                         	DataM.setOriginalDataMatrix(oneCactus.getOriginalData());
                         	DataM.setDataMatrix(oneCactus.getCactus());
@@ -321,7 +321,7 @@ public class Menubar extends JMenuBar{
         	        		
         	        	    CurrentFile = "Current File:  "+ DataM.currentFilename;
         		        	DataM.clusteringName = "Hierarchical Clustering";
-        	        		ACES.currFile.setText(CurrentFile+ "-------("+DataM.clusteringName+")");
+        	        		ACES.currFile.setText(CurrentFile + "("+DataM.disoptionName+")" + "-------("+DataM.clusteringName+")");
                         }
                         catch(ArrayIndexOutOfBoundsException ex){
 			        		JOptionPane.showMessageDialog(null, "Please reformat your data file!",null,JOptionPane.INFORMATION_MESSAGE,icon);	
@@ -547,7 +547,8 @@ public class Menubar extends JMenuBar{
 				JTextArea ta = new JTextArea();
         		JScrollPane sp = new JScrollPane(ta);        	
         		ACES.drawingPanel.addTab("DBSCAN", sp);
-                ta.setText("DBSCAN Clustering results:\n" );  
+                ta.setText("DBSCAN Clustering results(0 means noise sample):\n" );  
+            
 		        ACES.drawingPanel.setSelectedIndex(ACES.drawingPanel.getTabCount() - 1);
 
 	        	 for (int i = 0; i < DataM.size; i++) {
@@ -1061,6 +1062,7 @@ public class Menubar extends JMenuBar{
 		         ta.append("1. ACES has helped you estimate the number of clusters.\n");
 		         ta.append("2. This number will be applied to Hierarchical and KMeans clustering.\n");
 		         ta.append("3. If you are not satisfied with this number, please try DBSCAN clustering. Different parameters will result in different clustering results.\n");
+
                  ta.setCaretPosition(0);
 
 	         }

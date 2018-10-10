@@ -59,7 +59,7 @@ public class Cactus {
 		
 	}
 	// read original files
-	public Cactus(String path,int row, int column, int direction, int labelnum) throws FileNotFoundException {
+	public Cactus(String path,int row, int column, int direction, int disOption, int labelnum) throws FileNotFoundException {
 	
 		
 		int originalsize = 0;
@@ -215,24 +215,50 @@ public class Cactus {
 			this.cactus = new double[this.size][this.size];	
 			double dist,d,m; 
 			m = 0;
-		    for (int i=0; i<this.size; i++) {
-		        for (int j=0; j<this.size; j++) {
-		            dist = 0;
-		            d = 0;
-		            for (int k=0; k< this.sampleSize; k++) {
-		                d = Math.abs(OriginalData[i][k] - OriginalData[j][k]);
-		                dist = dist + d;
-		            }
-		            this.cactus[i][j] = dist;
-		            if (dist>m)
-		            	m = dist;
-		        }
-		    }
-			for (int i=0; i<this.size; i++) {
-		        for (int j=0; j<this.size; j++) {
-		            this.cactus[i][j] = this.cactus[i][j]/m;   
-		        }
-		    }
+			
+			if (disOption == 0){
+				for (int i=0; i<this.size; i++) {
+			        for (int j=0; j<this.size; j++) {
+			            dist = 0;
+			            d = 0;
+			            for (int k=0; k< this.sampleSize; k++) {
+			                d = Math.abs(OriginalData[i][k] - OriginalData[j][k]);
+			                dist = dist + d;
+			            }
+			            this.cactus[i][j] = dist;
+			            if (dist>m)
+			            	m = dist;
+			        }
+			    }
+				for (int i=0; i<this.size; i++) {
+			        for (int j=0; j<this.size; j++) {
+			            this.cactus[i][j] = this.cactus[i][j]/m;   
+			        }
+			    }
+			}else if (disOption == 1){
+				for (int i=0; i<this.size; i++) {
+			        for (int j=0; j<this.size; j++) {
+			            dist = 0;
+			            d = 0;
+			            for (int k=0; k< this.sampleSize; k++) {
+			                d = (OriginalData[i][k] - OriginalData[j][k])*(OriginalData[i][k] - OriginalData[j][k]);
+			                dist = dist + d;
+			            }
+			            this.cactus[i][j] = Math.sqrt(dist);
+			            if (dist>m)
+			            	m = dist;
+			        }
+			    }
+				for (int i=0; i<this.size; i++) {
+			        for (int j=0; j<this.size; j++) {
+			            this.cactus[i][j] = this.cactus[i][j]/m;   
+			        }
+			    }
+			}
+			
+			
+			
+		    
 		}
 		
 		

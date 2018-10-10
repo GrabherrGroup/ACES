@@ -35,7 +35,9 @@ public class DataManagement {
 	public int sampleSize;
 	public int Row;
 	public int Column;
-	public int dimension=0;
+	public int direction = 0;
+	public int disoption = 0;
+	public String disoptionName = "Manhattan distance";
 	public int LineNo;
 
 	public String clusteringName = "Hierarchical Clustering";
@@ -376,10 +378,14 @@ public class DataManagement {
          JTextField field2 = new JTextField();
          JTextField field3 = new JTextField();
          
-         String[] direction={"Row","Column"};
-        
-         JComboBox jcd = new JComboBox(direction);
-        
+         String[] directions ={"Row","Column"};
+         String[] DistanceOption={"Manhattan distance","Euclidean distance"};
+         
+         JComboBox jcd = new JComboBox(directions);
+         JComboBox DisOption = new JComboBox(DistanceOption);
+         disoption = 0;
+         direction = 0;
+         disoptionName = "Manhattan distance";
          Object[] message = {
         		 "Data Info Extraction",
         		 "\n",
@@ -389,9 +395,13 @@ public class DataManagement {
         		 "Start Row:", field1,
         		 "Start Column:", field2,
         		 "\n",
+        		 "Please set the distance measurement method. (Manhattan distance is the default)",
+       		      DisOption,
+       		      "\n",
+       		      "\n",
         		 "Please set which Row or Column is the Label ID.",
         		 "Direction (Row/Column):", jcd,
-        		 "No.:", field3,
+        		 "No.:", field3,	 		 
         		 "Please leave it blank if there is no label info.",
         		 "ACES will set the labels as Sample1, Sample2, Sample3 .....",
         		 "\n",
@@ -401,6 +411,7 @@ public class DataManagement {
          field2.getActionListeners();
          field3.getActionListeners();
          jcd.getActionListeners();
+         DisOption.getActionListeners();
          int option = JOptionPane.showConfirmDialog(null, message, "Please set the parameters to extract data. ", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
          if (option == JOptionPane.OK_OPTION){
              Row = Integer.parseInt(field1.getText())-1;
@@ -412,7 +423,12 @@ public class DataManagement {
              }
              
              if (jcd.getSelectedItem() == "Column")
-            	 dimension = 1;
+            	 direction = 1;
+             if (DisOption.getSelectedItem() == "Euclidean distance"){
+            	 disoptionName = "Euclidean distance";
+            	 disoption = 1;
+             }
+            	 
              
              RawFileLoadStatus = 1;
          }
