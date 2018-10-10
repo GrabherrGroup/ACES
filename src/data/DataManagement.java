@@ -379,7 +379,7 @@ public class DataManagement {
          JTextField field3 = new JTextField();
          
          String[] directions ={"Row","Column"};
-         String[] DistanceOption={"Manhattan distance","Euclidean distance"};
+         String[] DistanceOption={"Manhattan distance","Euclidean distance", "Pearson's correlation"};
          
          JComboBox jcd = new JComboBox(directions);
          JComboBox DisOption = new JComboBox(DistanceOption);
@@ -395,7 +395,7 @@ public class DataManagement {
         		 "Start Row:", field1,
         		 "Start Column:", field2,
         		 "\n",
-        		 "Please set the distance measurement method. (Manhattan distance is the default)",
+        		 "Please set the distance/correlation measurement method.",
        		      DisOption,
        		      "\n",
        		      "\n",
@@ -427,6 +427,10 @@ public class DataManagement {
              if (DisOption.getSelectedItem() == "Euclidean distance"){
             	 disoptionName = "Euclidean distance";
             	 disoption = 1;
+             }
+             if (DisOption.getSelectedItem() == "Pearson's correlation"){
+            	 disoptionName = "Pearson's correlation";
+            	 disoption = 2;
              }
             	 
              

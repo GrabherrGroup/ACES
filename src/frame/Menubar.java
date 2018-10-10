@@ -36,11 +36,11 @@ public class Menubar extends JMenuBar{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	static JMenu clustering, plot3D, plotHeatMap;
+	static JMenu clustering, plot3D, plot2D, plotHeatMap;
 	JMenu Formats, Loadall, menuDataFile, menuEdit, menuView, menuExport, menuVisualization, menuHelp;	
 	JMenuItem LoadData, ShowDataMatrix, DataMatrixFormat, exitAction, openFromLocation,ShortenLabels,DistanceMatrixFormat,loadOriginalAttributes, loadFormatedAttributes,AttributesFormat,aboutAction,manualAction;
 
-	static JMenuItem menuCurrent, menuCurrentC, ShowPower, KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotAttributes;
+	static JMenuItem menuCurrent, menuCurrentC, ShowPower, KMeansClustering,DBSCAN,plotHeatMapO,plotHeatMapC,plotHeatMapA,loadAttributes,ShowDistanceMatrix,ShowLabels,numberOfCluster,HierarchicalClustering,ShowAttributes,addClusteringResults,saveAttributes,ShowAttributesMatrix,ChooseAttributes,ChooseOtherDM,plotSamples,plotSamples2D,plotAttributes,plotAttributes2D;
 	
 	
 	JMenuBar menu;
@@ -126,17 +126,24 @@ public class Menubar extends JMenuBar{
 		// Visualization menu items  
 		menuVisualization = new JMenu("Visualization");	
 		plot3D = new JMenu("3D plot");
+		plot2D = new JMenu("2D plot");
+
 		plotSamples = new JMenuItem("Samples");
+		plotSamples2D = new JMenuItem("Samples");
 		plotAttributes = new JMenuItem("Selected attribute");
+		plotAttributes2D = new JMenuItem("Selected attribute");
 		plotHeatMap = new JMenu("Heat map");
 		plotHeatMapO = new JMenuItem("Original distance matrix");
 		plotHeatMapC = new JMenuItem("After clustering");
 		plotHeatMapA = new JMenuItem("With selected attribute");
 		
 		menuVisualization.add(plot3D);
+		menuVisualization.add(plot2D);
 		menuVisualization.add(plotHeatMap);
 		plot3D.add(plotSamples);
 		plot3D.add(plotAttributes);
+		plot2D.add(plotSamples2D);
+		plot2D.add(plotAttributes2D);
 		plotHeatMap.add(plotHeatMapO);
 		plotHeatMap.add(plotHeatMapC);
 		plotHeatMap.add(plotHeatMapA);
@@ -215,13 +222,19 @@ public class Menubar extends JMenuBar{
 	
 		
 		plot3D.setEnabled(false);
+		plot2D.setEnabled(false);
 		plotHeatMap.setEnabled(false);
-		plotHeatMap.setBackground(new Color(230,230,230));
+		plot2D.setBackground(new Color(230,230,230));
 		plotSamples.addActionListener(lForMenu);
 		plotSamples.setEnabled(false);
+		plotSamples2D.addActionListener(lForMenu);
+		plotSamples2D.setEnabled(false);
 		plotAttributes.addActionListener(lForMenu);
 		plotAttributes.setEnabled(false);
 		plotAttributes.setBackground(new Color(230,230,230));
+		plotAttributes2D.addActionListener(lForMenu);
+		plotAttributes2D.setEnabled(false);
+		plotAttributes2D.setBackground(new Color(230,230,230));
 		plotHeatMapO.addActionListener(lForMenu);
 		plotHeatMapC.addActionListener(lForMenu);
 		plotHeatMapA.addActionListener(lForMenu);
@@ -299,8 +312,10 @@ public class Menubar extends JMenuBar{
         	        		ShowDistanceMatrix.setEnabled(true);
         	        		ShowLabels.setEnabled(true);	 
         	        		plot3D.setEnabled(true);
+        	        		plot2D.setEnabled(true);
         	        		plotHeatMap.setEnabled(true);
-        	        		plotSamples.setEnabled(true);	
+        	        		plotSamples.setEnabled(true);
+        	        		plotSamples2D.setEnabled(true);
         	        		plotHeatMapO.setEnabled(true);
         	        		plotHeatMapC.setEnabled(true);
         	        		clustering.setEnabled(true);
@@ -318,6 +333,22 @@ public class Menubar extends JMenuBar{
         	        		ButtonBar.SILoad.setEnabled(true);
         	        		ButtonBar.DMHeatO.setEnabled(true);
         	        		ButtonBar.DMHeatC.setEnabled(true);
+        	        		
+        	        		ChooseAttributes.setEnabled(false);
+            	    		ShowAttributes.setEnabled(false);
+            	    		ShowAttributesMatrix.setEnabled(false);
+            	    		addClusteringResults.setEnabled(false);
+            	    		saveAttributes.setEnabled(false);
+            	    		
+            	    		plotAttributes.setEnabled(false); 
+            	    		plotAttributes2D.setEnabled(false); 
+            	    		
+            	    		ButtonBar.SIChoose.setEnabled(false);
+            	    		ButtonBar.SIShowList.setEnabled(false);
+            	    		ButtonBar.SIShow.setEnabled(false);
+            	    		ButtonBar.AddCluster.setEnabled(false);
+            	    		ButtonBar.SISave.setEnabled(false);		
+            	    		ButtonBar.SIPlot.setEnabled(false);
         	        		
         	        	    CurrentFile = "Current File:  "+ DataM.currentFilename;
         		        	DataM.clusteringName = "Hierarchical Clustering";
@@ -360,6 +391,7 @@ public class Menubar extends JMenuBar{
     	    		saveAttributes.setEnabled(false);
     	    		
     	    		plotAttributes.setEnabled(false); 
+    	    		plotAttributes2D.setEnabled(false); 
     	    		
     	    		ButtonBar.SIChoose.setEnabled(false);
     	    		ButtonBar.SIShowList.setEnabled(false);
@@ -488,8 +520,10 @@ public class Menubar extends JMenuBar{
 	        		ShowDistanceMatrix.setEnabled(true);
 	        		ShowLabels.setEnabled(true);
 	        		plot3D.setEnabled(true);
+	        		plot2D.setEnabled(true);
 	        		plotHeatMap.setEnabled(true);
-	        		plotSamples.setEnabled(true);	
+	        		plotSamples.setEnabled(true);
+	        		plotSamples2D.setEnabled(true);
 	        		plotHeatMapO.setEnabled(true);
 	        		plotHeatMapC.setEnabled(true);
 	        		clustering.setEnabled(true);
@@ -796,6 +830,7 @@ public class Menubar extends JMenuBar{
 		    		saveAttributes.setEnabled(true);
 		    		
 		    		plotAttributes.setEnabled(true); 
+		    		plotAttributes2D.setEnabled(true); 
 		    		
 		    		ButtonBar.SIChoose.setEnabled(true);
 		    		ButtonBar.SIShowList.setEnabled(true);
@@ -1111,6 +1146,14 @@ public class Menubar extends JMenuBar{
 	        	 
 	        	 new Visualization(DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.currentFilename, DataM.CurrentDM, DataM.clusteringName);
 	         }
+	         else if(e.getSource()==plotSamples2D){
+	        	 if (DataM.FileOpenStatus == 0){
+	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		 return;
+	        	 }
+	        	 
+	        	 new Visualization("2D", DataM.getLabelsIndex(), DataM.getLabel(), DataM.getDataAxis(), DataM.size, DataM.currentFilename, DataM.CurrentDM, DataM.clusteringName);
+	         }
 	         else if(e.getSource()==plotAttributes){
 	        	 if (DataM.FileOpenStatus == 0){
 	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
@@ -1132,6 +1175,29 @@ public class Menubar extends JMenuBar{
 		        	 DataM.changeSampleInfo();
 	        	 }
 	        	 new Visualization(DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute, DataM.currentFilename);
+   
+	        }
+	         else if(e.getSource()==plotAttributes2D){
+	        	 if (DataM.FileOpenStatus == 0){
+	        		 JOptionPane.showMessageDialog(null, "Please load the distance matrix first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		 return;
+	        	 }
+	        	 if (DataM.AttributeOpenStatus == 0){
+	        		 JOptionPane.showMessageDialog(null, "Please load the attributes info first.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		 return;
+	        	 }
+	        	 if (DataM.AttributeChooseStatus == 0){
+	        		 JOptionPane.showMessageDialog(null, "Please choose the attribute you wish to plot.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+	        		 return;
+	        	 }
+	        	 if(DataM.AttributeOriginalSize>DataM.size+1){
+		        	 JOptionPane.showMessageDialog(null, "Please rearrange your SampleInfo file.", null, JOptionPane.INFORMATION_MESSAGE, icon);
+		        	 DataM.AttributeSize = DataM.size+1;
+		        	 DataM.AttributeMatrix = new String[DataM.size+1];
+		        	 DataM.AttributeMatrix[0] = DataM.AttributeOriginalMatrix[0];
+		        	 DataM.changeSampleInfo();
+	        	 }
+	        	 new Visualization("2D", DataM.getAttributeLabel(), DataM.getRefLabel(), DataM.getDataAxis(), DataM.size, DataM.refLabel.length, DataM.ChooseAttribute, DataM.currentFilename);
    
 	        }
 			else if (e.getSource() == exitAction){

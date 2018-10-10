@@ -276,6 +276,7 @@ public class ButtonBar extends JPanel{
                     Menubar.saveAttributes.setEnabled(false);
     	    		
                     Menubar.plotAttributes.setEnabled(false); 
+                    Menubar.plotAttributes2D.setEnabled(false); 
     	    		
     	    		ButtonBar.SIChoose.setEnabled(false);
     	    		ButtonBar.SIShowList.setEnabled(false);
@@ -404,8 +405,10 @@ public class ButtonBar extends JPanel{
 	                Menubar.ShowDistanceMatrix.setEnabled(true);
 	        		Menubar.ShowLabels.setEnabled(true);
 	        		Menubar.plot3D.setEnabled(true);
+	        		Menubar.plot2D.setEnabled(true);
 	        		Menubar.plotHeatMap.setEnabled(true);
-	        		Menubar.plotSamples.setEnabled(true);	
+	        		Menubar.plotSamples.setEnabled(true);
+	        		Menubar.plotSamples2D.setEnabled(true);
 	        		Menubar.plotHeatMapO.setEnabled(true);
 	        		Menubar.plotHeatMapC.setEnabled(true);
 	        		Menubar.clustering.setEnabled(true);
@@ -668,7 +671,7 @@ public class ButtonBar extends JPanel{
 		            Menubar.saveAttributes.setEnabled(true);
 		    		
 		            Menubar.plotAttributes.setEnabled(true); 
-		            
+		            Menubar.plotAttributes2D.setEnabled(true); 
 		            
 		            SIChoose.setEnabled(true);
 		            SIShowList.setEnabled(true);

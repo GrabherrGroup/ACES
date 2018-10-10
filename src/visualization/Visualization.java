@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
+import org.math.plot.Plot2DPanel;
 import org.math.plot.Plot3DPanel;
 
 import com.itextpdf.text.DocumentException;
@@ -128,6 +129,69 @@ public class Visualization {
 	 		    }
 	 		});  */
  	 }
+ 	public Visualization (String s, int [] labelsIndex, String [] Label, double [][] DataAxis, int size, String Filename, String ChooseDM, String ClusteringName) {
+		 
+		 double[] x = {1};
+		 double[] y = {1};
+	     double[] z = {1};
+	     
+	     Plot2DPanel plot = new Plot2DPanel();
+	     
+	     plot.getAxis(0).setGridVisible(false);
+	     plot.getAxis(1).setGridVisible(false);
+	     
+	     for (int j = 0; j < size; j++){
+	    	 
+	    	x[0] = DataAxis[0][j];
+			y[0] = DataAxis[1][j];
+			
+			if (labelsIndex[j] == 1){
+				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.7, 1, (float) 1), x, y);
+				plot.addLegend("EAST");
+			}
+			else if (labelsIndex[j] == 3)
+				{plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.33, 1, (float) 0.4), x, y);
+			//plot.addLabel("#", Color.RED, where);
+			}
+			
+			else if (labelsIndex[j] == 8){
+				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.0, 1, (float) 0.6), x, y);
+			}
+			else if (labelsIndex[j] == 5){
+				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.583, (float) 0.5, (float) 0.8), x, y);
+			}
+			else if (labelsIndex[j] == 4){
+				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.083, (float) 0.5, (float) 0.8), x, y);
+			}
+			else if (labelsIndex[j] == 6){
+				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.25, (float) 0.4, (float) 1.0), x, y);
+			}
+			else if (labelsIndex[j] == 7){
+				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.44, (float) 0.6, (float) 0.5), x, y);
+			}
+			else if (labelsIndex[j] == 2){
+				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.875, (float) 0.8, (float) 1.0), x, y);
+			}
+			else if (labelsIndex[j] == 9){
+				plot.addScatterPlot(Label[j], Color.getHSBColor((float) 0.75, (float) 0.5, (float) 0.6), x, y);
+			}
+			else{
+				plot.addScatterPlot(Label[j], Color.BLACK, x, y);
+			}
+			
+      }
+	     String name = "Visualization of " + Filename + " (" + ChooseDM + ") "+ " (" + ClusteringName + ")";
+	     
+	     if (ChooseDM == "current Distance Matrix")
+	    	 name = "Visualization of " + Filename + " (" + ClusteringName + ")";
+	    
+ 
+	     JFrame frame = new JFrame(name);
+   	 frame.setContentPane(plot);
+	     frame.setVisible(true);
+	     frame.setSize(900, 900);
+	     
+	 }
  	 
  	public Visualization(String [] label, String [] refLabel, double [][] DataAxis, int size, int num, String Attribute, String Filename) {
 		super();
@@ -190,6 +254,107 @@ public class Visualization {
 		}
 		else{
 			plot.addScatterPlot(label[j], Color.BLACK, x, y, z);
+		}
+			
+       }
+	    
+	    JFrame frame = new JFrame("Visualization of "+ Filename + " (" + Attribute +")");
+	    frame.setContentPane(plot);
+	    frame.setVisible(true);
+	    frame.setSize(900, 900);
+	    
+	    
+	    
+	    /*frame.addWindowListener(new java.awt.event.WindowAdapter() {
+ 		    @Override
+ 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+ 		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save this plot?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
+ 		    	if (option == JOptionPane.OK_OPTION){
+ 		        	JFileChooser savefile = new JFileChooser();
+ 	 		        savefile.setSelectedFile(new File("plot.svg"));
+ 	 		        int sf = savefile.showSaveDialog(null);
+ 	 		        
+
+ 	 		        if(sf == JFileChooser.APPROVE_OPTION){
+ 	 		            File ff = savefile.getSelectedFile();
+						SVGGraphics2D g2 = new SVGGraphics2D(plot.getWidth(), plot.getHeight());
+						plot.paint(g2);
+	       
+						try {
+							SVGUtils.writeToSVG(ff, g2.getSVGElement());
+						} catch (IOException ex) {
+							System.err.println(ex);
+							}
+						JOptionPane.showMessageDialog(null, "File has been saved","File Saved", JOptionPane.INFORMATION_MESSAGE);
+ 	 		            
+ 	 		        }else if(sf == JFileChooser.CANCEL_OPTION){
+ 	 		            JOptionPane.showMessageDialog(null, "File save has been canceled");
+ 	 		        }
+ 		        	 
+ 		         }	
+ 		    }
+ 		}); */
+ 	 }
+ 	
+ 	public Visualization(String s, String [] label, String [] refLabel, double [][] DataAxis, int size, int num, String Attribute, String Filename) {
+		super();
+	
+		double[] x = {1};
+		double[] y = {1};
+	    double[] z = {1};
+	    
+	    Plot2DPanel plot = new Plot2DPanel();
+	    
+	    plot.getAxis(0).setGridVisible(false);
+	    plot.getAxis(1).setGridVisible(false);
+	     
+	    
+	    labelsIndex = new int[size];
+	   
+	    for (int i = 0; i < size; i++){
+	    	labelsIndex[i] = 0; 
+	    	for(int j = 0; j < num; j++){
+	    		if (label[i].equals(refLabel[j]))
+	    			labelsIndex[i] = j+1;  		
+	    	}
+	    }
+	    
+	    for (int j = 0; j < size; j++){
+	    	
+			x[0] = DataAxis[0][j];
+			y[0] = DataAxis[1][j];
+			
+		if (labelsIndex[j] == 1){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.7, 1, (float) 1), x, y);
+			plot.addLegend("EAST");
+		}
+		else if (labelsIndex[j] == 3){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.33, 1, (float) 0.4), x, y);
+		//	plot.addLabel("#", Color.BLUE, where);
+		}
+		else if (labelsIndex[j] == 8){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.0, 1, (float) 0.6), x, y);
+		}
+		else if (labelsIndex[j] == 5){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.583, (float) 0.5, (float) 0.8), x, y);
+		}
+		else if (labelsIndex[j] == 4){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.083, (float) 0.5, (float) 0.8), x, y);
+		}
+		else if (labelsIndex[j] == 6){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.25, (float) 0.4, (float) 1.0), x, y);
+		}
+		else if (labelsIndex[j] == 7){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.44, (float) 0.6, (float) 0.5), x, y);
+		}
+		else if (labelsIndex[j] == 2){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.875, (float) 0.8, (float) 1.0), x, y);
+		}
+		else if (labelsIndex[j] == 9){
+			plot.addScatterPlot(label[j], Color.getHSBColor((float) 0.75, (float) 0.5, (float) 0.6), x, y);
+		}
+		else{
+			plot.addScatterPlot(label[j], Color.BLACK, x, y);
 		}
 			
        }

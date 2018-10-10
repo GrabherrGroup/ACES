@@ -245,6 +245,38 @@ public class Cactus {
 			                dist = dist + d;
 			            }
 			            this.cactus[i][j] = Math.sqrt(dist);
+			            if (Math.sqrt(dist)>m)
+			            	m = Math.sqrt(dist);
+			        }
+			    }
+				for (int i=0; i<this.size; i++) {
+			        for (int j=0; j<this.size; j++) {
+			            this.cactus[i][j] = this.cactus[i][j]/m;   
+			        }
+			    }
+			}/*else if (disOption == 2){
+				double sx = 0.0;
+			    double sy = 0.0;
+			    double sxx = 0.0;
+			    double syy = 0.0;
+			    double sxy = 0.0;
+			    
+				for (int i=0; i<this.size; i++) {
+			        for (int j=0; j<this.size; j++) {
+			            dist = 0;
+			            d = 0;
+			            sx = 0.0;
+			            sy = 0.0;
+			            sxx = 0.0;
+			            syy = 0.0;
+			            sxy = 0.0;
+			            for (int k=0; k< this.sampleSize; k++) {
+			                sx = x;
+
+			                d = Math.cos(OriginalData[i][k]-OriginalData[j][k]);
+			                dist = dist + d;
+			            }
+			            this.cactus[i][j] = dist;
 			            if (dist>m)
 			            	m = dist;
 			        }
@@ -254,7 +286,8 @@ public class Cactus {
 			            this.cactus[i][j] = this.cactus[i][j]/m;   
 			        }
 			    }
-			}
+			}*/
+			
 			
 			
 			
