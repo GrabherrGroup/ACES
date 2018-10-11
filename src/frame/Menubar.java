@@ -295,12 +295,15 @@ public class Menubar extends JMenuBar{
                         DataM.currentFilename = DataM.file1.getName();
                         try{
                         	Cactus oneCactus = new Cactus(DataM.fd.getDirectory()+DataM.fd.getFile(),DataM.Row,DataM.Column,DataM.direction,DataM.disoption,DataM.LineNo);
+                        	 
+                        	
+                        	
                         	DataM.setLabel(oneCactus.getLabel()); 
                         	DataM.setOriginalDataMatrix(oneCactus.getOriginalData());
                         	DataM.setDataMatrix(oneCactus.getCactus());
                         	DataM.sampleSize = oneCactus.sampleSize;
                         	DataM.size = oneCactus.getSize();
-                        	                	
+                        	
                         	HClustering CV = new HClustering(DataM.Label,DataM.size,DataM.getDataMatrix());
                         	DataM.NumCluster = CV.getNumCluster();
                         	DataM.setLabelsIndex(CV.getLabelsIndex());

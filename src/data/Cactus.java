@@ -254,47 +254,48 @@ public class Cactus {
 			            this.cactus[i][j] = this.cactus[i][j]/m;   
 			        }
 			    }
-			}/*else if (disOption == 2){
+			}else if (disOption == 2){
 				double sx = 0.0;
 			    double sy = 0.0;
 			    double sxx = 0.0;
 			    double syy = 0.0;
 			    double sxy = 0.0;
-			    
+			    double cov = 0.0;
+			    double sigmax = 0.0;
+			    double sigmay = 0.0;
 				for (int i=0; i<this.size; i++) {
 			        for (int j=0; j<this.size; j++) {
-			            dist = 0;
-			            d = 0;
 			            sx = 0.0;
 			            sy = 0.0;
 			            sxx = 0.0;
 			            syy = 0.0;
 			            sxy = 0.0;
+			            cov = 0.0;
+			            sigmax = 0.0;
+			            sigmay = 0.0;
+			            
 			            for (int k=0; k< this.sampleSize; k++) {
-			                sx = x;
-
-			                d = Math.cos(OriginalData[i][k]-OriginalData[j][k]);
-			                dist = dist + d;
+			            	sx += OriginalData[i][k];
+			                sy += OriginalData[j][k];
+			                sxx += OriginalData[i][k] * OriginalData[i][k];
+			                syy += OriginalData[j][k] * OriginalData[j][k];
+			                sxy += OriginalData[i][k] * OriginalData[j][k];
+			               
+			                
 			            }
-			            this.cactus[i][j] = dist;
-			            if (dist>m)
-			            	m = dist;
+			            cov = (sxy / this.sampleSize) - ((sx/ this.sampleSize) * (sy / this.sampleSize)) ;
+		                sigmax = Math.sqrt((sxx / this.sampleSize) -  sx * sx / (this.sampleSize*this.sampleSize));
+		                sigmay = Math.sqrt((syy / this.sampleSize) -  sy * sy / (this.sampleSize*this.sampleSize));
+			            this.cactus[i][j] = (1- cov /(sigmax * sigmay))/2;
+			            if (i == j)
+			            	this.cactus[i][j] = 0;
+			         
 			        }
 			    }
-				for (int i=0; i<this.size; i++) {
-			        for (int j=0; j<this.size; j++) {
-			            this.cactus[i][j] = this.cactus[i][j]/m;   
-			        }
-			    }
-			}*/
+				
+			}
 			
-			
-			
-			
-		    
 		}
-		
-		
 			
 	}
 
