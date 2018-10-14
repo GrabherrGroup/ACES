@@ -33,7 +33,7 @@ public class ACES extends JFrame{
 
 	static JTextArea currFile;
 	
-	public static JTabbedPane drawingPanel;
+	public static CustomTabPane drawingPanel;
 
 	static Menubar mainMenu;
 	static JPanel CurrentInfo;
@@ -108,7 +108,7 @@ public class ACES extends JFrame{
 		backgroundPanel.add(menuPanel,BorderLayout.NORTH);	
 		backgroundPanel.add(bodyPanel);
 		
-		drawingPanel= new JTabbedPane();	
+		drawingPanel= new CustomTabPane();	
 		
 		
 		/* dmPanel holds the dmInfoPanel */
