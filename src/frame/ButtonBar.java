@@ -898,7 +898,7 @@ public class ButtonBar extends JPanel{
 	        	 DataM.CreateDataAfterClusteringandChooseAttri();
 
 	        	 try {
-						new Visualization(DataM.newData, DataM.size,DataM.currentFilename + "("+DataM.clusteringName+")"+": "+ " "+DataM.ChooseAttribute, DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
+						new Visualization(DataM.newData, DataM.size,DataM.currentFilename + "("+DataM.clusteringName+")"+": "+ " "+DataM.ChooseAttribute,DataM.ChooseAttribute, DataM.newAttributeLabel,DataM.newDataLabel,DataM.newlabelsIndex);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

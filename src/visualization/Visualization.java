@@ -398,12 +398,12 @@ public class Visualization {
  	 }
  	
 
-	 public Visualization(double[][] Data, int size, String Label, String[] Lx, String[] Ly,int[] labelIndex) throws IOException {
+	 public Visualization(double[][] Data, int size, String Label, String ChooseLabel, String[] Lx, String[] Ly,int[] labelIndex) throws IOException {
 		
 	     HeatChart map = new HeatChart(Data,labelIndex);
 
 	     map.setTitle(Label);
-	     map.setXAxisLabel("Samples ID");
+	     map.setXAxisLabel(ChooseLabel);
 	     map.setXValues(Lx);
 	     map.setYValues(Ly);
 	     map.setYAxisLabel("Samples ID");
@@ -476,7 +476,7 @@ public class Visualization {
  		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save the Heat map?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
  		    	if (option == JOptionPane.OK_OPTION){
  		        	JFileChooser savefile = new JFileChooser();
- 	 		        savefile.setSelectedFile(new File("HeatMap.pdf"));
+ 	 		        savefile.setSelectedFile(new File("HeatMap.png"));
  	 		        int sf = savefile.showSaveDialog(null);
  	 		        
 
@@ -551,7 +551,7 @@ public class Visualization {
  		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save the Heat map?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
  		    	if (option == JOptionPane.OK_OPTION){
  		        	JFileChooser savefile = new JFileChooser();
- 	 		        savefile.setSelectedFile(new File("HeatMap.pdf"));
+ 	 		        savefile.setSelectedFile(new File("HeatMap.png"));
 	 	 		      
  	 		        int sf = savefile.showSaveDialog(null);
  	 		        
