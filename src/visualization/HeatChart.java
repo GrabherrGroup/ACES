@@ -731,11 +731,11 @@ public class HeatChart {
 				
 				heatMapGraphics.fillRect(cellX, cellY, cellSize.width, cellSize.height);
 			}
-			if (labelsIndex[x] == 1)
+			if (labelsIndex[x] == 3)
 				heatMapGraphics.setColor(Color.getHSBColor((float) 0.33, 1, (float) 0.4));
 			else if (labelsIndex[x] == 2)
 				heatMapGraphics.setColor(Color.getHSBColor((float) 0.875, (float) 0.8, (float) 1.0));
-			else if (labelsIndex[x] == 3)
+			else if (labelsIndex[x] == 1)
 				heatMapGraphics.setColor(Color.getHSBColor((float) 0.7, 1, (float) 1));
 			else if (labelsIndex[x] == 4)
 				heatMapGraphics.setColor(Color.getHSBColor((float) 0.083, (float) 0.5, (float) 0.8));

@@ -470,7 +470,7 @@ public class Visualization {
          */
        
         
-        /* f.addWindowListener(new java.awt.event.WindowAdapter() {
+         f.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override
  		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
  		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save the Heat map?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
@@ -507,7 +507,7 @@ public class Visualization {
  		        	 file.delete();
  		         }     	
  		    }
- 		});  */
+ 		});  
          file.delete();
 	 }
 	 public Visualization(double[][] Data, int size, String Label, String[] Lx, String[] Ly) throws IOException {
@@ -545,7 +545,7 @@ public class Visualization {
          f.setVisible(true);
          
         
-        /* f.addWindowListener(new java.awt.event.WindowAdapter() {
+         f.addWindowListener(new java.awt.event.WindowAdapter() {
  		    @Override
  		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
  		    	int option = JOptionPane.showConfirmDialog(null, "Do you want to save the Heat map?", "Save", JOptionPane.OK_OPTION, JOptionPane.OK_CANCEL_OPTION,icon);
@@ -583,7 +583,7 @@ public class Visualization {
  		        	 file.delete();
  		         }     	
  		    }
- 		});  */
+ 		});  
          file.delete();
 	 }
 	 
