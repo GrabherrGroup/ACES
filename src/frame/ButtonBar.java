@@ -126,7 +126,7 @@ public class ButtonBar extends JPanel{
 		DMPlot = new JButton(iconPlot);
 		DMPlot.setEnabled(false);
 		DMPlot.setBorderPainted(false);
-		DMPlot.setToolTipText("Plot your Distance Matrix");
+		DMPlot.setToolTipText("Plot your Distance Matrix in 3D");
 		DMPlot.setPreferredSize(new Dimension(30,30));
 		DMPlot.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, DMPlot, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);
@@ -205,7 +205,7 @@ public class ButtonBar extends JPanel{
 		SIPlot = new JButton(iconPlot);
 		SIPlot.setEnabled(false);
 		SIPlot.setBorderPainted(false);
-		SIPlot.setToolTipText("Plot Attributes");
+		SIPlot.setToolTipText("Plot Attributes in 3D");
 		SIPlot.setPreferredSize(new Dimension(30,30));
 		SIPlot.setHorizontalAlignment(SwingConstants.CENTER);
 		addComp(buttonsPanel, SIPlot, 0, 15, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,2,2);

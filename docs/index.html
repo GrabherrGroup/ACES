@@ -97,9 +97,13 @@
     <p><b>File -&gt; Open -&gt; Raw data</b></p>
     <p>The file named "<b>Original_Data_file</b>" in the test samples folder can be used for testing.</p>
     <p>User is asked to set the required parameters to extract the sample data and the label IDs will be automatically set as "Sample1, Sample2, Sample3..." if there is no label information in the file or the user fails to set the label location.</p>
-    <p><b>Once the sample data file is loaded, ACES will automatically calculate its distance matrix and obtain the Hierachical clustering results.</b></p>
+    <p><b>Once the sample data file is loaded, ACES will automatically calculate its distance matrix and obtain the Hierachical clustering results.</b></p><br>
+    <p>There are three distance matrix mearurement methods provided in ACES:</b></p>
+    <p>1. Manhattan distance</p>
+    <p>2. Euclidean distance</p>
+    <p>3. Pearson's correlation coefficients (ACES automatically converts them to range [0,1])</p>
     <img src="images/Open_Data.png" width="339" height="128"><br><br>
-    <img src="images/set_para_SD.png" width="576" height="477"><br>
+    <img src="images/set_para_SD.png" width="581" height="574"><br>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
@@ -134,7 +138,7 @@
     <img src="images/open_DM.png" width="338" height="125"><br>
     <br>
     
-    <img src="images/loaded_DM.png" width="892" height="372"><br>
+    <img src="images/loaded_DM.png" width="649" height="423"><br>
     <br>
     <p>If the file contains many distance matrices, please select one of the matrix to analyse.</p>
     <p>The file named "<b>multi_distance_matrix_brain</b>" in the test samples folder can be used for testing.</p>
@@ -142,7 +146,7 @@
     <br>
     <p>If you want to choose the other distance matrix to compare or analyse: <b>Edit -&gt; Select other distance matrix</b></p>
     <p>The current distance matrix is shown in the menu.</p>
-    <img src="images/load_multiDM.png" width="928" height="366"><br>
+    <img src="images/load_multiDM.png" width="694" height="440"><br>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
@@ -152,8 +156,8 @@
     <p><b>View -&gt; Clustering -&gt; Numbers</b><br>
     </p>
     <h6> </h6>
-    <img src="images/Num_Cluster.png" width="404" height="163"><br>
-    <img src="images/show_num_cluster.png" width="987" height=156"><br>
+    <img src="images/Num_Cluster.png" width="404" height="168"><br>
+    <img src="images/show_num_cluster.png" width="919" height=212"><br>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
     </p>
@@ -184,18 +188,19 @@
     <p>The scan radius and minimum number of samples have been estimated automatically and provided on the dialog below. However, it is best to use your own parameters as this clustering algorithm aims at clustering samples by density and it is hard to estimate them automatically only on the basis of the data. <br></p>
     <br>
     <img src="images/set_DBSCAN.png" width="486" height="287"><br>
-    <p>The clustering results will be shown on the screen.<br></p>
+    <p>The clustering results will be shown on the screen. "0" means the outlier or noisy sample that is defined in the DBSCAN algorithm.<br></p>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
     </p>
     
-    <h2><a name="plot_Distance_Matrix"></a>Plot samples with clustering results</h2>
-    <p>The samples can be visualized in the 3D space by the PCA plot. Each sample is coloured by its clustering result. <b>Visualization -&gt; 3D Plot -&gt; Samples</b><br>
-    </p>
-    <img src="images/plot_DM.png" width="417" height="88"><br>
-    <p>As the figure shown below, all the samples are coloured by the clustering results. PCA clearly categorizes all the samples into two groups and the clustering results are also clearly shown on this plot. Blue samples and red samples are two groups. <br><br>The number of clusters/groups are automatically calculated by ACES, however, the cluster results might be varying if the user selects different clustering algorithms.<br><br>The 3D plot can be rotated to have an appropriate view.<br><br>The Label IDs are shown on the right. Both the points on the left plot and IDs on the right can be selected. As shown in the figure, the top point/sample is selected (the colour change to black from blue) and its ID is immediately shown in the legend highlighted by black. </p>
-    <img src="images/samples_figure.png" width="783" height="653"><br>
+    <h2><a name="plot_Distance_Matrix"></a>Plot samples with clustering results (3D and 2D)</h2>
+    <p>The samples can be visualized in the 3D space or 2D plane by the PCA dimensionality reduction. Each sample is coloured by its clustering result. <br></p>
+         <p>As the figure shown below, all the samples are clearly categorized into two groups after PCA, which shows that the blue samples and pink samples are two seperate groups. <br><br>The number of clusters/groups are automatically calculated by ACES, however, the cluster results might be varying if the user selects different clustering algorithms. The number of clusters can be changed by setting different parameters in DBSCAN clustering. <br><br>The 3D plot can be rotated to have an appropriate view.<br><br>The Label IDs are shown on the right. Both the points on the left plot and IDs on the right can be selected when the user clicks. As shown in the 3D plot, the top point/sample is selected (the colour change to black from pink) and its ID is immediately shown in the legend highlighted by black. </p>
+    <p> <b>Visualization -&gt; 3D Plot -&gt; Samples</b><br></p>
+    <img src="images/samples_figure.png" width="757" height="609"><br>
+    <p> <b>Visualization -&gt; 2D Plot -&gt; Samples</b><br></p>
+    <img src="images/samples_figure2D.png" width="762" height="735"><br>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
@@ -204,7 +209,6 @@
     <h2><a name="heatmap_O"></a>Heat map of the samples</h2>
     <p>The distance matrix, which demonstrates the relationship between each two samples pair, can be visualized by the Heat map. <b>Visualization -&gt; Heat Map -&gt; Original Distance Matrix</b><br>
     </p>
-    <img src="images/heat_m_o.png" width="466" height="129"><br>
     <img src="images/heat_o.png" width="408" height="401"><br>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
@@ -214,7 +218,6 @@
     <h2><a name="heatmap_C"></a>Heat map of the samples with clustering results</h2>
     <p>The samples in the distance matrix are reordered according to the clustering results. <b>Visualization -&gt; Heat Map -&gt; After Clustering</b></b><br>
     </p>
-    <img src="images/heat_m_c.png" width="462" height="126"><br>
     <p>The distance matrix has been reordered by the clustering results. </p>
     <img src="images/heat_c.png" width="409" height="401"><br>
     <h6> </h6>
@@ -312,11 +315,13 @@
     <p><br>
     </p>
 
-    <h2><a name="plot_Attributes"></a>Plot samples with the selected attribute</h2>
+    <h2><a name="plot_Attributes"></a>Plot samples with the selected attribute(3D and 2D)</h2>
     <p><b>Visualization -&gt; 3D plot -&gt; Selected Attribute</b><br>
     </p>
-    <img src="images/plot_AT.png" width="417" height="88"><br><br>
-    <img src="images/Attribute_figure.png" width="729" height="703"><br>
+    <img src="images/Attribute_figure.png" width="896" height="649"><br>
+    <p><b>Visualization -&gt; 2D plot -&gt; Selected Attribute</b><br>
+    </p>
+    <img src="images/Attribute_figure2D.png" width="896" height="738"><br>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
     <p><br>
@@ -325,7 +330,6 @@
     <h2><a name="heatmap_A"></a>Heat map of the samples with the selected attribute</h2>
     <p>The selected attribute info are shown on the bottom of heat map using the same colour shown in the PCA plot. <b>Visualization -&gt; Heat Map -&gt; with Selected Attribute</b><br>
     </p>
-    <img src="images/heat_A.png" width="460" height="122"><br><br>
     <img src="images/heat_AT.png" width="411" height="410"><br>
     <h6> </h6>
     <h3><a href="#How_to">back to top</a></h3>
