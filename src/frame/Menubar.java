@@ -164,8 +164,7 @@ public class Menubar extends JMenuBar{
 		menubar.add(menuView);
 		menubar.add(menuVisualization);
 		menubar.add(menuHelp);
-		//menubar.add(menuCurrent);
-		//menubar.add(menuCurrentC);
+		
 	
 		ListenForMenu lForMenu = new ListenForMenu();
 		Formats.setBackground(new Color(230,230,230));

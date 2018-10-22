@@ -138,7 +138,9 @@ public class ACES extends JFrame{
 		currFile = new JTextArea();
 	    infoPanel.add(currFile);
 	    currFile.setText("Current File:");
-	    currFile.setBackground(new Color(255,255,110));
+	    currFile.setBackground(new Color(255,255,255));
+	    currFile.setEditable(false);
+	   
 	   
 		
 		gridConstraints.insets = new Insets(10,15,4,1);
